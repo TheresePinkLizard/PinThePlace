@@ -4,7 +4,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <h2>Left Div</h2>
+            <h3>Find your place</h3>
+            <!--inputing google maps-->
+            <div id="map"></div>
+            <!--temporary picture-->
+             <img src="~/images/map.png" alt="Map Image">
         </div>
         <div class="col-md-6">
             <div>
@@ -25,6 +29,7 @@
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/bootstrap.min.js"></script>
 <script>
+    // javascript kode for å kunne bytte mellom vinduer
 $(document).ready(function(){
     $("#showFeedWindow").click(function(e){
         e.preventDefault();
@@ -38,4 +43,16 @@ $(document).ready(function(){
         $("#feedwindow").hide();
     });
 });
+// for å få kart inn i div med map id
+function initMap() {
+    var mapOptions = {
+        zoom: 8,
+        center: { lat: -34.397, lng: 150.644 }, 
+    };
+    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+}
+</script>
+<!--kart-->
+<script async 
+    src="https://maps.googleapis.com/maps/api/js?key=  YOUR_API_KEY   &callback=initMap">
 </script>
