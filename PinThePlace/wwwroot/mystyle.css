@@ -1,0 +1,9 @@
+.img-header {
+    max-width: 100%;
+    height: 150px;
+    float: left;
+    margin-top: 50px;
+  }
+  .background{
+    background-color: rgb(180, 208, 255);
+  }
