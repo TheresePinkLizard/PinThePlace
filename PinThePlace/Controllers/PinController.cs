@@ -40,8 +40,9 @@ public class PinController : Controller
 
     public async Task<IActionResult> Details(int id)
     {
-        List<Pin> pins = await _pinDbContext.Pins.ToListAsync();
-        var pin= pins.FirstOrDefault(i => i.PinId == id); // søker igjennom listen items til første som matcher id
+        //List<Pin> pins = await _pinDbContext.Pins.ToListAsync();
+        //var pin= pins.FirstOrDefault(i => i.PinId == id); // søker igjennom listen items til første som matcher id
+        var pin = await _pinDbContext.Pins.FirstOrDefaultAsync(i => i.PinId == id);
         if (pin == null)
             return NotFound();
         return View(pin); // returnerer view med et item
