@@ -1,0 +1,42 @@
+@model PinsViewModel
+
+<h1>List of Pins @Model.CurrentViewName View</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Left Div</h2>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <h2>Links</h2>
+                <a id="showFeedWindow" href="#">Feed window</a>
+                <a id="showFavWindow" href="#">Favorites window</a>
+            </div>
+            <div id="feedwindow" class="contentwindow">
+                <h2>Content Window 1</h2>
+                <partial name="_PinTable" model="Model.Pins"/>
+            </div>
+            <div id="favwindow" class="contentwindow" style="display: none;">
+                <h2>Content Window 2</h2>
+                <partial name="_MyPins" model="Model.Pins"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#showFeedWindow").click(function(e){
+        e.preventDefault();
+        $("#feedwindow").show();
+        $("#favwindow").hide();
+    });
+
+    $("#showFavWindow").click(function(e){
+        e.preventDefault();
+        $("#favwindow").show();
+        $("#feedwindow").hide();
+    });
+});
+</script>

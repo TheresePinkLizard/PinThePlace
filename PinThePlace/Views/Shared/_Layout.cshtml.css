@@ -6,7 +6,16 @@ a.navbar-brand {
     text-align: center;
     word-break: break-all;
   }
-  
+  .custom-navbar {
+    width: 60%;
+    margin: 0 auto;
+  }
+
+  .custom-navbar div {
+    display: flex;
+    justify-content: center;
+  }
+
   a {
     color: #0077cc;
   }
