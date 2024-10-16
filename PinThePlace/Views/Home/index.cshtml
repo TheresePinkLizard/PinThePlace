@@ -5,4 +5,28 @@
 <div class="text-center">
     <h1 class="display-4">Welcome to PinThePlace!</h1>
 </div>
- <!--<partial name="_PinTable" model="Model.Pins"/> -->
+ <!--annen index kode: --using Microsoft.AspNetCore.Mvc;
+using PinThePlace.ViewModels;
+using PinThePlace.Models; // Assuming your DbContext is in this namespace
+using System.Linq;
+
+namespace PinThePlace.Controllers 
+{
+    public class HomeController : Controller
+    {
+        private readonly PinDbContext _context; // Define _context
+
+        // Inject PinDbContext into the constructor
+        public HomeController(PinDbContext context)
+        {
+            _context = context;
+        }
+
+        public IActionResult Index()
+        {
+            var pins = _context.Pins.ToList();
+            var viewModel = new PinsViewModel {Pins = pins, CurrentViewName = "Home"};
+            return View(viewModel);
+        }
+    }
+} -->
