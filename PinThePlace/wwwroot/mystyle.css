@@ -11,3 +11,8 @@
     background-color: rgb(180, 208, 255);
     height: 50px;
   }
+  .contentwindow{
+    height:600px;
+    overflow:scroll;
+    overflow-x:hidden;
+  }
