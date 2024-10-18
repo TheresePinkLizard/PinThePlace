@@ -8,7 +8,7 @@ namespace PinThePlace.Models
         public decimal Rating { get; set; }         
         public string? Comment { get; set; }    
         public string? ImageUrl { get; set; }
-       
-       //public virtual List<Favorite>? Favorites { get; set; }
+        //navigation property
+        public virtual List<User>? Users { get; set; }
     }
 }
