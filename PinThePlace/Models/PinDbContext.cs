@@ -21,9 +21,8 @@ public class PinDbContext : DbContext // definerer at classen ItemDbContext arve
     public DbSet<Pin> Pins { get; set; } // metoder for å lagre instanser av Item
     public DbSet<User> Users{ get; set; }
 
-/*
-    public DbSet<Place> Places { get; set; }
-
-    public DbSet<Favorite> Favorites{ get; set; }
-    */
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+    }
 }
