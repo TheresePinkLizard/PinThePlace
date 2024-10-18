@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PinThePlace.Models;
 using Microsoft.EntityFrameworkCore;
+using PinThePlace.DAL;
 
 namespace PinThePlace.Controllers;
 
