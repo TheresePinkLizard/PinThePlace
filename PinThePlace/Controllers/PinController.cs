@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PinThePlace.Models;
 using PinThePlace.ViewModels;
+using PinThePlace.DAL;
 
 
 namespace PinThePlace.Controllers;
@@ -13,11 +14,11 @@ namespace PinThePlace.Controllers;
 public class PinController : Controller
 {
 
-    private readonly PinDbContext _pinDbContext; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
+    private readonly IPinRepository _pinRepository; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
 
-    public PinController(PinDbContext pinDbContext) // konstruktør som tar en ItemDbContext instans som et parameter og assigner til _itemDbContext 
+    public PinController(IPinRepository pinRepository) // konstruktør som tar en ItemDbContext instans som et parameter og assigner til _itemDbContext 
     {                                                           // Dette er et eksempel på en dependency injectionm hvor DbContext is provided to the controllerer via ASP.NET Core rammeverk.
-        _pinDbContext = pinDbContext;                         //Konstruktøren blir kalt når en instans er laget, vanligvis under behandling av inkommende HTTP request. Når Views er kalt. eks: table grid, details
+        _pinRepository = pinRepository;                         //Konstruktøren blir kalt når en instans er laget, vanligvis under behandling av inkommende HTTP request. Når Views er kalt. eks: table grid, details
     }
 
     // async i metodene:
@@ -29,12 +30,12 @@ public class PinController : Controller
     public async Task<IActionResult> Table()
     {  
         // henter alle items fra items table i databasen og konverterer til en liste
-        List<Pin> pins = await _pinDbContext.Pins.ToListAsync();
+        var pins = await _pinRepository.GetAll();
 
         var pinsViewModel = new PinsViewModel(pins, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
         // denne returnerer en view
-        Console.WriteLine($"Fetched {pins.Count} pins from the database.");
+        //Console.WriteLine($"Fetched {pins.Count} pins from the database.");
         return View(pinsViewModel);
     }
 
@@ -42,7 +43,7 @@ public class PinController : Controller
     {
         //List<Pin> pins = await _pinDbContext.Pins.ToListAsync();
         //var pin= pins.FirstOrDefault(i => i.PinId == id); // søker igjennom listen items til første som matcher id
-        var pin = await _pinDbContext.Pins.FirstOrDefaultAsync(i => i.PinId == id);
+        var pin = await _pinRepository.GetItemById(id);
         if (pin == null)
             return NotFound();
         return View(pin); // returnerer view med et item
@@ -62,8 +63,7 @@ public class PinController : Controller
     {
         if (ModelState.IsValid) // sjekker validering
         {
-            _pinDbContext.Pins.Add(pin);  //legges til i database
-           await _pinDbContext.SaveChangesAsync(); // endringer lagres
+            await _pinRepository.Create(pin); // endringer lagres
             return RedirectToAction(nameof(Table)); // redirects to show items in table
         }
         return View(pin);
@@ -73,7 +73,7 @@ public class PinController : Controller
     [HttpGet]
     public async Task<IActionResult> Update(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
     {                                   // metoden slår ut når bruker navigerer seg til update siden
-        var pin = await _pinDbContext.Pins.FindAsync(id); // henter fra database ved hjelp av id
+        var pin = await _pinRepository.GetItemById(id); // henter fra database ved hjelp av id
         if (pin == null)               // sjekk om den finner item
         {
             return NotFound();
@@ -86,8 +86,7 @@ public class PinController : Controller
     {                                           // ser hvis det er valid og oppdaterer i database
         if (ModelState.IsValid)
         {
-            _pinDbContext.Pins.Update(pin);
-            await _pinDbContext.SaveChangesAsync();
+            await _pinRepository.Update(pin);
             return RedirectToAction(nameof(Table)); // displayer den oppdaterte listen
         }
         return View(pin);
@@ -96,7 +95,7 @@ public class PinController : Controller
     [HttpGet]
     public async Task<IActionResult> Delete(int id)  // displayer confirmation page for å slette en item
     {
-        var pin = await _pinDbContext.Pins.FindAsync(id);  // identifiserer og henter item som skal bli slettet
+        var pin = await _pinRepository.GetItemById(id);  // identifiserer og henter item som skal bli slettet
         if (pin == null)
         {
             return NotFound();
@@ -107,13 +106,7 @@ public class PinController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
     {
-        var pin= await _pinDbContext.Pins.FindAsync(id); // finner item i database ved bruk at id
-        if (pin == null)
-        {
-            return NotFound();
-        }
-        _pinDbContext.Pins.Remove(pin); // sletter item
-        await _pinDbContext.SaveChangesAsync();  // lagrer endringene 
+        await _pinRepository.Delete(id);  // lagrer endringene 
         return RedirectToAction(nameof(Table)); //returnerer bruker til table view hvor item nå er fjernet
     }
     

@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-namespace PinThePlace.Models;
+using PinThePlace.Models;
+
+namespace PinThePlace.DAL;
+
 
 public static class DBInit
 {
