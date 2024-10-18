@@ -19,6 +19,10 @@ if(app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-app.MapDefaultControllerRoute();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{Controller=Pin}/{action=Table}/{id?}");
+    
+// gammel kode: app.MapDefaultControllerRoute();
 
 app.Run();

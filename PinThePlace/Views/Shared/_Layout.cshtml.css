@@ -7,10 +7,20 @@ a.navbar-brand {
     word-break: break-all;
   }
   
-  a {
-    color: #0077cc;
+  .background{
+    background-color: rgb(254, 107, 58);
   }
   
+  .img-header {
+    max-width: 100%;
+    height: 100px;
+    float: left;
+  }
+  a {
+    color: #d25f3b;
+  }
+
+
   .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
