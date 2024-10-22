@@ -14,11 +14,13 @@ namespace PinThePlace.Controllers;
 public class PinController : Controller
 {
 
-    private readonly IPinRepository _pinRepository; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
+    private readonly IPinRepository _pinRepository;
+    private readonly ILogger<PinController> _logger; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
 
-    public PinController(IPinRepository pinRepository) // konstruktør som tar en ItemDbContext instans som et parameter og assigner til _itemDbContext 
+    public PinController(IPinRepository pinRepository, ILogger<PinController> logger) // konstruktør som tar en ItemDbContext instans som et parameter og assigner til _itemDbContext 
     {                                                           // Dette er et eksempel på en dependency injectionm hvor DbContext is provided to the controllerer via ASP.NET Core rammeverk.
-        _pinRepository = pinRepository;                         //Konstruktøren blir kalt når en instans er laget, vanligvis under behandling av inkommende HTTP request. Når Views er kalt. eks: table grid, details
+        _pinRepository = pinRepository; 
+        _logger = logger;                        //Konstruktøren blir kalt når en instans er laget, vanligvis under behandling av inkommende HTTP request. Når Views er kalt. eks: table grid, details
     }
 
     // async i metodene:
@@ -29,6 +31,9 @@ public class PinController : Controller
     // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
     public async Task<IActionResult> Table()
     {  
+        _logger.LogInformation("This is an information message.");
+        _logger.LogWarning("This is a warning message");
+        _logger.LogError("This is an error message");
         // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
 

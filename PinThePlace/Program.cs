@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PinThePlace.Models;
 using PinThePlace.DAL;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,11 @@ builder.Services.AddDbContext<PinDbContext>(options => {
 
 builder.Services.AddScoped<IPinRepository, PinRepository>();
 
+var loggerConfiguration = new LoggerConfiguration().MinimumLevel.Information().WriteTo.File($"Logs/app_{DateTime.Now:yyyyMMdd_HHmmss}.log");
+
+var logger = loggerConfiguration.CreateLogger();
+builder.Logging.AddSerilog(logger);
+
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment())
@@ -22,6 +28,8 @@ if(app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
+
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
