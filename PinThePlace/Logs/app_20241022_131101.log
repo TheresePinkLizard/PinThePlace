@@ -1,0 +1,30 @@
+2024-10-22 13:11:02.037 +02:00 [INF] User profile is available. Using 'C:\Users\inger\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-10-22 13:11:02.093 +02:00 [INF] Now listening on: http://localhost:5243
+2024-10-22 13:11:02.097 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-22 13:11:02.099 +02:00 [INF] Hosting environment: Development
+2024-10-22 13:11:02.100 +02:00 [INF] Content root path: C:\Users\inger\Documents\GitHub\PinThePlace\PinThePlace
+2024-10-22 13:11:02.245 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/ - null null
+2024-10-22 13:11:02.267 +02:00 [INF] Executing endpoint 'PinThePlace.Controllers.PinController.Table (PinThePlace)'
+2024-10-22 13:11:02.278 +02:00 [INF] Route matched with {action = "Table", controller = "Pin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller PinThePlace.Controllers.PinController (PinThePlace).
+2024-10-22 13:11:02.285 +02:00 [INF] This is an information message.
+2024-10-22 13:11:02.290 +02:00 [WRN] This is a warning message
+2024-10-22 13:11:02.292 +02:00 [ERR] This is an error message
+2024-10-22 13:11:02.471 +02:00 [INF] Executing ViewResult, running view Table.
+2024-10-22 13:11:02.522 +02:00 [INF] Executed ViewResult - view Table executed in 52.9467ms.
+2024-10-22 13:11:02.523 +02:00 [INF] Executed action PinThePlace.Controllers.PinController.Table (PinThePlace) in 244.6826ms
+2024-10-22 13:11:02.524 +02:00 [INF] Executed endpoint 'PinThePlace.Controllers.PinController.Table (PinThePlace)'
+2024-10-22 13:11:02.533 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/ - 200 null text/html; charset=utf-8 289.385ms
+2024-10-22 13:11:02.551 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/js/bootstrap.min.js - null null
+2024-10-22 13:11:02.555 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/js/bootstrap.min.js - 404 0 null 3.9141ms
+2024-10-22 13:11:02.556 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/js/bootstrap.min.js, Response status code: 404
+2024-10-22 13:11:08.758 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/Pin/Comment/4 - null null
+2024-10-22 13:11:08.760 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/Pin/Comment/4 - 404 0 null 1.739ms
+2024-10-22 13:11:08.760 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/Pin/Comment/4, Response status code: 404
+2024-10-22 13:11:19.789 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/User - null null
+2024-10-22 13:11:19.790 +02:00 [INF] Executing endpoint 'PinThePlace.Controllers.UserController.Table (PinThePlace)'
+2024-10-22 13:11:19.793 +02:00 [INF] Route matched with {action = "Table", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller PinThePlace.Controllers.UserController (PinThePlace).
+2024-10-22 13:11:19.840 +02:00 [INF] Executing ViewResult, running view Table.
+2024-10-22 13:11:19.846 +02:00 [INF] Executed ViewResult - view Table executed in 6.5904ms.
+2024-10-22 13:11:19.846 +02:00 [INF] Executed action PinThePlace.Controllers.UserController.Table (PinThePlace) in 52.4844ms
+2024-10-22 13:11:19.846 +02:00 [INF] Executed endpoint 'PinThePlace.Controllers.UserController.Table (PinThePlace)'
+2024-10-22 13:11:19.846 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/User - 200 null text/html; charset=utf-8 56.8347ms
