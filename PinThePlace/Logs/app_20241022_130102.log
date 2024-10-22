@@ -1,0 +1,19 @@
+2024-10-22 13:01:03.675 +02:00 [INF] User profile is available. Using 'C:\Users\inger\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-10-22 13:01:03.730 +02:00 [INF] Now listening on: http://localhost:5243
+2024-10-22 13:01:03.734 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-10-22 13:01:03.735 +02:00 [INF] Hosting environment: Development
+2024-10-22 13:01:03.736 +02:00 [INF] Content root path: C:\Users\inger\Documents\GitHub\PinThePlace\PinThePlace
+2024-10-22 13:01:03.854 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/ - null null
+2024-10-22 13:01:03.877 +02:00 [INF] Executing endpoint 'PinThePlace.Controllers.PinController.Table (PinThePlace)'
+2024-10-22 13:01:03.887 +02:00 [INF] Route matched with {action = "Table", controller = "Pin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller PinThePlace.Controllers.PinController (PinThePlace).
+2024-10-22 13:01:03.895 +02:00 [INF] This is an information message.
+2024-10-22 13:01:03.899 +02:00 [WRN] This is a warning message
+2024-10-22 13:01:03.901 +02:00 [ERR] This is an error message
+2024-10-22 13:01:04.056 +02:00 [INF] Executing ViewResult, running view Table.
+2024-10-22 13:01:04.110 +02:00 [INF] Executed ViewResult - view Table executed in 56.4522ms.
+2024-10-22 13:01:04.111 +02:00 [INF] Executed action PinThePlace.Controllers.PinController.Table (PinThePlace) in 224.0959ms
+2024-10-22 13:01:04.112 +02:00 [INF] Executed endpoint 'PinThePlace.Controllers.PinController.Table (PinThePlace)'
+2024-10-22 13:01:04.122 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/ - 200 null text/html; charset=utf-8 269.0581ms
+2024-10-22 13:01:04.145 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/js/bootstrap.min.js - null null
+2024-10-22 13:01:04.149 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/js/bootstrap.min.js - 404 0 null 4.2151ms
+2024-10-22 13:01:04.151 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/js/bootstrap.min.js, Response status code: 404
