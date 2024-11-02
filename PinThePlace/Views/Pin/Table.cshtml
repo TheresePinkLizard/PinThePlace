@@ -9,9 +9,10 @@
         <div class="col-md-6">
             <h3>Find your place</h3>
             <!--inputing google maps-->
-            <div id="map"></div>
+            <div id="map" style="height: 500px; width: 100%;"></div>
             <!--temporary picture-->
-             <img src="~/images/map.png" alt="Map Image">
+
+            <!--- <img src="~/images/map.png" alt="Map Image"> -->
                  <p>
              <!--Mekanisme for å lage ny data entry CRUD-->
             <a class="btn btn-secondary"
@@ -61,16 +62,25 @@ $(document).ready(function(){
 });
 
 // for å få kart inn i div med map id
-function initMap() {
+/*function initMap() {
     var mapOptions = {
         zoom: 8,
         center: { lat: -34.397, lng: 150.644 }, 
     };
     var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-}
+} */
+</script>
+
+<script>
+    var map = L.map('map').setView([59.9139,10.7522],13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(map);
 </script>
 
 <!--hente kart med API key fra Google maps-->
-<script async 
+
+<!--<script async 
     src="https://maps.googleapis.com/maps/api/js?key=  YOUR_API_KEY   &callback=initMap">
-</script>
+</script>-->
