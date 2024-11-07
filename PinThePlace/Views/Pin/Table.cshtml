@@ -81,16 +81,15 @@ $(document).ready(function(){
 
     //Makes a pop up that shows the clicked places' latitude and longitude 
     var popup = L.popup();
-   
-    document.getElementById
+
 
     function onMapClick(e) {
         var lat = e.latlng.lat;
         var long = e.latlng.lng;
         popup.setLatLng(e.latlng).setContent("You clicked the map at "+ e.latlng.toString()).openOn(map);
 
-        documet.getElementById("latitude").value = lat;
-        document.getElementById("longitude").value = long;
+        documet.getElementById("Latitude").value = lat;
+        document.getElementById("Longitude").value = long;
     }
 
     map.on('click',onMapClick);

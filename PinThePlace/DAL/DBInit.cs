@@ -10,7 +10,7 @@ public static class DBInit
     {
         using var serviceScope = app.ApplicationServices.CreateScope();
         PinDbContext context = serviceScope.ServiceProvider.GetRequiredService<PinDbContext>();
-        //context.Database.EnsureDeleted();
+        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
         if(!context.Pins.Any())
