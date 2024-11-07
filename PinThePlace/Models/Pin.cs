@@ -8,6 +8,9 @@ namespace PinThePlace.Models
         public decimal Rating { get; set; }         
         public string? Comment { get; set; }    
         public string? ImageUrl { get; set; }
+
+        public double Latitude {get; set; }
+        public double Longitude {get; set; }
         //navigation property
         public virtual List<User>? Users { get; set; }
     }
