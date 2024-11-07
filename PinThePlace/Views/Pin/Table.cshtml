@@ -88,10 +88,12 @@ $(document).ready(function(){
         var long = e.latlng.lng;
         popup.setLatLng(e.latlng).setContent("You clicked the map at "+ e.latlng.toString()).openOn(map);
 
-        documet.getElementById("Latitude").value = lat;
-        document.getElementById("Longitude").value = long;
-    }
+        localStorage.setItem('Lat',lat);
+        localStorage.setItem('Long',long);
 
+        document.getElementById("latitude").value = lat;
+       // document.getElementById("Longitude").value = long;
+    }
     map.on('click',onMapClick);
 </script>
 
