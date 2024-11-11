@@ -84,14 +84,14 @@ $(document).ready(function(){
 
 
     function onMapClick(e) {
-        var lat = e.latlng.lat;
-        var long = e.latlng.lng;
+        var lat = e.latlng.lat.toFixed(6);
+        var long = e.latlng.lng.toFixed(6);
         popup.setLatLng(e.latlng).setContent("You clicked the map at "+ e.latlng.toString()).openOn(map);
 
-        localStorage.setItem('Lat',lat);
-        localStorage.setItem('Long',long);
+        sessionStorage.setItem('Lat',lat);
+        sessionStorage.setItem('Long',long);
 
-        document.getElementById("latitude").value = lat;
+        //document.getElementById("latitude").value = lat;
        // document.getElementById("Longitude").value = long;
     }
     map.on('click',onMapClick);
