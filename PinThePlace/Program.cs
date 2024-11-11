@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using PinThePlace.Models;
 using PinThePlace.DAL;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("PinDbContextConnection") ?? throw new InvalidOperationException("Connection string 'PinDbContextConnection' not found.");
 
 builder.Services.AddControllersWithViews();
 
@@ -11,7 +13,13 @@ builder.Services.AddDbContext<PinDbContext>(options => {
         builder.Configuration["ConnectionStrings:PinDbContextConnection"]);
 });
 
+builder.Services.AddRazorPages();
+builder.Services.AddSession();
+
+builder.Services.AddDefaultIdentity<User>().AddEntityFrameworkStores<PinDbContext>();
+
 builder.Services.AddScoped<IPinRepository, PinRepository>();
+
 
 var app = builder.Build();
 
@@ -23,10 +31,12 @@ if(app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{Controller=Pin}/{action=Table}/{id?}");
     
 // gammel kode: app.MapDefaultControllerRoute();
-
+app.MapRazorPages();
 app.Run();

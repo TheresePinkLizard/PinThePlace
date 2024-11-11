@@ -8,22 +8,23 @@
             <!--<th>FirstName</th>-->
             <!--<th>LastName</th>-->
             <th>Email</th>
-            <th>Password</th>
+          
         </tr>
         @foreach (var user in Model)
         {
             <tr>
-                <td>@user.UserId</td>
+                <td>@user.Id</td>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
-                <td>@user.Password</td>
+                
+                
                 <td>
                     @if (@user.Pins != null)
                     {
-                        <p>@string.Join(", ", @user.Pins.Select(pin => $"Pin{pin.PinId}"))</p>
+                        //<p>@string.Join(", ", @user.Pins.Select(pin => $"Pin{pin.PinId}"))</p>
                     }
                 </td>
-                <td></td>
+                <td></td> 
             </tr>
         }
     </table>

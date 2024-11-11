@@ -1,7 +1,12 @@
-namespace PinThePlace.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
-public class User
+namespace PinThePlace.Models
 {
+
+public class User : IdentityUser
+{
+    /*
     public int UserId{ get; set; }
 
     public string UserName{get; set;} = string.Empty;
@@ -12,8 +17,11 @@ public class User
 
     public string Email{ get; set; } = string.Empty;
 
-    public virtual List<Pin>? Pins {get;set;}
+   
 
     public string Password{ get; set; } = string.Empty;
+    */
+     public virtual List<Pin>? Pins {get;set;}
 
+}
 }
