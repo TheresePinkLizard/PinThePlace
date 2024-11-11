@@ -72,12 +72,31 @@ $(document).ready(function(){
 </script>
 
 <script>
+    //Adding the map 
     var map = L.map('map').setView([59.9139,10.7522],13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
     }).addTo(map);
+
+    //Makes a pop up that shows the clicked places' latitude and longitude 
+    var popup = L.popup();
+
+
+    function onMapClick(e) {
+        var lat = e.latlng.lat.toFixed(6);
+        var long = e.latlng.lng.toFixed(6);
+        popup.setLatLng(e.latlng).setContent("You clicked the map at "+ e.latlng.toString()).openOn(map);
+
+        sessionStorage.setItem('Lat',lat);
+        sessionStorage.setItem('Long',long);
+
+        //document.getElementById("latitude").value = lat;
+       // document.getElementById("Longitude").value = long;
+    }
+    map.on('click',onMapClick);
 </script>
+
 
 <!--hente kart med API key fra Google maps-->
 
