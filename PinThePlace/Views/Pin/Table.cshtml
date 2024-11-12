@@ -26,17 +26,15 @@
         <div class="col-md-6">
             <!--lenker til feed og mypins-->
             <div>
-                <a id="showFeedWindow" href="#">Feed window</a>
-                <a id="showFavWindow" href="#">Favorites window</a>
+                <button id="showFeedWindow" class="btn btn-primary">Feed</button>
+                <button id="showFavWindow" class="btn btn-secondary">My Pins</button>
             </div>
             <!--Feed vindu-->
             <div id="feedwindow" class="contentwindow">
-                <h2>Feed</h2>
                 <partial name="_AdminFeed" model="Model.Pins"/>
             </div>
             <!--mypins vindu-->
             <div id="favwindow" class="contentwindow" style="display: none;">
-                <h2>My Pins <3 </h2>
                 <partial name="_MyPins" model="Model.Pins"/>
             </div>
         </div>
@@ -50,12 +48,16 @@
 $(document).ready(function(){
     $("#showFeedWindow").click(function(e){
         e.preventDefault();
+        $(this).removeClass('btn-secondary').addClass('btn-primary');
+        $('#showFavWindow').removeClass('btn-primary').addClass('btn-secondary');
         $("#feedwindow").show();
         $("#favwindow").hide();
     });
 
     $("#showFavWindow").click(function(e){
-        e.preventDefault();
+       e.preventDefault();
+        $(this).removeClass('btn-secondary').addClass('btn-primary');
+        $('#showFeedWindow').removeClass('btn-primary').addClass('btn-secondary');
         $("#favwindow").show();
         $("#feedwindow").hide();
     });
