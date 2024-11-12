@@ -1,6 +1,38 @@
 /* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+/*header */
+.img-header {
+  max-width: 100%;
+  height: 150px;
+  float: left;
+  margin-top: 50px;
+}
+/*Webpage setup*/
+.background{
+  background-color: rgb(180, 208, 255);
+}
+.footer{
+  background-color: rgb(180, 208, 255);
+  height: 50px;
+}
+
+/*custom buttons*/
+.custom-button {
+  background-color: rgb(142, 221, 255);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/*feed and my pins */
+.contentwindow{
+  height:600px;
+  overflow:scroll;
+  overflow-x:hidden;
+ 
+}
+
+/*From demo */
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -19,7 +51,6 @@ a.navbar-brand {
   a {
     color: #d25f3b;
   }
-
 
   .btn-primary {
     color: #fff;
