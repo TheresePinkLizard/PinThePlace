@@ -1,0 +1,31 @@
+@model IEnumerable<Pin>
+
+<div class="container">
+        <table class='table table-striped'>
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var pin in Model)    
+            {
+                <tr>
+                    <td>@pin.DateCreated</td>
+                    <td>
+                        <a asp-controller="Pin" 
+                         asp-action="Comment" 
+                         asp-route-id="@pin.PinId">@pin.Name</a>
+                    </td>
+                    <td>@pin.Rating.ToString("")</td>
+                    <td>@pin.Comment</td>
+                    <td>
+                        <img src="@pin.ImageUrl" alt="Item Image" style="max-width: 80px; max-height: 80px;"/>
+                    </td>
+                </tr>
+            }
+        </table>
+    
+    </div>

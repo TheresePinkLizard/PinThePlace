@@ -8,7 +8,11 @@ namespace PinThePlace.Models
         public decimal Rating { get; set; }         
         public string? Comment { get; set; }    
         public string? ImageUrl { get; set; }
+        
+        // adds date for when object is created
+        public DateTime DateCreated { get; set; } = DateTime.Now;
         //navigation property
         public virtual List<User>? Users { get; set; }
+
     }
 }

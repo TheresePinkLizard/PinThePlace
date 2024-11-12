@@ -14,7 +14,8 @@ public class PinRepository : IPinRepository
 
     public async Task<IEnumerable<Pin>> GetAll()
     {
-        return await _db.Pins.ToListAsync();
+        // to sort by date, newest on top of the screen
+         return await _db.Pins.OrderByDescending(p => p.DateCreated).ToListAsync();
     }
 
     public async Task<Pin?> GetItemById(int id)
