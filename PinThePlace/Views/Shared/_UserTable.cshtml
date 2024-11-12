@@ -9,6 +9,7 @@
             <!--<th>LastName</th>-->
             <th>Email</th>
             <th>Password</th>
+            <th>Pins</th>
         </tr>
         @foreach (var user in Model)
         {
@@ -23,7 +24,6 @@
                         <p>@string.Join(", ", @user.Pins.Select(pin => $"Pin{pin.PinId}"))</p>
                     }
                 </td>
-                <td></td>
             </tr>
         }
     </table>
