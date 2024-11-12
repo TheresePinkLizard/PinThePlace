@@ -3,7 +3,7 @@
 <div class="container">
         <table class='table table-striped'>
             <tr>
-                <th>Id</th>
+                <th>Date</th>
                 <th>Name</th>
                 <th>Rating</th>
                 <th>Comment</th>
@@ -13,7 +13,7 @@
             @foreach (var pin in Model)    
             {
                 <tr>
-                    <td>@pin.PinId</td>
+                    <td>@pin.DateCreated</td>
                     <td>
                         <a asp-controller="Pin" 
                          asp-action="Comment" 
