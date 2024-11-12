@@ -3,3 +3,6 @@
 **/obj
 **/node_modules
 **/build
+PinThePlace/PinDatabase.db
+PinThePlace/PinDatabase.db-shm
+PinThePlace/PinDatabase.db-wal
