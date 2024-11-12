@@ -11,6 +11,10 @@ namespace PinThePlace.Models
 
         public double Latitude { get; set; }
         public double Longitude { get; set; } 
+
+         // adds date for when object is created
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
         //navigation property
         public virtual List<User>? Users { get; set; }
     }
