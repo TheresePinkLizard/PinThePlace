@@ -13,7 +13,7 @@ public static class DBInit
         PinDbContext context = serviceScope.ServiceProvider.GetRequiredService<PinDbContext>();
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-
+        /*
         if(!context.Users.Any())
         {
             var users = new List<User>
@@ -34,7 +34,7 @@ public static class DBInit
             };
             context.AddRange(users);
             context.SaveChanges();
-        }
+        }*/ 
         
         //Gets user from database (To avoid proxy or trackingproblems)
         var bruker1 = context.Users.FirstOrDefault(u => u.UserName == "Bruker1");
@@ -52,7 +52,7 @@ public static class DBInit
                     Comment = "Kjempe fin arkitektur og park. Anbefales!",
                     Latitude = 59.91731919136782,
                     Longitude = 10.727738688356991,
-                    Users = new List<User> { bruker1 }
+                     // Users = new List<User> { bruker1 }
                 },
 
                 new Pin 
@@ -62,7 +62,7 @@ public static class DBInit
                     Comment = "Bra skole. Anbefales!",
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
-                    Users = new List<User> { bruker1 }
+                    //Users = new List<User> { bruker1 }
                 },
 
                 new Pin 
@@ -72,7 +72,7 @@ public static class DBInit
                     Comment = "Dette er en Admin pin!",
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
-                    Users = new List<User> { admin }
+                   // Users = new List<User> { admin }
                 }
 
             };
