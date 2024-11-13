@@ -10,4 +10,6 @@ public interface IPinRepository
     Task Create(Pin pin);
     Task Update(Pin pin);
     Task<bool> Delete(int id);
+
+    Task<IEnumerable<Pin>> GetPinsByUserId(string userId);
 }

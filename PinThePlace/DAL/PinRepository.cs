@@ -47,4 +47,10 @@ public class PinRepository : IPinRepository
         await _db.SaveChangesAsync();
         return true;
     }
+
+    public async Task<IEnumerable<Pin>> GetPinsByUserId(string userId)
+    {
+        return await _db.Pins.Where(p => p.Users.Any(u => u.Id == userId)).OrderByDescending(p => p.DateCreated).ToListAsync();
+    }
+
 }

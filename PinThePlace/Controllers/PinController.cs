@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using PinThePlace.Models;
 using PinThePlace.ViewModels;
 using PinThePlace.DAL;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using SQLitePCL;
 
 
 namespace PinThePlace.Controllers;
@@ -15,10 +18,11 @@ public class PinController : Controller
 {
 
     private readonly IPinRepository _pinRepository; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
-
-    public PinController(IPinRepository pinRepository) // konstruktør som tar en ItemDbContext instans som et parameter og assigner til _itemDbContext 
+    private readonly UserManager<User> _userManager; // deklarerer en privat kun lesbar variabel som brukes til autentisering og autorisasjon
+    public PinController(IPinRepository pinRepository, UserManager<User> userManager) // konstruktør som tar en ItemDbContext instans som et parameter og assigner til _itemDbContext.
     {                                                           // Dette er et eksempel på en dependency injectionm hvor DbContext is provided to the controllerer via ASP.NET Core rammeverk.
         _pinRepository = pinRepository;                         //Konstruktøren blir kalt når en instans er laget, vanligvis under behandling av inkommende HTTP request. Når Views er kalt. eks: table grid, details
+        _userManager = userManager;
     }
 
     // async i metodene:
@@ -108,6 +112,15 @@ public class PinController : Controller
     {
         await _pinRepository.Delete(id);  // lagrer endringene 
         return RedirectToAction(nameof(Table)); //returnerer bruker til table view hvor item nå er fjernet
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> UserPins() //Metode som henter pins til inlogget bruker
+    {
+        var Id = _userManager.GetUserId(User);
+        var userPins = await _pinRepository.GetPinsByUserId( Id );
+
+        return View(userPins);
     }
     
 }
