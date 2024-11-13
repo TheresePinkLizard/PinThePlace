@@ -26,11 +26,8 @@ placeholder. -->
        <nav class="navbar navbar-expand-lg navbar-light bg-light background">
            <div class="container d-flex justify-content-between background">
                <ul class="navbar-nav">
-                <img src="~/images/header.png" alt="Header Image" class="img-header">
+                <a asp-controller="Pin" asp-action="Table"><img src="~/images/header.png" alt="Header Image" class="img-header"></a>
                 
-                   <li class="nav-item">
-                        <a class="nav-link text dark" asp-asp-area="" asp-controller="User" asp-action="Table">Users</a>
-                   </li>
                </ul>
                <partial name="_LoginPartial"/>
            </div>
