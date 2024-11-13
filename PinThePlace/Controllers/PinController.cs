@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using PinThePlace.Models;
 using PinThePlace.ViewModels;
 using PinThePlace.DAL;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace PinThePlace.Controllers;
@@ -52,6 +53,7 @@ public class PinController : Controller
     //  Http Get og post for å gjøre CRUD
     //Get: It returns a view (the "Create" view) that contains a form where the user can enter details for creating the new item
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public IActionResult Create() // trigges når bruker navigerer til create siden
     {
         return View(); // returnerer view hvor bruker kan skrice inn detaljer for å lage et nytt item
@@ -59,6 +61,7 @@ public class PinController : Controller
 
 // post:  is used to handle the submission of the form when the user clicks the "Create" button
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Create(Pin pin) // tar inn item objekt som parameter
     {
         if (ModelState.IsValid) // sjekker validering
@@ -71,6 +74,7 @@ public class PinController : Controller
 
     // kodene under gjør at update og delete fungerer
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Update(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
     {                                   // metoden slår ut når bruker navigerer seg til update siden
         var pin = await _pinRepository.GetItemById(id); // henter fra database ved hjelp av id
@@ -82,6 +86,7 @@ public class PinController : Controller
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Update(Pin pin)  // tar informasjonen som er skrevet i update skjema,
     {                                           // ser hvis det er valid og oppdaterer i database
         if (ModelState.IsValid)
@@ -93,6 +98,7 @@ public class PinController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)  // displayer confirmation page for å slette en item
     {
         var pin = await _pinRepository.GetItemById(id);  // identifiserer og henter item som skal bli slettet
@@ -104,6 +110,7 @@ public class PinController : Controller
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
     {
         await _pinRepository.Delete(id);  // lagrer endringene 

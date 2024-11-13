@@ -16,11 +16,14 @@ builder.Services.AddDbContext<PinDbContext>(options => {
 
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
-
+/*
 builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.SignIn.RequireConfirmedEmail = false;
 }).AddEntityFrameworkStores<PinDbContext>();
+*/
+
+builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<PinDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IPinRepository, PinRepository>();
 

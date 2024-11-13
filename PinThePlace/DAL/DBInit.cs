@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using PinThePlace.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.NET.StringTools;
 
 namespace PinThePlace.DAL;
 
@@ -14,10 +15,23 @@ public static class DBInit
         PinDbContext context = serviceScope.ServiceProvider.GetRequiredService<PinDbContext>();
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
+
+        var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+        var roles = new List<string> {"Admin","User"};
+        foreach (var role in roles)
+        {
+            if(!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+
+        }
         
         if(!context.Users.Any())
         {
-            var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
+            
             var users = new Dictionary<User,string>
              {
                 { new User {UserName = "Bruker1", Email="bruker1@gmail.com"}, "Tester123!"},
@@ -26,10 +40,17 @@ public static class DBInit
             foreach (var u in users)
             {
                 var result = await userManager.CreateAsync(u.Key,u.Value);
-                if(!result.Succeeded)
+                if(result.Succeeded)
                 {
-                    throw new Exception(string.Join("\n", result.Errors));
+                    var role = u.Key.UserName == "Admin" ? "Admin" : "User";
+                    await userManager.AddToRoleAsync(u.Key,role);
                 }
+                   
+                else
+                {
+                     throw new Exception(string.Join("\n", result.Errors));
+                }
+                
             }
         }
         await context.SaveChangesAsync();
