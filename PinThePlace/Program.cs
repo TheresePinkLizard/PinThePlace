@@ -2,6 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using PinThePlace.Models;
 using PinThePlace.DAL;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
+var cultureInfo = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PinDbContextConnection") ?? throw new InvalidOperationException("Connection string 'PinDbContextConnection' not found.");
