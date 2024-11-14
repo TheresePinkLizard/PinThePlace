@@ -44,6 +44,7 @@
     </div>
 
 <script>
+// code to selected items in the list
     document.querySelectorAll('.pin-row').forEach(row => {
         row.addEventListener('click', function () {
             // Remove the 'selected' class from all rows
@@ -52,14 +53,15 @@
             // Add the 'selected' class to the clicked row
             this.classList.add('selected');
 
-            // You can perform your action here (e.g., navigation, AJAX call)
+           // Stores location data from selected pin
             var latitude = this.getAttribute('data-latitude');
             var longitude = this.getAttribute('data-longitude');
             
+            //sets location data
             sessionStorage.setItem('Lat', latitude);
             sessionStorage.setItem('Long', longitude);
             
-            //oppdaterer kartet til å peke på det som er valgt
+            //updates map and sets the pointer to location
             map.setView([latitude, longitude], 13);
              popup.setLatLng([latitude, longitude]).setContent("You selected the pin at " + latitude + ", " + longitude).openOn(map);
         });
