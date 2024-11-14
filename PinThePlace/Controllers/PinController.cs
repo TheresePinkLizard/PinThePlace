@@ -118,11 +118,16 @@ public class PinController : Controller
     public async Task<IActionResult> UserPins() //Metode som henter pins til innlogget bruker
     {
         var Id = _userManager.GetUserId(User);
+        
+        if (Id == null){ return Unauthorized();} //Sjekker om brukeren er logget inn
         var userPins = await _pinRepository.GetPinsByUserId( Id );
 
-        if (Id == null){ return Unauthorized();} //Sjekker om brukeren er logget inn
-        
-        return View(userPins);
+        var pinsViewModel = new PinsViewModel(userPins, "UserPins");
+        // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
+        // denne returnerer en view
+        //Console.WriteLine($"Fetched {pins.Count} pins from the database.");
+        return PartialView("_MyPins", pinsViewModel);
+    
     }
     
 }
