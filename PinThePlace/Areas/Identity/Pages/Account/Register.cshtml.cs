@@ -35,15 +35,16 @@ namespace PinThePlace.Areas.Identity.Pages.Account
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger
+           // ,IEmailSender emailSender
+           )
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+           // _emailSender = emailSender;
         }
 
         /// <summary>

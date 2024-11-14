@@ -30,7 +30,7 @@ builder.Services.AddDefaultIdentity<User>(options =>
 }).AddEntityFrameworkStores<PinDbContext>();
 */
 
-builder.Services.AddDefaultIdentity<User>(options =>
+builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedEmail = false;
 }).AddEntityFrameworkStores<PinDbContext>();
