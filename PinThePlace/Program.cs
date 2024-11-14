@@ -30,7 +30,13 @@ builder.Services.AddDefaultIdentity<User>(options =>
 }).AddEntityFrameworkStores<PinDbContext>();
 */
 
-builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<PinDbContext>().AddDefaultTokenProviders();
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false;
+}).AddEntityFrameworkStores<PinDbContext>();
+
+
+//builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<PinDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IPinRepository, PinRepository>();
 
