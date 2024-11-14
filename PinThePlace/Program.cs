@@ -40,6 +40,11 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 builder.Services.AddScoped<IPinRepository, PinRepository>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+});
+
 
 var app = builder.Build();
 
@@ -48,6 +53,8 @@ if(app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     DBInit.Seed(app);
 }
+
+
 
 app.UseStaticFiles();
 
