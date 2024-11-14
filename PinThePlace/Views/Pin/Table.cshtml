@@ -15,7 +15,7 @@
             <!--- <img src="~/images/map.png" alt="Map Image"> -->
                  <p>
              <!--Mekanisme for å lage ny data entry CRUD-->
-            <a class="btn btn-secondary"
+            <a id="add_a_pin" class="btn btn-secondary"
                 asp-controller="Pin"
                 asp-action="Create"> Add a pin</a>
         </p>
@@ -97,6 +97,16 @@ $(document).ready(function(){
        // document.getElementById("Longitude").value = long;
     }
     map.on('click',onMapClick);
+
+    document.getElementById('add_a_pin').addEventListener('click', function(e) {
+    var lat = sessionStorage.getItem('Lat');
+    var long = sessionStorage.getItem('Long');
+
+    if (!lat || !long) {
+        e.preventDefault();
+        alert('Please click on the map first before trying to add a pin!.');
+    }
+});
 </script>
 
 
