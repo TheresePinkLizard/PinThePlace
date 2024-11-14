@@ -16,6 +16,10 @@ namespace PinThePlace.Models
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         //navigation property
-        public virtual List<User>? Users { get; set; }
+        // Foreign key for User
+        public string UserId { get; set; }
+
+        // Navigation property for User
+        public virtual User User { get; set; }
     }
 }

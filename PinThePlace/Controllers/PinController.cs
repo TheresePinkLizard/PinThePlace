@@ -8,6 +8,7 @@ using PinThePlace.Models;
 using PinThePlace.ViewModels;
 using PinThePlace.DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace PinThePlace.Controllers;
@@ -16,10 +17,12 @@ public class PinController : Controller
 {
 
     private readonly IPinRepository _pinRepository; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
+    private readonly UserManager <User> _userManager;
 
-    public PinController(IPinRepository pinRepository) // konstruktør som tar en ItemDbContext instans som et parameter og assigner til _itemDbContext 
-    {                                                           // Dette er et eksempel på en dependency injectionm hvor DbContext is provided to the controllerer via ASP.NET Core rammeverk.
-        _pinRepository = pinRepository;                         //Konstruktøren blir kalt når en instans er laget, vanligvis under behandling av inkommende HTTP request. Når Views er kalt. eks: table grid, details
+      public PinController(IPinRepository pinRepository, UserManager<User> userManager)
+    {
+        _pinRepository = pinRepository;
+        _userManager = userManager;
     }
 
     // async i metodene:
@@ -61,13 +64,19 @@ public class PinController : Controller
 
 // post:  is used to handle the submission of the form when the user clicks the "Create" button
     [HttpPost]
-    [Authorize]
-    public async Task<IActionResult> Create(Pin pin) // tar inn item objekt som parameter
+    [Authorize]   
+    public async Task<IActionResult> Create(Pin pin)
     {
-        if (ModelState.IsValid) // sjekker validering
+        if (ModelState.IsValid)
         {
-            await _pinRepository.Create(pin); // endringer lagres
-            return RedirectToAction(nameof(Table)); // redirects to show items in table
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(User);
+
+            // Set the user ID on the pin
+            pin.UserId = userId;
+
+            await _pinRepository.Create(pin);
+            return RedirectToAction(nameof(Table));
         }
         return View(pin);
     }
