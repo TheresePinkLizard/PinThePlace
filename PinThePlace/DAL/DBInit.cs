@@ -1,40 +1,38 @@
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using PinThePlace.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace PinThePlace.DAL;
 
 
 public static class DBInit
 {
-    public static void Seed(IApplicationBuilder app)
+    public static async Task Seed(IApplicationBuilder app)
     {
         using var serviceScope = app.ApplicationServices.CreateScope();
         PinDbContext context = serviceScope.ServiceProvider.GetRequiredService<PinDbContext>();
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-
+        
         if(!context.Users.Any())
         {
-            var users = new List<User>
-            {
-                new User
-                {
-                    UserName = "Bruker1",
-                    Email = "bruker1@gmail.com",
-                    Password = "123"
-                },
-                
-                new User
-                {
-                    UserName = "Admin",
-                    Email = "admin1@gmail.com",
-                    Password = "123"
-                }
+            var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
+            var users = new Dictionary<User,string>
+             {
+                { new User {UserName = "Bruker1", Email="bruker1@gmail.com"}, "Tester123!"},
+                { new User {UserName = "Admin", Email="admin1@gmail.com"}, "Admin123!"},              
             };
-            context.AddRange(users);
-            context.SaveChanges();
+            foreach (var u in users)
+            {
+                var result = await userManager.CreateAsync(u.Key,u.Value);
+                if(!result.Succeeded)
+                {
+                    throw new Exception(string.Join("\n", result.Errors));
+                }
+            }
         }
+        await context.SaveChangesAsync();
         
         //Gets user from database (To avoid proxy or trackingproblems)
         var bruker1 = context.Users.FirstOrDefault(u => u.UserName == "Bruker1");
@@ -52,7 +50,7 @@ public static class DBInit
                     Comment = "Kjempe fin arkitektur og park. Anbefales!",
                     Latitude = 59.91731919136782,
                     Longitude = 10.727738688356991,
-                    Users = new List<User> { bruker1 }
+                     // Users = new List<User> { bruker1 }
                 },
 
                 new Pin 
@@ -62,7 +60,7 @@ public static class DBInit
                     Comment = "Bra skole. Anbefales!",
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
-                    Users = new List<User> { bruker1 }
+                    //Users = new List<User> { bruker1 }
                 },
 
                 new Pin 
@@ -72,7 +70,7 @@ public static class DBInit
                     Comment = "Dette er en Admin pin!",
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
-                    Users = new List<User> { admin }
+                   // Users = new List<User> { admin }
                 }
 
             };

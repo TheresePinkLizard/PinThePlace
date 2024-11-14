@@ -13,10 +13,14 @@ builder.Services.AddDbContext<PinDbContext>(options => {
         builder.Configuration["ConnectionStrings:PinDbContextConnection"]);
 });
 
+
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
 
-builder.Services.AddDefaultIdentity<User>().AddEntityFrameworkStores<PinDbContext>();
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false;
+}).AddEntityFrameworkStores<PinDbContext>();
 
 builder.Services.AddScoped<IPinRepository, PinRepository>();
 

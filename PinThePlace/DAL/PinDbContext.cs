@@ -21,6 +21,9 @@ public class PinDbContext : IdentityDbContext<User> // definerer at classen Item
         // lager en tom database hvis den ikke eksisterer en database fra før av som er ssosiert med nåværende DbContext
     }                              // lager database med schema(tables,indexes, etc) basert på nåværende model definert i DbContext
     public DbSet<Pin> Pins { get; set; } // metoder for å lagre instanser av Item
+   
+    //public DbSet<User> Users{ get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseLazyLoadingProxies();

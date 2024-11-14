@@ -115,11 +115,13 @@ public class PinController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> UserPins() //Metode som henter pins til inlogget bruker
+    public async Task<IActionResult> UserPins() //Metode som henter pins til innlogget bruker
     {
         var Id = _userManager.GetUserId(User);
         var userPins = await _pinRepository.GetPinsByUserId( Id );
 
+        if (Id == null){ return Unauthorized();} //Sjekker om brukeren er logget inn
+        
         return View(userPins);
     }
     
