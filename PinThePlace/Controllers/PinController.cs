@@ -53,7 +53,7 @@ public class PinController : Controller
     //  Http Get og post for å gjøre CRUD
     //Get: It returns a view (the "Create" view) that contains a form where the user can enter details for creating the new item
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public IActionResult Create() // trigges når bruker navigerer til create siden
     {
         return View(); // returnerer view hvor bruker kan skrice inn detaljer for å lage et nytt item
