@@ -12,7 +12,16 @@
             </tr>
             @foreach (var pin in Model)    
             {
-                <tr>
+                <tr class="pin-row" 
+                    data-id="@pin.PinId" 
+                    data-name="@pin.Name" 
+                    data-date="@pin.DateCreated" 
+                    data-rating="@pin.Rating" 
+                    data-comment="@pin.Comment" 
+                    data-image="@pin.ImageUrl"
+                    data-latitude="@pin.Latitude" 
+                    data-longitude="@pin.Longitude">
+                    
                     <td>@pin.DateCreated</td>
                     <td>
                         <a asp-controller="Pin" 
@@ -33,3 +42,33 @@
         </table>
     
     </div>
+
+<script>
+    document.querySelectorAll('.pin-row').forEach(row => {
+        row.addEventListener('click', function () {
+            // Remove the 'selected' class from all rows
+            document.querySelectorAll('.pin-row').forEach(r => r.classList.remove('selected'));
+
+            // Add the 'selected' class to the clicked row
+            this.classList.add('selected');
+
+            // You can perform your action here (e.g., navigation, AJAX call)
+            var latitude = this.getAttribute('data-latitude');
+            var longitude = this.getAttribute('data-longitude');
+            
+            sessionStorage.setItem('Lat', latitude);
+            sessionStorage.setItem('Long', longitude);
+            
+            //oppdaterer kartet til å peke på det som er valgt
+            map.setView([latitude, longitude], 13);
+             popup.setLatLng([latitude, longitude]).setContent("You selected the pin at " + latitude + ", " + longitude).openOn(map);
+        });
+    });
+</script>
+
+<style>
+    /* Optional CSS to visually highlight the selected row */
+    .selected {
+        background-color: #e0e0e0; /* Light gray background */
+    }
+</style>
