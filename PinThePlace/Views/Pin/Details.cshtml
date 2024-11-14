@@ -6,10 +6,18 @@
 
 <!--Når man har trykket på Navnet på pin så kommer denne siden opp -->
 <div class="row gx-5">
-    <img alt="@Model.Name" src="@Model.ImageUrl" class="img-fluid col-5"/>
-    <div class="col-7">
-        <h5>@Model.Comment/h5>
-        <h3 class="pull-right">@Model.Rating.ToString("5")</h3>
+    <div class="col-3">
+        <h5>Rating:</h5>
+        <h3> @Model.Rating.ToString("5")</h3>
+    </div>
+    <div class="col-4">
+        <h5>Comment:</h5>
+        <h5>@(Model.Comment ?? "No Comment added")</h5>
+    </div>
+    <div class="col-5">
+        <img alt="@Model.Name" src="@Model.ImageUrl" class="img-fluid" />
+    </div>
+    <div class="col-12">
         <p><a href="/Pin/Table">Back to Table View</a></p>
     </div>
 </div>
