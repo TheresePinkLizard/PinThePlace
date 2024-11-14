@@ -27,8 +27,37 @@
         <span asp-validation-for="ImageUrl" class="text-danger"></span> 
     </div>
 
+        <div class ="form-group">
+        <label asp-for="Latitude"></label>
+        <input asp-for="Latitude" class="form-control" readonly />
+        <span asp-validation-for="Latitude" class="text-danger"></span>
+
+    </div>
+    <div class ="form-group">
+        <label asp-for="Longitude"></label>
+        <input asp-for="Longitude" class="form-control" readonly/>
+        <span asp-validation-for="Longitude" class="text-danger"></span>
+    </div>
+
     <!--knapp for update-->
     <button type="submit" class="btn btn-primary">Save changes</button>
     <a asp-action="Table" class="btn btn-secondary">Cancel</a>
 
 </form>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var lat = sessionStorage.getItem('Lat');
+    var long = sessionStorage.getItem('Long');
+
+    if(lat && long){
+
+        document.querySelector("input[name='Latitude']").value = lat;
+        document.querySelector("input[name='Longitude']").value = long;
+    } else {
+        var lat_n = 0;
+        var long_n = 0;
+        document.querySelector("input[name='Latitude']").value = lat;
+        document.querySelector("input[name='Longitude']").value = long;
+    }
+});
+</script>

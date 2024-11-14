@@ -19,6 +19,9 @@ a.navbar-brand {
   a {
     color: #d25f3b;
   }
+  .selected {
+    background-color: #e0e0e0; /* Light gray background */
+}
 
 
   .btn-primary {
