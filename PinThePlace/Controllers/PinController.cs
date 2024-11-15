@@ -70,10 +70,16 @@ public class PinController : Controller
         if (ModelState.IsValid)
         {
             // Get the current user's ID
-            var userId = _userManager.GetUserId(User);
+            var userName = _userManager.GetUserName(User);
 
+            if (userName == null)
+            {
+                // Håndter tilfelle der brukeren ikke er logget inn
+                return Unauthorized();
+            }
+            
             // Set the user ID on the pin
-            pin.UserId = userId;
+            pin.UserName = userName;
 
             await _pinRepository.Create(pin);
             return RedirectToAction(nameof(Table));

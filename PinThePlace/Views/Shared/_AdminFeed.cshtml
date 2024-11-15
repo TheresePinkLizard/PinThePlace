@@ -9,7 +9,7 @@
                 <th>Comment</th>
                 <th>Image</th>
                 <th>Actions</th>
-                <th>UserId</th>
+                <th>UserName</th>
             </tr>
             @foreach (var pin in Model)    
             {
@@ -22,7 +22,7 @@
                     data-image="@pin.ImageUrl"
                     data-latitude="@pin.Latitude" 
                     data-longitude="@pin.Longitude"
-                    data-userid="@pin.UserId">
+                    data-userid="@pin.UserName">
                     
                     <td>@pin.DateCreated</td>
                     <td>
@@ -39,7 +39,7 @@
                         <a asp-action="Update" asp-route-id="@pin.PinId">Update</a>
                         <a asp-action="Delete" asp-route-id="@pin.PinId">Delete</a>
                     </td>
-                     <td>@pin.UserId</td>
+                     <td>@pin.UserName</td>
                 </tr>
             }
         </table>
@@ -66,7 +66,14 @@
             
             //updates map and sets the pointer to location
             map.setView([latitude, longitude], 13);
-             popup.setLatLng([latitude, longitude]).setContent("You selected the pin at " + latitude + ", " + longitude).openOn(map);
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+
+            // Add a new marker to the map
+            currentMarker = L.marker([latitude, longitude]).addTo(map);
+
+            //currentMarker.bindPopup("You selected the pin at " + latitude + ", " + longitude).openPopup();
         });
     });
 </script>
