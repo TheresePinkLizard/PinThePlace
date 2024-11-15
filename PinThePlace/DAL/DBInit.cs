@@ -56,8 +56,9 @@ public static class DBInit
         await context.SaveChangesAsync();
         
         //Gets user from database (To avoid proxy or trackingproblems)
-        var bruker1 = context.Users.FirstOrDefault(u => u.UserName == "Bruker1") ?? throw new Exception("Bruker1 could not be found in the database.");
-        var admin = context.Users.FirstOrDefault(u => u.UserName == "Admin") ?? throw new Exception("Admin could not be found in the database.");
+        var bruker1 = context.Users.FirstOrDefault(u => u.UserName == "Bruker1");
+
+        var admin = context.Users.FirstOrDefault(u => u.UserName == "Admin");
 
         if(!context.Pins.Any())
         {

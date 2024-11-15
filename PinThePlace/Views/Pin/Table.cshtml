@@ -82,14 +82,19 @@ $(document).ready(function(){
     }).addTo(map);
 
     //Makes a pop up that shows the clicked places' latitude and longitude 
-    var popup = L.popup();
+    var currentMarker = null;
 
 
     function onMapClick(e) {
         var lat = e.latlng.lat.toFixed(6);
         var long = e.latlng.lng.toFixed(6);
-        popup.setLatLng(e.latlng).setContent("You clicked the map at "+ e.latlng.toString()).openOn(map);
 
+        if (currentMarker){
+            map.removeLayer(currentMarker);
+        }
+        currentMarker = L.marker(e.latlng).addTo(map);
+    
+        
         sessionStorage.setItem('Lat',lat);
         sessionStorage.setItem('Long',long);
 

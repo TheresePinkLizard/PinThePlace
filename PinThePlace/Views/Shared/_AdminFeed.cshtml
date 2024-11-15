@@ -9,7 +9,7 @@
                 <th>Comment</th>
                 <th>Image</th>
                 <th>Actions</th>
-                <th>UserId</th>
+                <th>UserName</th>
             </tr>
             @foreach (var pin in Model)    
             {
@@ -66,7 +66,14 @@
             
             //updates map and sets the pointer to location
             map.setView([latitude, longitude], 13);
-             popup.setLatLng([latitude, longitude]).setContent("You selected the pin at " + latitude + ", " + longitude).openOn(map);
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+
+            // Add a new marker to the map
+            currentMarker = L.marker([latitude, longitude]).addTo(map);
+
+            //currentMarker.bindPopup("You selected the pin at " + latitude + ", " + longitude).openPopup();
         });
     });
 </script>
