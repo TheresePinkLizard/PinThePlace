@@ -18,8 +18,8 @@ namespace PinThePlace.Models
         //navigation property
         // Foreign key for User
         public string UserName { get; set; } = string.Empty;
-
+        
         // Navigation property for User
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
     }
 }

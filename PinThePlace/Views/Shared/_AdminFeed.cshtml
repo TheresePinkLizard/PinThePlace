@@ -22,7 +22,7 @@
                     data-image="@pin.ImageUrl"
                     data-latitude="@pin.Latitude" 
                     data-longitude="@pin.Longitude"
-                    data-userid="@pin.UserId">
+                    data-userid="@pin.UserName">
                     
                     <td>@pin.DateCreated</td>
                     <td>
@@ -39,7 +39,7 @@
                         <a asp-action="Update" asp-route-id="@pin.PinId">Update</a>
                         <a asp-action="Delete" asp-route-id="@pin.PinId">Delete</a>
                     </td>
-                     <td>@pin.UserId</td>
+                     <td>@pin.UserName</td>
                 </tr>
             }
         </table>
