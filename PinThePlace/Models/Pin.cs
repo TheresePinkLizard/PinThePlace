@@ -11,7 +11,7 @@ namespace PinThePlace.Models
         public string? ImageUrl { get; set; }
 
         [NotMapped]
-        public IFormFile UploadedImage {get; set;}
+        public IFormFile? UploadedImage {get; set;}
 
         public double Latitude { get; set; }
         public double Longitude { get; set; } 
