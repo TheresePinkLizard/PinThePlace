@@ -99,10 +99,25 @@ public class PinController : Controller
     [Authorize]
     public async Task<IActionResult> Update(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
     {                                   // metoden slår ut når bruker navigerer seg til update siden
-        var pin = await _pinRepository.GetItemById(id); // henter fra database ved hjelp av id
+        // retrieves current user
+        var userName = _userManager.GetUserName(User);
+        
+        // henter fra database ved hjelp av id
+        var pin = await _pinRepository.GetItemById(id); 
+        
+          
         if (pin == null)               // sjekk om den finner item
         {
             return NotFound();
+
+        } else{
+             if (userName != "Admin" )
+            {
+                if(userName != pin.UserName){
+                    return Unauthorized();
+                }
+                
+            }
         }
         return View(pin); 
     }
@@ -123,10 +138,22 @@ public class PinController : Controller
     [Authorize]
     public async Task<IActionResult> Delete(int id)  // displayer confirmation page for å slette en item
     {
+          // retrieves current user
+        var userName = _userManager.GetUserName(User);
         var pin = await _pinRepository.GetItemById(id);  // identifiserer og henter item som skal bli slettet
-        if (pin == null)
+         
+         if (pin == null)               // sjekk om den finner item
         {
             return NotFound();
+
+        } else{
+            if (userName != "Admin" )
+            {
+                if(userName != pin.UserName){
+                    return Unauthorized();
+                }
+                
+            }
         }
         return View(pin);   // hvis funnet, returnerer view med item data for bekreftelse
     }

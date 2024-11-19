@@ -8,8 +8,12 @@
                 <th>Rating</th>
                 <th>Comment</th>
                 <th>Image</th>
-                <th>Actions</th>
                 <th>UserName</th>
+                 @if (User.IsInRole("Admin"))
+                        {
+                             <th>Actions</th>
+                        }
+             
             </tr>
             @foreach (var pin in Model)    
             {
@@ -35,18 +39,23 @@
                     <td>
                         <img src="@pin.ImageUrl" alt="Item Image" style="max-width: 80px; max-height: 80px;"/>
                     </td>
-                    <td>
-                        <a asp-action="Update" asp-route-id="@pin.PinId">Update</a>
-                        <a asp-action="Delete" asp-route-id="@pin.PinId">Delete</a>
-                    </td>
-                     <td>@pin.UserName</td>
+                    <td>@pin.UserName</td>
+                    
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                            <a asp-action="Update" asp-route-id="@pin.PinId">Update</a>
+                            <a asp-action="Delete" asp-route-id="@pin.PinId">Delete</a>
+                            </td>
+                        }
                 </tr>
             }
         </table>
-    
+
     </div>
 
 <script>
+
 // code to selected items in the list
     document.querySelectorAll('.pin-row').forEach(row => {
         row.addEventListener('click', function () {
