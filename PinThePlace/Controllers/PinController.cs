@@ -18,11 +18,14 @@ public class PinController : Controller
 
     private readonly IPinRepository _pinRepository; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
     private readonly UserManager <User> _userManager;
+    private readonly ILogger<PinController> _logger;
 
-      public PinController(IPinRepository pinRepository, UserManager<User> userManager)
+
+      public PinController(IPinRepository pinRepository, UserManager<User> userManager, ILogger<PinController> logger)
     {
         _pinRepository = pinRepository;
         _userManager = userManager;
+        _logger = logger; 
     }
 
     // async i metodene:
@@ -33,6 +36,10 @@ public class PinController : Controller
     // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
     public async Task<IActionResult> Table()
     {  
+        _logger.LogInformation("This is an information message.");
+        _logger.LogWarning("This is an warning message.");
+        _logger.LogError("This is an error message.");
+
         // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
 
