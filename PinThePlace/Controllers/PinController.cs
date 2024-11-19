@@ -104,9 +104,12 @@ public class PinController : Controller
             return NotFound();
 
         } else{
-            if (userName != "Admin" || userName != pin.UserName)
+             if (userName != "Admin" )
             {
-                return Unauthorized();
+                if(userName != pin.UserName){
+                    return Unauthorized();
+                }
+                
             }
         }
         return View(pin); 
@@ -137,9 +140,12 @@ public class PinController : Controller
             return NotFound();
 
         } else{
-            if (userName != "Admin" || userName != pin.UserName)
+            if (userName != "Admin" )
             {
-                return Unauthorized();
+                if(userName != pin.UserName){
+                    return Unauthorized();
+                }
+                
             }
         }
         return View(pin);   // hvis funnet, returnerer view med item data for bekreftelse
