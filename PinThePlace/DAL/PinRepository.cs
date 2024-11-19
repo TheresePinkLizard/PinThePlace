@@ -21,7 +21,7 @@ public class PinRepository : IPinRepository
          return await _db.Pins.OrderByDescending(p => p.DateCreated).ToListAsync();
         }
         catch (Exception e){
-            _logger.LogError("[PinRepository] Pins ToList Async() failed when GetAll(), error message: {e}", e.Message);
+            _logger.LogError("[PinRepository] Pins ToListAsync() failed when GetAll(), error message: {e}", e.Message);
             return null; 
         }
     }
@@ -68,14 +68,15 @@ public class PinRepository : IPinRepository
         var item = await _db.Pins.FindAsync(id);
         if (item == null)
         {
+            _logger.LogWarning("[PinRepository] Pin not found for deletion, PinId {PinId:0000}", id);
             return false;
         }
-
         _db.Pins.Remove(item);
         await _db.SaveChangesAsync();
         return true;
-        } catch (Exception e){
-            _logger.LogError("[PinRepository] Pin deletion failed for PinId {PinId:0000}, error message: {e}", id, e.Message);
+        } catch (Exception e)
+        {
+            _logger.LogError("[PinRepository] Failed to delete pin with ID {PinId:0000}", id);
             return false;
         }
     }

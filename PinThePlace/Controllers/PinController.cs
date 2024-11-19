@@ -36,12 +36,16 @@ public class PinController : Controller
     // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
     public async Task<IActionResult> Table()
     {  
-        _logger.LogInformation("This is an information message.");
-        _logger.LogWarning("This is an warning message.");
-        _logger.LogError("This is an error message.");
+        
 
         // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
+
+        if( pins == null)
+        {
+            _logger.LogError("[PinController] Pin list not found while executing _pinRepository.GetAll()");
+            return NotFound("Pin list not found");
+        }
 
         var pinsViewModel = new PinsViewModel(pins, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
@@ -55,8 +59,13 @@ public class PinController : Controller
         //List<Pin> pins = await _pinDbContext.Pins.ToListAsync();
         //var pin= pins.FirstOrDefault(i => i.PinId == id); // søker igjennom listen items til første som matcher id
         var pin = await _pinRepository.GetItemById(id);
+
         if (pin == null)
-            return NotFound();
+        {
+            _logger.LogError("[PinController] Pin not found for the PinId {PinId:0000}", id);
+            return NotFound("Pin not found for the PinId");
+        }
+            
         return View(pin); // returnerer view med et item
     }
 
@@ -88,9 +97,14 @@ public class PinController : Controller
             // Set the user ID on the pin
             pin.UserName = userName;
 
-            await _pinRepository.Create(pin);
-            return RedirectToAction(nameof(Table));
+            bool returnOk= await _pinRepository.Create(pin);
+            if (returnOk)
+            {
+                return RedirectToAction(nameof(Table));
+            }
+            
         }
+        _logger.LogWarning("[PinController] Pin creation failed {@pin}", pin);
         return View(pin);
     }
 
@@ -108,7 +122,8 @@ public class PinController : Controller
           
         if (pin == null)               // sjekk om den finner item
         {
-            return NotFound();
+            _logger.LogError("[PinController] Pin not found when updating the pin {PinId:0000}", id);
+            return BadRequest("Pin not found for the pinId");
 
         } else{
              if (userName != "Admin" )
@@ -128,9 +143,13 @@ public class PinController : Controller
     {                                           // ser hvis det er valid og oppdaterer i database
         if (ModelState.IsValid)
         {
-            await _pinRepository.Update(pin);
+            bool returnOk = await _pinRepository.Update(pin);
+            if(returnOk)
+            {
             return RedirectToAction(nameof(Table)); // displayer den oppdaterte listen
+            }
         }
+        _logger.LogWarning("[PinController] Pin update failed {@pin}", pin);
         return View(pin);
     }
 
@@ -143,8 +162,9 @@ public class PinController : Controller
         var pin = await _pinRepository.GetItemById(id);  // identifiserer og henter item som skal bli slettet
          
          if (pin == null)               // sjekk om den finner item
-        {
-            return NotFound();
+        {   
+            _logger.LogError("[PinController] Pin deleteion failed for {PinId:0000}", id);
+            return BadRequest("Pin not found fot the PinId");
 
         } else{
             if (userName != "Admin" )
@@ -162,7 +182,12 @@ public class PinController : Controller
     [Authorize]
     public async Task<IActionResult> DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
     {
-        await _pinRepository.Delete(id);  // lagrer endringene 
+        bool returnOk = await _pinRepository.Delete(id);  // lagrer endringene 
+        if (!returnOk)
+        {
+            _logger.LogError("[PinController] Pin deletion failed for {PinId:0000}", id);
+            return BadRequest("Pin deletion failed");
+        }
         return RedirectToAction(nameof(Table)); //returnerer bruker til table view hvor item nå er fjernet
     }
     
