@@ -47,12 +47,20 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Identity/Account/Login";
 });
 
-var loggerConfiguration = new LoggerConfiguration().MinimumLevel.Information().WriteTo.File($"Logs/app_{DateTime.Now:yyyyMMdd_HHmmss}.log");
+// Logging 
+if (System.IO.File.Exists("Logs/app.log"))
+{
+    System.IO.File.Delete("Logs/app.log");
+}
+
+var loggerConfiguration = new LoggerConfiguration().MinimumLevel.Information().WriteTo.File("Logs/app.log", rollingInterval: RollingInterval.Infinite, retainedFileCountLimit: 1, shared: true);
 loggerConfiguration.Filter.ByExcluding(e => e.Properties.TryGetValue("SourceContext", out var value) && e.Level == LogEventLevel.Information && e.MessageTemplate.Text.Contains("Executed DbCommand"));
 
 
 var logger = loggerConfiguration.CreateLogger();
 builder.Logging.AddSerilog(logger);
+
+//
 
 var app = builder.Build();
 
