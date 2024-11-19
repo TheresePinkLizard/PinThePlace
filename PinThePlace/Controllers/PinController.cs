@@ -81,6 +81,21 @@ public class PinController : Controller
             // Set the user ID on the pin
             pin.UserName = userName;
 
+            var file = pin.UploadedImage;
+
+            if(file != null && file.Length >0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/images",fileName);
+
+                using(var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                pin.ImageUrl = "/images/"+fileName;
+            }
+
             await _pinRepository.Create(pin);
             return RedirectToAction(nameof(Table));
         }
