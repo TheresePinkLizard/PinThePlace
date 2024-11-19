@@ -18,11 +18,14 @@ public class PinController : Controller
 
     private readonly IPinRepository _pinRepository; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
     private readonly UserManager <User> _userManager;
+    private readonly ILogger<PinController> _logger;
 
-      public PinController(IPinRepository pinRepository, UserManager<User> userManager)
+
+      public PinController(IPinRepository pinRepository, UserManager<User> userManager, ILogger<PinController> logger)
     {
         _pinRepository = pinRepository;
         _userManager = userManager;
+        _logger = logger; 
     }
 
     // async i metodene:
@@ -33,6 +36,10 @@ public class PinController : Controller
     // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
     public async Task<IActionResult> Table()
     {  
+        _logger.LogInformation("This is an information message.");
+        _logger.LogWarning("This is an warning message.");
+        _logger.LogError("This is an error message.");
+
         // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
 
@@ -119,9 +126,12 @@ public class PinController : Controller
             return NotFound();
 
         } else{
-            if (userName != "Admin" || userName != pin.UserName)
+             if (userName != "Admin" )
             {
-                return Unauthorized();
+                if(userName != pin.UserName){
+                    return Unauthorized();
+                }
+                
             }
         }
         return View(pin); 
@@ -152,9 +162,12 @@ public class PinController : Controller
             return NotFound();
 
         } else{
-            if (userName != "Admin" || userName != pin.UserName)
+            if (userName != "Admin" )
             {
-                return Unauthorized();
+                if(userName != pin.UserName){
+                    return Unauthorized();
+                }
+                
             }
         }
         return View(pin);   // hvis funnet, returnerer view med item data for bekreftelse
