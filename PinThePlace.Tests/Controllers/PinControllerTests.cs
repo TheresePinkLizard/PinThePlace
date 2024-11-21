@@ -16,6 +16,7 @@ public class PinControllerTests
     public async Task TestTable()
     {
         var pinList = new List<Pin>()
+        var pinList = new List<Pin>()
         {
             new Pin 
                 {
