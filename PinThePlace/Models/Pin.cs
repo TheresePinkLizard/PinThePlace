@@ -9,9 +9,9 @@ namespace PinThePlace.Models
         public decimal Rating { get; set; }         
         public string? Comment { get; set; }    
         public string? ImageUrl { get; set; }
-        
+
         [NotMapped]
-        public IFormFile? UploadedImage { get; set; }
+        public IFormFile? UploadedImage {get; set;}
 
         public double Latitude { get; set; }
         public double Longitude { get; set; } 
@@ -21,9 +21,7 @@ namespace PinThePlace.Models
 
         //navigation property
         // Foreign key for User
-        public string UserId { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
-        
         
         // Navigation property for User
         public virtual User? User { get; set; }
