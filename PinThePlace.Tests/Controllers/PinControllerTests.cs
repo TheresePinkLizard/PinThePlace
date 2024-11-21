@@ -96,6 +96,42 @@ public class PinControllerTests
        // var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
         Assert.IsType<UnauthorizedResult>(result);
     }
+
+    [Fact]
+    public async Task TestCreateNotOk()
+    {
+        // arrange
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706, 
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };  
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(false);
+
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns((string)null);
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Create(testPin);
+
+        // assert
+       // var viewResult = Assert.IsType<UnauthorizedResult>(result);
+       // var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        Assert.IsType<UnauthorizedResult>(result);
+    }
 }
 
 
