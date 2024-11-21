@@ -7,9 +7,15 @@
   .background{
     background-color: rgb(180, 208, 255);
   }
+  body {
+    display:flex;
+    flex-direction: column;
+    min-height:100vh;
+  }
   .footer{
     background-color: rgb(180, 208, 255);
     height: 50px;
+    margin-top:auto;
   }
   .contentwindow{
     height:600px;
