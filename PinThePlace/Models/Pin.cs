@@ -1,21 +1,12 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace PinThePlace.Models
 {
     public class Pin {
         public int PinId { get; set; }
-
-        [RegularExpression(@"[0-9a-zA-ZæøåÆØÅ. \-]{2-20}", ErrorMessage="The name of the Pin must be numbers or letters between 2 to 20 characters!")]
-        [Display(Name="Pin name")]
         public string Name { get; set; } = string.Empty; //  = string.Empty;  is to state this is a mandatory value, has empthy string by default. 
                                         //can also use ? on nullable variabels instead, like this code shows
-
-        [Range(1,5, ErrorMessage ="Rating must be between 1 and 5!")]
-        public decimal Rating { get; set; }      
-
-        [StringLength(100,ErrorMessage="The comment can only be 100 characters!")]   
+        public decimal Rating { get; set; }         
         public string? Comment { get; set; }    
         public string? ImageUrl { get; set; }
         
