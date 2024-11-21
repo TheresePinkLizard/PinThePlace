@@ -1,25 +1,22 @@
-2024-11-19 13:44:22.402 +01:00 [INF] User profile is available. Using 'C:\Users\solve\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
-2024-11-19 13:44:22.512 +01:00 [INF] Now listening on: http://localhost:5243
-2024-11-19 13:44:22.517 +01:00 [INF] Application started. Press Ctrl+C to shut down.
-2024-11-19 13:44:22.517 +01:00 [INF] Hosting environment: Development
-2024-11-19 13:44:22.517 +01:00 [INF] Content root path: C:\Users\solve\VSprojects\Webapplikasjoner\PinThePlace\PinThePlace
-2024-11-19 13:44:22.755 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/ - null null
-2024-11-19 13:44:22.781 +01:00 [INF] Executing endpoint 'PinThePlace.Controllers.PinController.Table (PinThePlace)'
-2024-11-19 13:44:22.795 +01:00 [INF] Route matched with {action = "Table", controller = "Pin", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller PinThePlace.Controllers.PinController (PinThePlace).
-2024-11-19 13:44:22.802 +01:00 [INF] This is an information message.
-2024-11-19 13:44:22.809 +01:00 [WRN] This is an warning message.
-2024-11-19 13:44:22.810 +01:00 [ERR] This is an error message.
-2024-11-19 13:44:22.866 +01:00 [INF] Executing ViewResult, running view Table.
-2024-11-19 13:44:22.945 +01:00 [INF] Executed ViewResult - view Table executed in 78.6892ms.
-2024-11-19 13:44:22.946 +01:00 [INF] Executed action PinThePlace.Controllers.PinController.Table (PinThePlace) in 150.6952ms
-2024-11-19 13:44:22.946 +01:00 [INF] Executed endpoint 'PinThePlace.Controllers.PinController.Table (PinThePlace)'
-2024-11-19 13:44:22.951 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/ - 200 null text/html; charset=utf-8 197.4684ms
-2024-11-19 13:44:22.972 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/js/jquery.validate.unobtrusive.js - null null
-2024-11-19 13:44:22.972 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/js/jquery.validate.js - null null
-2024-11-19 13:44:22.976 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/js/jquery.validate.unobtrusive.js - 404 0 null 4.5187ms
-2024-11-19 13:44:22.976 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/js/jquery.validate.js - 404 0 null 4.521ms
-2024-11-19 13:44:22.977 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/js/jquery.validate.unobtrusive.js, Response status code: 404
-2024-11-19 13:44:22.977 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/js/jquery.validate.js, Response status code: 404
-2024-11-19 13:44:23.189 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/js/bootstrap.min.js - null null
-2024-11-19 13:44:23.192 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/js/bootstrap.min.js - 404 0 null 3.6138ms
-2024-11-19 13:44:23.192 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/js/bootstrap.min.js, Response status code: 404
+2024-11-21 11:04:46.631 +01:00 [INF] User profile is available. Using 'C:\Users\inger\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2024-11-21 11:04:46.827 +01:00 [INF] Now listening on: http://localhost:5243
+2024-11-21 11:04:46.834 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-21 11:04:46.837 +01:00 [INF] Hosting environment: Development
+2024-11-21 11:04:46.839 +01:00 [INF] Content root path: C:\Users\inger\Documents\GitHub\PinThePlace\PinThePlace
+2024-11-21 11:04:47.007 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/ - null null
+2024-11-21 11:04:47.072 +01:00 [INF] Executing endpoint 'PinThePlace.Controllers.PinController.Table (PinThePlace)'
+2024-11-21 11:04:47.100 +01:00 [INF] Route matched with {action = "Table", controller = "Pin", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller PinThePlace.Controllers.PinController (PinThePlace).
+2024-11-21 11:04:47.180 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-21 11:04:47.292 +01:00 [INF] Executed ViewResult - view Table executed in 111.9897ms.
+2024-11-21 11:04:47.293 +01:00 [INF] Executed action PinThePlace.Controllers.PinController.Table (PinThePlace) in 191.9752ms
+2024-11-21 11:04:47.293 +01:00 [INF] Executed endpoint 'PinThePlace.Controllers.PinController.Table (PinThePlace)'
+2024-11-21 11:04:47.302 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/ - 200 null text/html; charset=utf-8 297.1922ms
+2024-11-21 11:04:47.316 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/js/jquery.validate.unobtrusive.js - null null
+2024-11-21 11:04:47.316 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/js/jquery.validate.js - null null
+2024-11-21 11:04:47.353 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5243/js/bootstrap.min.js - null null
+2024-11-21 11:04:47.355 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/js/jquery.validate.js - 404 0 null 38.8379ms
+2024-11-21 11:04:47.355 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/js/jquery.validate.unobtrusive.js - 404 0 null 38.8776ms
+2024-11-21 11:04:47.362 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/js/jquery.validate.unobtrusive.js, Response status code: 404
+2024-11-21 11:04:47.362 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/js/jquery.validate.js, Response status code: 404
+2024-11-21 11:04:47.375 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5243/js/bootstrap.min.js - 404 0 null 22.0694ms
+2024-11-21 11:04:47.376 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5243/js/bootstrap.min.js, Response status code: 404
