@@ -49,7 +49,6 @@ public class PinControllerTests
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
 
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -60,4 +59,38 @@ public class PinControllerTests
         Assert.Equal(2, pinsViewModel.Pins.Count());
         Assert.Equal(pinList, pinsViewModel.Pins);
     }
+
+    [Fact]
+    public async Task TestCreateNotOk()
+    {
+        // arrange
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706, 
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };  
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(false);
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Create(testPin);
+
+        // assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        Assert.Equal(testPin, viewPin);
+    }
 }
+
+
