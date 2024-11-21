@@ -62,7 +62,7 @@ public class PinControllerTests
     }
 
     [Fact]
-    public async Task TestCreateNotOk()
+    public async Task TestCreateNotLoggedIn()
     {
         // arrange
         var testPin = new Pin
