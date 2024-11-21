@@ -85,17 +85,16 @@ public class PinControllerTests
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns((string)null);
 
+
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
-        // act
+        // Act
         var result = await pinController.Create(testPin);
-
-        // assert
-       // var viewResult = Assert.IsType<UnauthorizedResult>(result);
-       // var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        // Assert
         Assert.IsType<UnauthorizedResult>(result);
     }
+
 
     [Fact]
     public async Task TestCreateNotOk()
