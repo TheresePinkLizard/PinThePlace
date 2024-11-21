@@ -6,6 +6,7 @@ using PinThePlace.DAL;
 using PinThePlace.Models;
 using PinThePlace.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 
 namespace PinThePlace.Test.Controllers;
@@ -78,8 +79,12 @@ public class PinControllerTests
 
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(false);
+
+
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns((string)null);
+
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -87,9 +92,9 @@ public class PinControllerTests
         var result = await pinController.Create(testPin);
 
         // assert
-        var viewResult = Assert.IsType<UnauthorizedResult>(result);
-        var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
-        Assert.Equal(testPin, viewPin);
+       // var viewResult = Assert.IsType<UnauthorizedResult>(result);
+       // var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        Assert.IsType<UnauthorizedResult>(result);
     }
 }
 
