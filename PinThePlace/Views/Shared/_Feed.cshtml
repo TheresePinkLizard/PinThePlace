@@ -1,10 +1,11 @@
 @model IEnumerable<Pin>
 
+
 <div class="container">
     <div class="row">
         @foreach (var pin in Model)    
         {
-            <div class="col-md-6" >
+            <div class="col-md-12">
                 <div class="card mb-3" style="width: 100%;"
                     data-id="@pin.PinId" 
                     data-name="@pin.Name" 
@@ -16,20 +17,26 @@
                     data-longitude="@pin.Longitude"
                     data-userid="@pin.UserName">
                     
-                    <img class="card-img-top" src="@pin.ImageUrl" alt="Item Image" style="width: 100%;">
-                    <div class="card-body">
-                        <h5 class="card-title">@pin.Name</h5>
-                        <p class="card-text">@pin.Comment</p>
+                    <div class="row no-gutters">
+                        <div class="col-md-7">
+                            <div class="card-body" style="padding-right: 5px;">
+                                <h5> <a asp-controller="Pin" asp-action="Details" asp-route-id="@pin.PinId">@pin.Name</a></h5>
+                                <p class="card-text">@pin.Comment</p>
 
-                        <p><strong>Date:</strong> @pin.DateCreated</p>
-                        <p><strong>Rating:</strong> @pin.Rating.ToString("")</p>
-                        <p><strong>Username:</strong> @pin.UserName</p>
+                                <p><strong>Date:</strong> @pin.DateCreated</p>
+                                <p><strong>Rating:</strong> @pin.Rating.ToString("")</p>
+                                <p><strong>Username:</strong> @pin.UserName</p>
 
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-action="Update" asp-route-id="@pin.PinId" class="btn btn-primary">Update</a>
-                            <a asp-action="Delete" asp-route-id="@pin.PinId" class="btn btn-danger">Delete</a>
-                        }
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="Update" asp-route-id="@pin.PinId" class="btn btn-primary">Update</a>
+                                    <a asp-action="Delete" asp-route-id="@pin.PinId" class="btn btn-danger">Delete</a>
+                                }
+                            </div>
+                        </div>
+                       <div class="col-md-5">
+                            <div style="background-image: url('@pin.ImageUrl'); background-size: cover; background-position: center; height: 100%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>

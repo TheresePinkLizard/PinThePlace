@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace PinThePlace.Models
 {
     public class Pin {
@@ -8,6 +9,9 @@ namespace PinThePlace.Models
         public decimal Rating { get; set; }         
         public string? Comment { get; set; }    
         public string? ImageUrl { get; set; }
+
+        [NotMapped]
+        public IFormFile? UploadedImage {get; set;}
 
         public double Latitude { get; set; }
         public double Longitude { get; set; } 

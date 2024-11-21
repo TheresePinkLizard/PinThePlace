@@ -4,11 +4,19 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to PinThePlace!</h1>
+    <p>In this application you are able to save your favorite locations by pinning the place!</p>
+    <p>Creating a pin is easy! Just click on the map, press the button "Add a pin" to fill out information. You can even upload your own photos! </p>
+    <p>In the feed you can see all the places other users have pinned! Maybe you get an idea of a new places to check out?</p>
+    <p>You can also edit or delete your pins in the "My Pins" view</p>
+    <p>The feed is open to everyone but if you want to pin your own places you have to register or login</p>
+    <p>We hope you have fun pinning places!</p>
+
+    <a asp-controller="Pin" asp-action="Table" class="btn btn-secondary">Start pinning places!</a>
 </div>
  <!--annen index kode: --using Microsoft.AspNetCore.Mvc;
 using PinThePlace.ViewModels;
 using PinThePlace.Models; // Assuming your DbContext is in this namespace
-using System.Linq;
+using System.Linq;if you want to just see the feed you can click this button!
 
 namespace PinThePlace.Controllers 
 {
