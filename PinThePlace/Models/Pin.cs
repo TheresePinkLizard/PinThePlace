@@ -21,7 +21,7 @@ namespace PinThePlace.Models
 
         //navigation property
         // Foreign key for User
-        public string UserId { get; set; }
+        public required string UserId { get; set; }
         public string UserName { get; set; } = string.Empty;
         
         
