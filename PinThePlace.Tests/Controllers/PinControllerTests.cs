@@ -13,7 +13,7 @@ public class PinControllerTests
     [Fact]
     public async Task TestTable()
     {
-        var pinList = new List<Pin>();
+        var pinList = new List<Pin>()
         {
             new Pin 
                 {
@@ -22,8 +22,8 @@ public class PinControllerTests
                     Comment = "Great cafe!",
                     Latitude = 59.91731919136782,
                     Longitude = 10.727738688356991,
-                    UserName = CoolKid,
-                    UserId = 20,
+                    UserName = "CoolKid",
+                    UserId = "20",
                     ImageUrl = "/images/Cafe.png",
                 },
 
@@ -34,16 +34,16 @@ public class PinControllerTests
                     Comment = "Refreshing, can recommend!",
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
-                    UserName = TheMermaid,
-                    UserId = 21,
+                    UserName = "TheMermaid",
+                    UserId = "21",
                     ImageUrl = "/images/Pool.png",
-                },   
+                }   
         };
 
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetAll()).ReturnsAsync(pinList);
         var mockLogger = new Mock<ILogger<PinController>>();
-        var pinController = new PinController(mockPinRepository.Object, mockLogger.Object);
+        var pinController = new PinController(mockPinRepository.Object, mockUserManager.Object, mockLogger.Object);
 
         var result = await pinController.Table();
 
