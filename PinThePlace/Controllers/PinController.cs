@@ -97,14 +97,8 @@ public class PinController : Controller
             // Set the user ID on the pin
             pin.UserName = userName;
 
-<<<<<<< HEAD
-            bool returnOk= await _pinRepository.Create(pin);
-            if (returnOk)
-            {
-                return RedirectToAction(nameof(Table));
-            }
             
-=======
+            
             var file = pin.UploadedImage;
 
             if(file != null && file.Length >0)
@@ -120,10 +114,13 @@ public class PinController : Controller
                 pin.ImageUrl = "/images/"+fileName;
             }
 
-            await _pinRepository.Create(pin);
-            return RedirectToAction(nameof(Table));
->>>>>>> main
+            bool returnOk= await _pinRepository.Create(pin);
+            if (returnOk)
+            {
+                return RedirectToAction(nameof(Table));
+            }
         }
+        
         _logger.LogWarning("[PinController] Pin creation failed {@pin}", pin);
         return View(pin);
     }
