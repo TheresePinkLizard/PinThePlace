@@ -87,7 +87,7 @@ public class PinControllerTests
         var result = await pinController.Create(testPin);
 
         // assert
-        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewResult = Assert.IsType<UnauthorizedResult>(result);
         var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
         Assert.Equal(testPin, viewPin);
     }
