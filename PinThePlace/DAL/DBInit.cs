@@ -72,6 +72,7 @@ public static class DBInit
                     Latitude = 59.91731919136782,
                     Longitude = 10.727738688356991,
                     UserName = bruker1.UserName,
+                    UserId = bruker1.Id,
                     ImageUrl = "/images/Map.png",
                      // Users = new List<User> { bruker1 }
                 },
@@ -84,7 +85,8 @@ public static class DBInit
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
                     UserName = bruker1.UserName,
-                     ImageUrl = "/images/Map.png",
+                    UserId = bruker1.Id,
+                    ImageUrl = "/images/Map.png",
                     //Users = new List<User> { bruker1 }
                 },
 
@@ -96,6 +98,7 @@ public static class DBInit
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
                     UserName = admin.UserName,
+                    UserId = admin.Id,
                     ImageUrl = "/images/Map.png",
                    // Users = new List<User> { admin }
                 }
