@@ -13,6 +13,9 @@ namespace PinThePlace.Test.Controllers;
 
 public class PinControllerTests
 {
+    //---------- PinController Tests -------------
+
+    // Positiv test of Tabel(). Checks if result is of type ViewResult, ViewData.Model contains PinViewModel object and PinsViewModel matches the PinList.
     [Fact]
     public async Task TestTable()
     {
@@ -60,6 +63,63 @@ public class PinControllerTests
         Assert.Equal(2, pinsViewModel.Pins.Count());
         Assert.Equal(pinList, pinsViewModel.Pins);
     }
+
+    // Negative test of Tabel(). Checks if result is NotFound if list of Pins is Null.
+
+    [Fact]
+    public async Task TestTableNotOk()
+    {
+        var pinList = new List<Pin>()
+        
+        {
+            new Pin 
+                {
+                    Name = "Cafe",
+                    Rating = 4.0m,
+                    Comment = "Great cafe!",
+                    Latitude = 59.91731919136782,
+                    Longitude = 10.727738688356991,
+                    UserName = "CoolKid",
+                    UserId = "20",
+                    ImageUrl = "/images/Cafe.png",
+                },
+
+            new Pin 
+                {
+                    Name = "SwimmingPool",
+                    Rating = 5.0m,
+                    Comment = "Refreshing, can recommend!",
+                    Latitude = 59.921365321156706, 
+                    Longitude = 10.733315263484577,
+                    UserName = "TheMermaid",
+                    UserId = "21",
+                    ImageUrl = "/images/Pool.png",
+                }   
+        };
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetAll()).ReturnsAsync(() => null);
+        
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        var result = await pinController.Table();
+
+        //Validates return of NotFound when pinList = null
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("Pin list not found", notFoundResult.Value);
+    }
+
+
+
+
+
+
+
+
 
     [Fact]
     public async Task TestCreateNotLoggedIn()
