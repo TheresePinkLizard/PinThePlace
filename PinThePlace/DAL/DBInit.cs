@@ -34,7 +34,8 @@ public static class DBInit
             
             var users = new Dictionary<User,string>
              {
-                { new User {UserName = "Bruker1", Email="bruker1@gmail.com"}, "Tester123!"},
+                { new User {UserName = "The Student", Email="thestudent@gmail.com"}, "Student123!"},
+                { new User {UserName = "HappyDiscoverer", Email="discover@gmail.com"}, "Discover123!"},
                 { new User {UserName = "Admin", Email="admin1@gmail.com"}, "Admin123!"},              
             };
             foreach (var u in users)
@@ -56,8 +57,8 @@ public static class DBInit
         await context.SaveChangesAsync();
         
         //Gets user from database (To avoid proxy or trackingproblems)
-        var bruker1 = context.Users.FirstOrDefault(u => u.UserName == "Bruker1");
-
+        var student = context.Users.FirstOrDefault(u => u.UserName == "The Student");
+        var disc = context.Users.FirstOrDefault(u => u.UserName == "HappyDiscoverer");
         var admin = context.Users.FirstOrDefault(u => u.UserName == "Admin");
 
         if(!context.Pins.Any())
@@ -71,8 +72,8 @@ public static class DBInit
                     Comment = "Kjempe fin arkitektur og park. Anbefales!",
                     Latitude = 59.91731919136782,
                     Longitude = 10.727738688356991,
-                    UserName = bruker1.UserName,
-                    UserId = bruker1.Id,
+                    UserName = disc.UserName,
+                    UserId = disc.Id,
                     ImageUrl = "/images/Map.png",
                      // Users = new List<User> { bruker1 }
                 },
@@ -81,25 +82,24 @@ public static class DBInit
                 {
                     Name = "OsloMet",
                     Rating = 5.0m,
-                    Comment = "Bra skole. Anbefales!",
+                    Comment = "A very good school! I am studying my bachelor!",
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
-                    UserName = bruker1.UserName,
-                    UserId = bruker1.Id,
-                    ImageUrl = "/images/Map.png",
-                    //Users = new List<User> { bruker1 }
+                    UserName = student.UserName,
+                    UserId = student.Id,
+                    ImageUrl = "/images/Oslomet.jpg",
                 },
 
                 new Pin 
                 {
                     Name = "Admin",
                     Rating = 5.0m,
-                    Comment = "Dette er en Admin pin!",
+                    Comment = "This is a pin from Admin! Keep sharing your pins!",
                     Latitude = 59.921365321156706, 
                     Longitude = 10.733315263484577,
                     UserName = admin.UserName,
                     UserId = admin.Id,
-                    ImageUrl = "/images/Map.png",
+                    ImageUrl = "/images/sunset.png",
                    // Users = new List<User> { admin }
                 }
 
