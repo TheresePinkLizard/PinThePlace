@@ -116,8 +116,8 @@ public class PinControllerTests
         Assert.Equal("Pin list not found", notFoundResult.Value);
     }
 
-    // Positiv test of Details (int id)
-    // Checks if result is of type ViewResult, ViewData.Model contains Pin object and that the pin matches the testPin.
+    // Positiv test for Details (int id)
+    // Checks if result is of type ViewResult, ViewData.Model contains Pin object and that it matches the testPin.
     [Fact]
     public async Task TestDetails()
     {
@@ -172,8 +172,46 @@ public class PinControllerTests
     }
 
 
+    // CREATE METODE SOM KUN RETURNERER VIEW, LEGE TEST TIL DEN? DEN HAR IKKE TRY/CATCH
+    
+    // Positive test for Create()
+    // Checks if results is of type redirectResults and if it redirects to the correct view Table.
+    [Fact]
+    public async Task TestCreate()
+    {
+        // arrange
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706, 
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };  
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(true);
 
 
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
+        
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Create(testPin);
+
+        // assert
+        var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal(nameof(pinController.Table), redirectResult.ActionName);
+    }
 
     [Fact]
     public async Task TestCreateNotLoggedIn()
@@ -247,6 +285,222 @@ public class PinControllerTests
         var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
         Assert.Equal(testPin, viewPin);
     }
+
+    //  Positive test for [Get] Update()
+    // Checks if result is of type ViewResult, ViewData.Model contains Pin Object that it matches the testPin.
+
+    [Fact]
+    public async Task TestUpdate_Get()
+    {
+        // arrange
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706, 
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };  
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
+
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
+        
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Update(1);
+
+        // assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        Assert.Equal(testPin, viewPin);
+    }
+    
+
+    // Negative test for [Get] Update ()
+    // Checks if results is of type NotFound when pin = null 
+    [Fact]
+    public async Task TestUpdate_Get_NotOk()
+    {
+        
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null);
+
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
+        
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Update(1);
+
+        // assert
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+    }
+
+
+    //SETT INN NEGATIV TEST
+
+    // Positive test for [Post] Update()
+    // Checks if results is of type redirectResults and if it redirects to the correct view Table.
+    [Fact]
+    public async Task TestUpdate_Post()
+    {
+        // arrange
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706, 
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };  
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.Update(testPin)).ReturnsAsync(true);
+
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
+        
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Update(testPin);
+
+        // assert
+        var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal(nameof(pinController.Table), redirectResult.ActionName);
+    }
+ 
+    // Negative test for [Post] Update
+    // Checks if result is of type ViewResult, ViewData.Model contains Pin Object that it matches the testPin.
+    [Fact]
+    public async Task TestUpdate_Post_NotOk()
+    {
+        // arrange
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706, 
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };  
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.Update(testPin)).ReturnsAsync(false);
+
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
+        
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Update(testPin);
+
+        // assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        Assert.Equal(testPin, viewPin);
+    }
+
+    // Positive test for [Get] Delete() 
+    // Checks if results is of type redirectResults and if it redirects to the correct view Table.
+    [Fact]
+    public async Task TestDelete_Get()
+    {
+        // arrange
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706, 
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };  
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
+
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
+        
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Delete(1);
+
+        // assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var viewPin = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        Assert.Equal(testPin, viewPin);
+    }
+    
+
+    // Negative test for [Get] Delete ()
+    // Checks if results is of type NotFound when pin = null 
+    [Fact]
+    public async Task TestDelete_Get_NotOk()
+    {
+        
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null);
+
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
+        
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        // act
+        var result = await pinController.Delete(1);
+
+        // assert
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+    }
 }
-
-

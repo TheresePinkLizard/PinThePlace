@@ -147,7 +147,7 @@ public class PinController : Controller
         if (pin == null)               // sjekk om den finner item
         {
             _logger.LogError("[PinController] Pin not found when updating the pin {PinId:0000}", id);
-            return BadRequest("Pin not found for the pinId");
+            return NotFound("Pin not found for the pinId");
 
         } else{
              if (userName != "Admin" )
@@ -188,7 +188,7 @@ public class PinController : Controller
          if (pin == null)               // sjekk om den finner item
         {   
             _logger.LogError("[PinController] Pin deleteion failed for {PinId:0000}", id);
-            return BadRequest("Pin not found fot the PinId");
+            return NotFound("Pin not found for the PinId");
 
         } else{
             if (userName != "Admin" )
