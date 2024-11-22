@@ -13,9 +13,11 @@ namespace PinThePlace.Test.Controllers;
 
 public class PinControllerTests
 {
-    //---------- PinController Tests -------------
+    //   <---------- PinController Tests ----------->
 
-    // Positiv test of Tabel(). Checks if result is of type ViewResult, ViewData.Model contains PinViewModel object and PinsViewModel matches the PinList.
+    // Positiv test of Tabel(). 
+    // Checks if result is of type ViewResult, ViewData.Model contains PinViewModel object and PinsViewModel matches the PinList.
+
     [Fact]
     public async Task TestTable()
     {
@@ -64,7 +66,8 @@ public class PinControllerTests
         Assert.Equal(pinList, pinsViewModel.Pins);
     }
 
-    // Negative test of Tabel(). Checks if result is NotFound if list of Pins is Null.
+    // Negative test of Tabel(). 
+    // Checks if result is NotFound if list of Pins is Null.
 
     [Fact]
     public async Task TestTableNotOk()
@@ -113,9 +116,40 @@ public class PinControllerTests
         Assert.Equal("Pin list not found", notFoundResult.Value);
     }
 
+    // Positiv test of Details (int id)
+    // Checks if result is of type ViewResult, ViewData.Model contains Pin object and that the pin matches the testPin.
+    [Fact]
+    public async Task TestDetails()
+    {
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706, 
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };  
+    
 
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
+        
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
 
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
+        var result = await pinController.Details(1);
+
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        Assert.Equal(testPin, model);
+
+    }
 
 
 

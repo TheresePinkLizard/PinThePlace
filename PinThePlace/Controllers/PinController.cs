@@ -105,8 +105,6 @@ public class PinController : Controller
             }
             
             pin.UserId =userId; 
-
-            
             
             var file = pin.UploadedImage;
 
