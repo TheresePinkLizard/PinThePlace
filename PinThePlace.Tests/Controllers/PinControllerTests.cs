@@ -152,7 +152,7 @@ public class PinControllerTests
     }
 
     // Negative test for Details()
-    // Checks that Detail() returns NotFound when pin = null.
+    // Checks that Detail() returns NotFound when pin = null and validates the error message.
     [Fact]
     public async Task TestDetailsNotOk()
     {
@@ -169,6 +169,7 @@ public class PinControllerTests
         var result = await pinController.Details(1);
 
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("Pin not found for the PinId", notFoundResult.Value);
     }
 
 
@@ -212,6 +213,9 @@ public class PinControllerTests
         var redirectResult = Assert.IsType<RedirectToActionResult>(result);
         Assert.Equal(nameof(pinController.Table), redirectResult.ActionName);
     }
+    
+    // Negative test for Create()
+    // Checks if the Create method returns Unauthorized when the user is not logged in.
 
     [Fact]
     public async Task TestCreateNotLoggedIn()
@@ -286,8 +290,8 @@ public class PinControllerTests
         Assert.Equal(testPin, viewPin);
     }
 
-    //  Positive test for [Get] Update()
-    // Checks if result is of type ViewResult, ViewData.Model contains Pin Object that it matches the testPin.
+    // Positive test for [Get] Update()
+    // Checks if the Update method (GET) returns a ViewResult with the correct Pin model when the pin exists.
 
     [Fact]
     public async Task TestUpdate_Get()
@@ -328,8 +332,8 @@ public class PinControllerTests
     }
     
 
-    // Negative test for [Get] Update ()
-    // Checks if results is of type NotFound when pin = null 
+    // Negative test for [Get] Update()
+    // Checks if results is of type NotFound when pin = null and validates the error message
     [Fact]
     public async Task TestUpdate_Get_NotOk()
     {
@@ -353,6 +357,7 @@ public class PinControllerTests
 
         // assert
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("Pin not found for the pinId", notFoundResult.Value);
     }
 
 
@@ -439,6 +444,7 @@ public class PinControllerTests
 
     // Positive test for [Get] Delete() 
     // Checks if results is of type redirectResults and if it redirects to the correct view Table.
+
     [Fact]
     public async Task TestDelete_Get()
     {
@@ -479,7 +485,8 @@ public class PinControllerTests
     
 
     // Negative test for [Get] Delete ()
-    // Checks if results is of type NotFound when pin = null 
+    // Checks if results is of type NotFound when pin = null and validates the error message
+
     [Fact]
     public async Task TestDelete_Get_NotOk()
     {
@@ -502,5 +509,109 @@ public class PinControllerTests
 
         // assert
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("Pin not found for the PinId", notFoundResult.Value);
+    }
+
+    // Positive test for [Get] DeleteConfirmation()
+    // Checks if DeleteConfirmation returns a ViewResult with the correct Pin model when the pin exists.
+    [Fact]
+    public async Task TestDeleteConfirmation_Get()
+    {
+        // Arrange
+        var testPin = new Pin
+        {
+            Name = "SwimmingPool",
+            Rating = 5.0m,
+            Comment = "Refreshing, can recommend!",
+            Latitude = 59.921365321156706,
+            Longitude = 10.733315263484577,
+            UserName = "TheMermaid",
+            UserId = "21",
+            ImageUrl = "/images/Pool.png",
+        };
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object, mockUserManager.Object, mockLogger.Object);
+
+        // Act
+        var result = await pinController.Delete(1);
+
+        // Assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
+        Assert.Equal(testPin, model);
+    }
+
+    // Negative test for [Get] DeleteConfirmation()
+    // Checks if DeleteConfirmation returns NotFound when the pin does not exist.
+    [Fact]
+    public async Task TestDeleteConfirmation_Get_NotOk()
+    {
+        // Arrange
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null);
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object, mockUserManager.Object, mockLogger.Object);
+
+        // Act
+        var result = await pinController.Delete(1);
+
+        // Assert
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("Pin not found for the PinId", notFoundResult.Value);
+    }
+
+    // Positive test for [Post] DeleteConfirmation()
+    // Checks if DeleteConfirmed returns a RedirectToActionResult and redirects to the Table view when deletion is successful.
+
+    [Fact]
+    public async Task TestDeleteConfirmed_Post()
+    {
+        // Arrange
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.Delete(1)).ReturnsAsync(true);
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object, null, mockLogger.Object);
+
+        // Act
+        var result = await pinController.DeleteConfirmed(1);
+
+        // Assert
+        var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal(nameof(pinController.Table), redirectResult.ActionName);
+    }
+
+    // Negative test for [Post] DeleteConfirmation()
+    // Checks if DeleteConfirmed returns a BadRequestObjectResult with the correct error message when deletion fails.
+
+    [Fact]
+    public async Task TestDeleteConfirmed_Post_NotOk()
+    {
+        // Arrange
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.Delete(1)).ReturnsAsync(false);
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object, null, mockLogger.Object);
+
+        // Act
+        var result = await pinController.DeleteConfirmed(1);
+
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("Pin deletion failed", badRequestResult.Value);
     }
 }
