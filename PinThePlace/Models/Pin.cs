@@ -17,7 +17,7 @@ namespace PinThePlace.Models
         [Range(1,5, ErrorMessage ="Rating must be between 1 and 5!")]
         public decimal Rating { get; set; }      
 
-        [StringLength(100)]   
+        [StringLength(200)]   
         public string? Comment { get; set; }    
         public string? ImageUrl { get; set; }
 
