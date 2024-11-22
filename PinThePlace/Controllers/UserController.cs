@@ -20,7 +20,17 @@ public class UserController : Controller
     public async Task<IActionResult> Table()
     {
         List<User> users = await _pinDbContext.Users.ToListAsync();
-        return View(users);
+
+        var userName = _userManager.GetUserName(User);
+        
+        if (userName != "Admin" )
+        {
+            return Unauthorized();
+            
+        }else{
+            return View(users);
+        }
+        
     }
      public async Task<IActionResult> MyPins()
         {
