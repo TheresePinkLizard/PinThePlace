@@ -78,6 +78,7 @@ public class PinController : Controller
         {
             // Get the current user's ID
             var userName = _userManager.GetUserName(User);
+            var userId = _userManager.GetUserId(User);
 
             if (userName == null)
             {
@@ -87,6 +88,8 @@ public class PinController : Controller
             
             // Set the user ID on the pin
             pin.UserName = userName;
+            pin.UserId = userId;
+            
 
             var file = pin.UploadedImage;
 
