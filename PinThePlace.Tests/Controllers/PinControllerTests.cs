@@ -151,6 +151,26 @@ public class PinControllerTests
 
     }
 
+    // Negative test for Details()
+    // Checks that Detail() returns NotFound when pin = null.
+    [Fact]
+    public async Task TestDetailsNotOk()
+    {
+
+        var mockPinRepository = new Mock<IPinRepository>();
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() =>null);
+        
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+
+        var mockLogger = new Mock<ILogger<PinController>>();
+        var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
+
+        var result = await pinController.Details(1);
+
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+    }
+
 
 
 
