@@ -15,7 +15,7 @@
             <!--- <img src="~/images/map.png" alt="Map Image"> -->
                  <p>
              <!--Mekanisme for å lage ny data entry CRUD-->
-            <a id="add_a_pin" class="btn btn-secondary"
+            <a id="add_a_pin" class="btn addpinButton"
                 asp-controller="Pin"
                 asp-action="Create"> Add a pin</a>
         </p>
@@ -44,28 +44,43 @@
 <script src="~/js/bootstrap.min.js"></script>
 
 <script>
-    // javascript kode for å kunne bytte mellom vinduer
-$(document).ready(function(){
-/*
-    $(".card").click(function() {
-        $(".card").removeClass("active-card");  // Remove the active class from all cards
-        $(this).addClass("active-card");  // Add the active class to the clicked card
-    });
-*/
+    
+$(document).ready(function() {
+    // Code for switching between windows and switching background color
     $("#showFeedWindow").click(function(e){
         e.preventDefault();
         $("#feedwindow").show();
         $("#favwindow").hide();
-        $("#favwindow").removeClass("contentwindow2").addClass("contentwindow");  // Add the 'contentwindow' class back when other button is clicked
+        $("#favwindow").removeClass("contentwindow2").addClass("contentwindow");
     });
 
     $("#showFavWindow").click(function(e){
-       e.preventDefault();
+        e.preventDefault();
         $("#favwindow").show();
         $("#feedwindow").hide();
         $("#favwindow").removeClass("contentwindow").addClass("contentwindow2"); 
     });
+
+    // Code for selecting items in the list
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', function () {
+            // Remove the 'selected' class from all rows
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+
+            // Add the 'selected' class to the clicked row
+            this.classList.add('active');
+        });
+    });
 });
+window.onload = function() {
+    // Select the first card when entering the page
+    var firstCard = document.querySelector('.card');
+
+    // Add the 'active' class to the first card
+    if (firstCard) {
+        firstCard.classList.add('active');
+    }
+};
 
 // for å få kart inn i div med map id
 /*function initMap() {
