@@ -35,6 +35,7 @@ public class UserController : Controller
         }else{
             return View(users);
         }
+        }
         catch (Exception e){
             _logger.LogError(e, "[UserController] Error while fetching users in Table action");
             return NotFound("User list not found");
