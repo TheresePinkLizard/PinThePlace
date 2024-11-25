@@ -18,6 +18,7 @@ placeholder. -->
     <script src="~/js/jquery.validate.js"></script>
     <script src="~/js/jquery.validate.unobtrusive.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch/dist/geosearch.css">
     <link href="~/mystyle.css" rel="stylesheet" />
 
 </head>
@@ -36,6 +37,7 @@ placeholder. -->
     <div class="container flex-grow-1">
         <main role="main" class="pb-3">
             <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+            <script src="https://unpkg.com/leaflet-geosearch"></script>
             <!-- Individual views will be rendered within this layout using the RenderBody() placeholder.-->
             @RenderBody()
             @RenderSection("Scripts", required: false)

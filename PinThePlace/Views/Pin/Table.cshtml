@@ -81,6 +81,29 @@ $(document).ready(function(){
         attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
     }).addTo(map);
 
+    const provider = new GeoSearch.OpenStreetMapProvider();
+
+    const searchControl = new GeoSearch.GeoSearchControl({
+    provider: provider,
+    showMarker: true,
+    showPopup: false,
+    marker: {
+        icon: new L.Icon.Default(),
+        draggable: false,
+    },
+    popupFormat: ({ query, result }) => result.label,
+    maxMarkers: 1,
+    retainZoomLevel: false,
+    animateZoom: true,
+    autoClose: true,
+    searchLabel: 'Enter address',
+    keepResult: true
+    });
+
+    map.addControl(searchControl);
+
+
+
     //Makes a pop up that shows the clicked places' latitude and longitude 
     var currentMarker = null;
 
@@ -102,6 +125,26 @@ $(document).ready(function(){
        // document.getElementById("Longitude").value = long;
     }
     map.on('click',onMapClick);
+
+    map.on('geosearch/showlocation', function(e) {
+        if (e.location){
+            var lat = e.location.y;
+            var long = e.location.x;
+
+            if (currentMarker){
+                map.removeLayer(currentMarker);
+            }
+            currentMarker = L.marker([lat,long]).addTo(map);
+    
+            sessionStorage.setItem('Lat',lat);
+            sessionStorage.setItem('Long',long);
+
+            console.log('GeoSearch location:', lat, long);
+            console.log('sessionStorage after GeoSearch:', sessionStorage);
+        } else {
+            console.error("location null");
+        }
+    });
 
     document.getElementById('add_a_pin').addEventListener('click', function(e) {
     var lat = sessionStorage.getItem('Lat');

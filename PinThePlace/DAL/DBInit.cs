@@ -92,7 +92,7 @@ public static class DBInit
 
                 new Pin 
                 {
-                    Name = "Admin",
+                    Name = "Hello from Admin",
                     Rating = 5.0m,
                     Comment = "This is a pin from Admin! Keep sharing your pins and have fun!",
                     Latitude = 59.921365321156706, 
