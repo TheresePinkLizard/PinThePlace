@@ -35,7 +35,7 @@ public static class DBInit
             var users = new Dictionary<User,string>
              {
                 { new User {UserName = "TheStudent", Email="thestudent@gmail.com"}, "Student123!"},
-               // { new User {UserName = "HappyDiscoverer", Email="discover@gmail.com"}, "Discover123!"},
+                { new User {UserName = "Muncher", Email="muncher@gmail.com"}, "Muncher123!"},
                 { new User {UserName = "Admin", Email="admin1@gmail.com"}, "Admin123!"},              
             };
             foreach (var u in users)
@@ -58,7 +58,7 @@ public static class DBInit
         
         //Gets user from database (To avoid proxy or trackingproblems)
         var student = context.Users.FirstOrDefault(u => u.UserName == "TheStudent");
-       // var disc = context.Users.FirstOrDefault(u => u.UserName == "HappyDiscoverer");
+        var munch = context.Users.FirstOrDefault(u => u.UserName == "Muncher");
         var admin = context.Users.FirstOrDefault(u => u.UserName == "Admin");
 
         if(!context.Pins.Any())
@@ -76,6 +76,30 @@ public static class DBInit
                     UserId = student.Id,
                     ImageUrl = "/images/sherlock.jpg",
                      // Users = new List<User> { bruker1 }
+                },
+
+                new Pin 
+                {
+                    Name = "Chidos Burritos",
+                    Rating = 4.0m,
+                    Comment = "Delicious food and polite staff, got free tequila",
+                    Latitude = 48.1618681, 
+                    Longitude = 11.5407427,
+                    UserName = munch.UserName,
+                    UserId = munch.Id,
+                    ImageUrl = "/images/chidos.png",
+                },
+
+                new Pin 
+                {
+                    Name = "Døgnvill",
+                    Rating = 5.0m,
+                    Comment = "No doubt, the best burger in all of Norway!! Not today Dagros :D",
+                    Latitude = 59.9083027, 
+                    Longitude = 10.7235853,
+                    UserName = munch.UserName,
+                    UserId = munch.Id,
+                    ImageUrl = "/images/burger.png",
                 },
 
                 new Pin 
