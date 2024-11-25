@@ -11,18 +11,16 @@ using System.Security.Claims;
 
 namespace PinThePlace.Test.Controllers;
 
+//   <---------- Unit test of PinController ----------->
 public class PinControllerTests
 {
-    //   <---------- PinController Tests ----------->
 
     // Positiv test of Tabel(). 
     // Checks if result is of type ViewResult, ViewData.Model contains PinViewModel object and PinsViewModel matches the PinList.
-
     [Fact]
     public async Task TestTable()
     {
         var pinList = new List<Pin>()
-        
         {
             new Pin 
                 {
@@ -68,12 +66,10 @@ public class PinControllerTests
 
     // Negative test of Tabel(). 
     // Checks if result is NotFound if list of Pins is Null.
-
     [Fact]
     public async Task TestTableNotOk()
     {
         var pinList = new List<Pin>()
-        
         {
             new Pin 
                 {
@@ -111,7 +107,6 @@ public class PinControllerTests
 
         var result = await pinController.Table();
 
-        //Validates return of NotFound when pinList = null
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
         Assert.Equal("Pin list not found", notFoundResult.Value);
     }
@@ -132,7 +127,6 @@ public class PinControllerTests
             UserId = "21",
             ImageUrl = "/images/Pool.png",
         };  
-    
 
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
@@ -148,7 +142,6 @@ public class PinControllerTests
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<Pin>(viewResult.ViewData.Model);
         Assert.Equal(testPin, model);
-
     }
 
     // Negative test for Details()
@@ -156,7 +149,6 @@ public class PinControllerTests
     [Fact]
     public async Task TestDetailsNotOk()
     {
-
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() =>null);
         
@@ -171,9 +163,6 @@ public class PinControllerTests
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
         Assert.Equal("Pin not found for the PinId", notFoundResult.Value);
     }
-
-
-    // CREATE METODE SOM KUN RETURNERER VIEW, LEGE TEST TIL DEN? DEN HAR IKKE TRY/CATCH
     
     // Positive test for Create()
     // Checks if results is of type redirectResults and if it redirects to the correct view Table.
@@ -196,13 +185,11 @@ public class PinControllerTests
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(true);
 
-
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -216,7 +203,6 @@ public class PinControllerTests
     
     // Negative test for Create()
     // Checks if the Create method returns Unauthorized when the user is not logged in.
-
     [Fact]
     public async Task TestCreateNotLoggedIn()
     {
@@ -236,11 +222,9 @@ public class PinControllerTests
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(false);
 
-
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns((string)null);
-
 
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
@@ -271,13 +255,11 @@ public class PinControllerTests
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(false);
 
-
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -292,7 +274,6 @@ public class PinControllerTests
 
     // Positive test for [Get] Update()
     // Checks if the Update method (GET) returns a ViewResult with the correct Pin model when the pin exists.
-
     [Fact]
     public async Task TestUpdate_Get()
     {
@@ -312,13 +293,11 @@ public class PinControllerTests
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
 
-
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -337,18 +316,14 @@ public class PinControllerTests
     [Fact]
     public async Task TestUpdate_Get_NotOk()
     {
-        
-
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null);
-
 
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -359,9 +334,6 @@ public class PinControllerTests
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
         Assert.Equal("Pin not found for the pinId", notFoundResult.Value);
     }
-
-
-    //SETT INN NEGATIV TEST
 
     // Positive test for [Post] Update()
     // Checks if results is of type redirectResults and if it redirects to the correct view Table.
@@ -384,13 +356,11 @@ public class PinControllerTests
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.Update(testPin)).ReturnsAsync(true);
 
-
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -423,13 +393,11 @@ public class PinControllerTests
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.Update(testPin)).ReturnsAsync(false);
 
-
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -444,7 +412,6 @@ public class PinControllerTests
 
     // Positive test for [Get] Delete() 
     // Checks if results is of type redirectResults and if it redirects to the correct view Table.
-
     [Fact]
     public async Task TestDelete_Get()
     {
@@ -464,13 +431,11 @@ public class PinControllerTests
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
 
-
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -486,7 +451,6 @@ public class PinControllerTests
 
     // Negative test for [Get] Delete ()
     // Checks if results is of type NotFound when pin = null and validates the error message
-
     [Fact]
     public async Task TestDelete_Get_NotOk()
     {
@@ -494,13 +458,11 @@ public class PinControllerTests
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null);
 
-
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
-
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
 
@@ -575,7 +537,6 @@ public class PinControllerTests
 
     // Positive test for [Post] DeleteConfirmation()
     // Checks if DeleteConfirmed returns a RedirectToActionResult and redirects to the Table view when deletion is successful.
-
     [Fact]
     public async Task TestDeleteConfirmed_Post()
     {
@@ -596,7 +557,6 @@ public class PinControllerTests
 
     // Negative test for [Post] DeleteConfirmation()
     // Checks if DeleteConfirmed returns a BadRequestObjectResult with the correct error message when deletion fails.
-
     [Fact]
     public async Task TestDeleteConfirmed_Post_NotOk()
     {
