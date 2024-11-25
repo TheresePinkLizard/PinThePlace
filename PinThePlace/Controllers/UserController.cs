@@ -14,14 +14,11 @@ public class UserController : Controller
      private readonly UserManager<User> _userManager;
     private readonly ILogger<UserController> _logger;
 
-
-
    public UserController(PinDbContext pinDbContext, UserManager<User> userManager, ILogger<UserController> logger)
         {
             _pinDbContext = pinDbContext;
             _userManager = userManager;
             _logger = logger;
-            
         }
 
     public async Task<IActionResult> Table()
@@ -29,10 +26,9 @@ public class UserController : Controller
         try{
         List<User> users = await _pinDbContext.Users.ToListAsync();
         return View(users);
-        
         }
         catch (Exception e){
-            _logger.LogError("[UserController] Error while fetching users in Table action");
+            _logger.LogError(e, "[UserController] Error while fetching users in Table action");
             return NotFound("User list not found");
         }
     }
@@ -51,13 +47,12 @@ public class UserController : Controller
             {
                 _logger.LogWarning("[UserController] User not found in MyPins for UserId {UserId:0000}", userId);
                 return NotFound("User with was not found.");
-            
             }
             // Pass the pins to the view
             return View(user.Pins);
             }
             catch (Exception e){
-                _logger.LogError("[UserController] Error occured while fetching pins for MyPins for User {UserId:0000}", _userManager.GetUserId(User));
+                _logger.LogError(e, "[UserController] Error occured while fetching pins for MyPins for User {UserId:0000}", _userManager.GetUserId(User));
                 return NotFound();
             }
         }

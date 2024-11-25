@@ -21,7 +21,7 @@ public class PinRepository : IPinRepository
          return await _db.Pins.OrderByDescending(p => p.DateCreated).ToListAsync();
         }
         catch (Exception e){
-            _logger.LogError("[PinRepository] Pins ToListAsync() failed when GetAll(), error message: {e}", e.Message);
+            _logger.LogError(e,"[PinRepository] Pins ToListAsync() failed when GetAll()");
             return null; 
         }
     }
@@ -32,7 +32,7 @@ public class PinRepository : IPinRepository
           return await _db.Pins.FindAsync(id);  
         }
         catch (Exception e){
-            _logger.LogError("[PinRepository] Pin FindAsync(id) failed when GetItemById for PinId {PinId:0000}, error message: {e}", id, e.Message);
+            _logger.LogError(e,"[PinRepository] Pin FindAsync(id) failed when GetItemById for PinId {PinId:0000}", id);
             return null;
         }
         
@@ -45,7 +45,7 @@ public class PinRepository : IPinRepository
         await _db.SaveChangesAsync();
         return true;
         }catch (Exception e){
-            _logger.LogError("[PinRepository] Pin create failed for Pin {@pin}, error message: {e}", pin, e.Message);
+            _logger.LogError(e,"[PinRepository] Pin create failed for Pin {@pin}", pin);
             return false;
         }
     }
@@ -57,7 +57,7 @@ public class PinRepository : IPinRepository
         await _db.SaveChangesAsync();
         return true;
         } catch (Exception e){
-            _logger.LogError("[PinRepository] Pin FindAsync(id) failed when updating the PinId {PinId:0000}, error message: {e}", pin, e.Message);
+            _logger.LogError(e, "[PinRepository] Pin FindAsync(id) failed when updating the PinId {PinId:0000}", pin);
             return false;
         }
     }
@@ -76,7 +76,7 @@ public class PinRepository : IPinRepository
         return true;
         } catch (Exception e)
         {
-            _logger.LogError("[PinRepository] Failed to delete pin with ID {PinId:0000}", id);
+            _logger.LogError(e, "[PinRepository] Failed to delete pin with ID {PinId:0000}", id);
             return false;
         }
     }
