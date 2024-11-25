@@ -39,7 +39,7 @@ public class PinRepository : IPinRepository
         
     }
 
-    public async Task Create(Pin pin)
+    public async Task<bool> Create(Pin pin)
     {
         try{
         _db.Pins.Add(pin);
@@ -51,7 +51,7 @@ public class PinRepository : IPinRepository
         }
     }
 
-    public async Task Update(Pin pin)
+    public async Task<bool> Update(Pin pin)
     {   
         try{
         _db.Pins.Update(pin);
