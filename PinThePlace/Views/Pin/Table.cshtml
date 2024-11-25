@@ -26,8 +26,8 @@
         <div class="col-md-6">
             <!--lenker til feed og mypins-->
             <div>
-                <button id="showFeedWindow" class="buttondesign btn btn-primary btn-lg">Feed</button>
-                <button id="showFavWindow" class="buttondesingn btn btn-secondary btn-lg">My Pins</button>
+                <button autofocus id="showFeedWindow" class="feedButton btn-lg">Feed</button>
+                <button id="showFavWindow" class="mypinsButton btn-lg">My Pins</button>
             </div>
             <!--Feed vindu-->
             <div id="feedwindow" class="contentwindow" >
@@ -46,26 +46,24 @@
 <script>
     // javascript kode for å kunne bytte mellom vinduer
 $(document).ready(function(){
-
+/*
     $(".card").click(function() {
         $(".card").removeClass("active-card");  // Remove the active class from all cards
         $(this).addClass("active-card");  // Add the active class to the clicked card
     });
-
+*/
     $("#showFeedWindow").click(function(e){
         e.preventDefault();
-        $(this).removeClass('btn-secondary').addClass('btn-primary');
-        $('#showFavWindow').removeClass('btn-primary').addClass('btn-secondary');
         $("#feedwindow").show();
         $("#favwindow").hide();
+        $("#favwindow").removeClass("contentwindow2").addClass("contentwindow");  // Add the 'contentwindow' class back when other button is clicked
     });
 
     $("#showFavWindow").click(function(e){
        e.preventDefault();
-        $(this).removeClass('btn-secondary').addClass('btn-primary');
-        $('#showFeedWindow').removeClass('btn-primary').addClass('btn-secondary');
         $("#favwindow").show();
         $("#feedwindow").hide();
+        $("#favwindow").removeClass("contentwindow").addClass("contentwindow2"); 
     });
 });
 
