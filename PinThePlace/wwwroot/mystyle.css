@@ -5,7 +5,7 @@
     margin-top: 50px;
   }
   .header{
-    background-color: #feac93;
+    background-color: #f6986f;
   }
   body {
     display:flex;
@@ -13,7 +13,7 @@
     min-height:100vh;
   }
   .footer{
-    background-color:#feac93;
+    background-color:#f6986f;
     height: 50px;
     margin-top:auto;
   }
@@ -21,52 +21,62 @@
     height:600px;
     overflow:scroll;
     overflow-x:hidden;
-    border: 3px solid #feac93;
-    background-color: #ffe7e0;
+    /*border: 3px solid #feac93;*/
+    background-color: #ffc6ac;
     padding-top: 15px;
   }
   .contentwindow2{
     height:600px;
     overflow:scroll;
     overflow-x:hidden;
-    border: 3px solid #69dd82;
-    background-color: #ccffd7;
+    /*border: 3px solid #69dd82;*/
+    background-color: #c5e5b6;
     padding-top: 15px;
   }
   
   
   .feedButton {
-    background-color:#ffd1c4; /* replace with your color */
-    border-color:#f38766; /* replace with your color */
+    background-color:#ffddd3; 
+    border-color:#ffddd3;  
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    
+    box-shadow: none !important;
+    font-weight: bold;
+    color: #543617;
   }
   .feedButton:hover,
   .feedButton:focus,
   .feedButton:active {
-      background-color:#f38766; /* replace with a darker version of your color */
-      border-color:rgb(255, 255, 255); /* replace with a darker version of your color */
+      background-color:#ffc6ac; 
+      border-color:#ffc6ac;  
       outline: none;
       box-shadow: none !important;
   }
   .mypinsButton {
-    background-color: #aeffc0; /* replace with your color */
-    border-color:#69dd82; /* replace with your color */
+    background-color: #deffcb; 
+     border-color:#deffcb; 
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     box-shadow: none !important;
+    font-weight: bold;
+    color: #334e29;
+
   }
 
   .mypinsButton:hover,
   .mypinsButton:focus,
   .mypinsButton:active {
-      background-color: #69dd82; /* replace with a darker version of your color */
-      border-color:white; /* replace with a darker version of your color */
+      background-color: #c5e5b6; 
+      border-color:#c5e5b6;  
       outline: none;
       box-shadow: none !important;
   }
-  
+  a{
+      color: #477d3b;
+  }
+  a:hover{
+    color: #6cad5d;
+  }
   .active-card {
     border: 2px solid #f9815c;
     background-color: white ; /* replace #yourcolor with your preferred color */
