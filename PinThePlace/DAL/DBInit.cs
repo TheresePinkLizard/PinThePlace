@@ -86,7 +86,7 @@ public static class DBInit
                     Longitude = 10.733315263484577,
                     UserName = bruker1.UserName,
                     UserId = bruker1.Id,
-                     ImageUrl = "/images/Map.png",
+                    ImageUrl = "/images/Map.png",
                     //Users = new List<User> { bruker1 }
                 },
 

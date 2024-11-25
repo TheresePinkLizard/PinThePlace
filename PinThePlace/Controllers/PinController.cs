@@ -36,16 +36,8 @@ public class PinController : Controller
     // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
     public async Task<IActionResult> Table()
     {  
-        
-
         // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
-
-        if( pins == null)
-        {
-            _logger.LogError("[PinController] Pin list not found while executing _pinRepository.GetAll()");
-            return NotFound("Pin list not found");
-        }
 
         var pinsViewModel = new PinsViewModel(pins, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
@@ -61,11 +53,10 @@ public class PinController : Controller
         var pin = await _pinRepository.GetItemById(id);
 
         if (pin == null)
-        {
+            {
             _logger.LogError("[PinController] Pin not found for the PinId {PinId:0000}", id);
             return NotFound("Pin not found for the PinId");
-        }
-            
+            }
         return View(pin); // returnerer view med et item
     }
 
@@ -88,7 +79,6 @@ public class PinController : Controller
             // Get the current user's ID
             var userName = _userManager.GetUserName(User);
             var userId = _userManager.GetUserId(User);
-            
 
             if (userName == null)
             {
@@ -127,7 +117,6 @@ public class PinController : Controller
                 return RedirectToAction(nameof(Table));
             }
         }
-        
         _logger.LogWarning("[PinController] Pin creation failed {@pin}", pin);
         return View(pin);
     }

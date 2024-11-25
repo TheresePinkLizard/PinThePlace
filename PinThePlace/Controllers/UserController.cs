@@ -11,7 +11,7 @@ namespace PinThePlace.Controllers;
 public class UserController : Controller
 {
     private readonly PinDbContext _pinDbContext;
-     private readonly UserManager<User> _userManager;
+    private readonly UserManager<User> _userManager;
     private readonly ILogger<UserController> _logger;
 
    public UserController(PinDbContext pinDbContext, UserManager<User> userManager, ILogger<UserController> logger)
@@ -25,13 +25,22 @@ public class UserController : Controller
     {
         try{
         List<User> users = await _pinDbContext.Users.ToListAsync();
-        return View(users);
+
+        var userName = _userManager.GetUserName(User);
+        
+        if (userName != "Admin" )
+        {
+            return Unauthorized();
+            
+        }else{
+            return View(users);
         }
         catch (Exception e){
             _logger.LogError(e, "[UserController] Error while fetching users in Table action");
             return NotFound("User list not found");
         }
     }
+
      public async Task<IActionResult> MyPins()
         {
             try{
@@ -48,6 +57,7 @@ public class UserController : Controller
                 _logger.LogWarning("[UserController] User not found in MyPins for UserId {UserId:0000}", userId);
                 return NotFound("User with was not found.");
             }
+
             // Pass the pins to the view
             return View(user.Pins);
             }

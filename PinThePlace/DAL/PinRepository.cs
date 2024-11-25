@@ -14,11 +14,12 @@ public class PinRepository : IPinRepository
         _logger = logger;
     }
 
-    public async Task<IEnumerable<Pin>?> GetAll()
+    public async Task<IEnumerable<Pin>> GetAll()
     {
         try{
           // to sort by date, newest on top of the screen
          return await _db.Pins.OrderByDescending(p => p.DateCreated).ToListAsync();
+
         }
         catch (Exception e){
             _logger.LogError(e,"[PinRepository] Pins ToListAsync() failed when GetAll()");
@@ -38,7 +39,7 @@ public class PinRepository : IPinRepository
         
     }
 
-    public async Task<bool> Create(Pin pin)
+    public async Task Create(Pin pin)
     {
         try{
         _db.Pins.Add(pin);
@@ -50,8 +51,8 @@ public class PinRepository : IPinRepository
         }
     }
 
-    public async Task<bool> Update(Pin pin)
-    {
+    public async Task Update(Pin pin)
+    {   
         try{
         _db.Pins.Update(pin);
         await _db.SaveChangesAsync();
@@ -71,6 +72,7 @@ public class PinRepository : IPinRepository
             _logger.LogWarning("[PinRepository] Pin not found for deletion, PinId {PinId:0000}", id);
             return false;
         }
+
         _db.Pins.Remove(item);
         await _db.SaveChangesAsync();
         return true;
