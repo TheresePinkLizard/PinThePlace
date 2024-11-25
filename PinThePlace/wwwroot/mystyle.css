@@ -4,8 +4,8 @@
     float: left;
     margin-top: 50px;
   }
-  .background{
-    background-color: rgb(180, 208, 255);
+  .header{
+    background-color: #feac93;
   }
   body {
     display:flex;
@@ -13,7 +13,7 @@
     min-height:100vh;
   }
   .footer{
-    background-color: rgb(180, 208, 255);
+    background-color:#feac93;
     height: 50px;
     margin-top:auto;
   }
@@ -21,4 +21,40 @@
     height:600px;
     overflow:scroll;
     overflow-x:hidden;
+    border: 3px solid #feac93;
+    background-color: #ffe7e0;
+    padding-top: 15px;
   }
+
+  .feedButton {
+    background-color:#feac93; /* replace with your color */
+    border-color:#feac93; /* replace with your color */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .feedbutton:hover,
+  .feedbutton:focus,
+  .feedbutton:active {
+      background-color:#f9815c; /* replace with a darker version of your color */
+      border-color:rgb(255, 255, 255); /* replace with a darker version of your color */
+      outline: none;
+  }
+  .mypinsbutton {
+    background-color: #69dd82; /* replace with your color */
+    border-color:#69dd82; /* replace with your color */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .mypinsbutton:hover,
+  .mypinsbutton:focus,
+  .mypinsbutton:active {
+      background-color:#6feb8a; /* replace with a darker version of your color */
+      border-color:white; /* replace with a darker version of your color */
+      outline: none;
+  }
+  
+  .active-card {
+    border: 2px solid #f9815c;
+    background-color: white !important; /* replace #yourcolor with your preferred color */
+}
