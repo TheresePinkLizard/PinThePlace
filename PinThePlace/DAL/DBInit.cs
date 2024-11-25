@@ -123,7 +123,7 @@ public static class DBInit
                     Longitude = 10.733315263484577,
                     UserName = admin.UserName,
                     UserId = admin.Id,
-                    ImageUrl = "/images/sunset.jpg",
+                    ImageUrl = "/images/happiness.png",
                 }
 
             };
