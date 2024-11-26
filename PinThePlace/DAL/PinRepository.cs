@@ -23,7 +23,7 @@ public class PinRepository : IPinRepository
         }
         catch (Exception e){
             _logger.LogError(e,"[PinRepository] Pins ToListAsync() failed when GetAll()");
-            return null; 
+            return new List<Pin>(); 
         }
     }
 

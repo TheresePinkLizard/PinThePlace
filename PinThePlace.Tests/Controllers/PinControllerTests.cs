@@ -97,7 +97,7 @@ public class PinControllerTests
         };
 
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.GetAll()).ReturnsAsync(() => null);
+        mockPinRepository.Setup(repo => repo.GetAll()).ReturnsAsync(new List<Pin>());
         
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);

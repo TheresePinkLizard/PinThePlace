@@ -39,7 +39,7 @@ public class PinController : Controller
         // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
 
-        if( pins == null)
+        if(!pins.Any())
         {
             _logger.LogError("[PinController] Pin list not found while executing _pinRepository.GetAll()");
             return NotFound("Pin list not found");
