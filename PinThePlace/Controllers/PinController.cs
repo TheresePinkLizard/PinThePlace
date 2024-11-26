@@ -131,7 +131,6 @@ public class PinController : Controller
         
         // henter fra database ved hjelp av id
         var pin = await _pinRepository.GetItemById(id); 
-        
           
         if (pin == null)               // sjekk om den finner item
         {
@@ -153,9 +152,25 @@ public class PinController : Controller
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Update(Pin pin)  // tar informasjonen som er skrevet i update skjema,
-    {                                           // ser hvis det er valid og oppdaterer i database
+    {   
+        
+                                               // ser hvis det er valid og oppdaterer i database
         if (ModelState.IsValid)
         {
+            var file = pin.UploadedImage;
+   
+            if(file != null && file.Length >0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/images",fileName);
+                using(var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                pin.ImageUrl = "/images/"+fileName;
+            } 
+
             bool returnOk = await _pinRepository.Update(pin);
             if(returnOk)
             {
