@@ -19,7 +19,7 @@
                     
                     <div class="row no-gutters">
                         <div class="col-md-7">
-                            <div class="card-body" style="padding-right: 5px;">
+                            <div class="card-body" onclick="selectCard(this)" style="padding-right: 5px;">
                                 <h5> <a asp-controller="Pin" asp-action="Details" asp-route-id="@pin.PinId">@pin.Name</a></h5>
                                 <p class="card-text">@pin.Comment</p>
 
@@ -77,9 +77,3 @@ document.querySelectorAll('.card').forEach(card => {
 });
 </script>
 
-<style>
-    /* Optional CSS to visually highlight the selected row */
-    .selected {
-        background-color: #e0e0e0; /* Light gray background */
-    }
-</style>
