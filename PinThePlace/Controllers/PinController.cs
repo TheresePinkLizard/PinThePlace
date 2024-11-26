@@ -39,6 +39,12 @@ public class PinController : Controller
         // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
 
+        if( pins == null)
+        {
+            _logger.LogError("[PinController] Pin list not found while executing _pinRepository.GetAll()");
+            return NotFound("Pin list not found");
+        }
+
         var pinsViewModel = new PinsViewModel(pins, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
         // denne returnerer en view
