@@ -151,7 +151,8 @@ public static class DBInit
                     var favorite = new Favorite
                     {
                         PinId = sherlockPin.PinId,
-                        UserName=studentUser.UserName,
+                        UserId=studentUser.Id,
+                        MadeBy=sherlockPin.UserName,
                         Category="Museum",
                     };
                     

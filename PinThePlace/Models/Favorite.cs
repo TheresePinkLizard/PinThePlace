@@ -10,9 +10,11 @@ namespace PinThePlace.Models
 
         public string? Category {get; set;}
 
+        public string MadeBy {get; set;} = string.Empty;
+
         public int PinId { get; set; }
 
-        public string UserName {get; set;} = string.Empty;
+        public string UserId {get; set;} = string.Empty;
 
 
         public virtual User? User { get; set; }

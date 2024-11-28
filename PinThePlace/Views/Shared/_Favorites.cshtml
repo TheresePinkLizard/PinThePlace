@@ -7,7 +7,7 @@
     <div class="row">
         @foreach (var favorite in Model)
         {
-            if(favorite.UserName == _userManager.GetUserName(User))
+            if(favorite.UserId == _userManager.GetUserId(User))
             {
                 <div class="col-md-12">
                     <div class="card mb-3" style="width: 100%;"
@@ -19,7 +19,7 @@
                                   
                                     <p><strong>PinId:</strong> @favorite.PinId</p>
                                     <p><strong>Category:</strong> @favorite.Category</p>
-                                    <p><strong>Username:</strong> @favorite.UserName</p>
+                                    <p><strong>Made by User:</strong> @favorite.MadeBy</p>
 
                                     <a asp-action="Update" asp-route-id="@favorite.FavoriteId" class="btn btn-primary">Update</a>
                                     <a asp-action="Delete" asp-route-id="@favorite.FavoriteId" class="btn btn-danger">Delete</a>
