@@ -124,6 +124,18 @@ public class PinRepository : IPinRepository
         }
     }
 
+     public async Task<bool> UpdateFavorite(Favorite favorite)
+    {   
+        try{
+        _db.Favorites.Update(favorite);
+        await _db.SaveChangesAsync();
+        return true;
+        } catch (Exception e){
+            _logger.LogError(e, "[PinRepository] Failed when updating the FavoriteId {FavoriteId:0000}", favorite);
+            return false;
+        }
+    }
+
 
 
 

@@ -21,8 +21,8 @@
                                     <p><strong>Category:</strong> @favorite.Category</p>
                                     <p><strong>Made by User:</strong> @favorite.MadeBy</p>
 
-                                    <a asp-action="Update" asp-route-id="@favorite.FavoriteId" class="btn btn-primary">Update</a>
-                                    <a asp-action="Delete" asp-route-id="@favorite.FavoriteId" class="btn btn-danger">Delete</a>
+                                    <a asp-action="UpdateFavorite" asp-controller="Favorite" asp-route-id="@favorite.FavoriteId" class="btn btn-primary">Update</a>
+                                    <a asp-action="Delete" asp-controller="Favorite" asp-route-id="@favorite.FavoriteId" class="btn btn-danger">Delete</a>
                                 </div>
                             </div>
                            <div class="col-md-5">

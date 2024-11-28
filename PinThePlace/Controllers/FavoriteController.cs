@@ -81,6 +81,53 @@ public class FavoriteController : Controller
 
     }
 
+     [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> UpdateFavorite(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
+    {                                   // metoden slår ut når bruker navigerer seg til update siden
+        // retrieves current user
+        var userName = _userManager.GetUserName(User);
+        var userId = _userManager.GetUserId(User);
+        
+        // henter fra database ved hjelp av id
+        var favorite = await _pinRepository.GetFavoriteById(id); 
+          
+        if (favorite == null)               // sjekk om den finner item
+        {
+            _logger.LogError("[FavoriteController] Favorite not found when updating the Favorite {FavoriteId:0000}", id);
+            return NotFound("Favorite not found for the FavoriteId");
+
+        } else{
+             if (userName != "Admin" )
+            {
+                if(userId != favorite.UserId){
+                    return Unauthorized();
+                }
+                
+            }
+        }
+        return View(favorite); 
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> UpdateFavorite(Favorite favorite)  // tar informasjonen som er skrevet i update skjema,
+    {   
+        
+                                               // ser hvis det er valid og oppdaterer i database
+        if (ModelState.IsValid)
+        {
+            bool returnOk = await _pinRepository.UpdateFavorite(favorite);
+            if(returnOk)
+            {
+            return RedirectToAction(nameof(Table),"Pin"); // displayer den oppdaterte listen
+            }
+        }
+        _logger.LogWarning("[FavoriteController] Favorite update failed {@favorite}", favorite);
+        return RedirectToAction(nameof(Table),"Pin");
+    }
+
+
 
 
  
