@@ -99,13 +99,28 @@ public class PinRepository : IPinRepository
     public async Task<IEnumerable<Favorite>> GetAllFavorites()
     {
         try{
-          // to sort by date, newest on top of the screen
+         
          return await _db.Favorites.Include(f=> f.Pin).Include(f=> f.User).ToListAsync();
 
         }
         catch (Exception e){
             _logger.LogError(e,"[PinRepository] Favorites ToListAsync() failed when GetAllFavorites()");
             return new List<Favorite>(); 
+        }
+    }
+
+    public async Task<bool> SaveFavorite(Favorite favorite)
+    {
+        try
+        {
+            _db.Favorites.Add(favorite);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "[PinRepository] Failed to save favorite with ID {@favorite}", favorite);
+            return false;
         }
     }
 

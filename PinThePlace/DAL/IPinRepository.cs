@@ -14,4 +14,5 @@ public interface IPinRepository
     //For the favorites
     Task<IEnumerable<Favorite>> GetAllFavorites();
     Task<Favorite?> GetFavoriteById(int id);
+    Task<bool> SaveFavorite(Favorite favorite);
 }
