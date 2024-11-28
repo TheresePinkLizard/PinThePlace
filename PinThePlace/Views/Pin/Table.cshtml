@@ -45,27 +45,69 @@
 
 <script>
   
+  function updateMapAndMarker(card) {
+    // Get latitude and longitude from the card's data attributes
+    var lat = card.dataset.latitude;
+    var lng = card.dataset.longitude;
+
+    // Update the map view to the coordinates
+    map.setView([lat, lng], 13);
+
+    // Update the marker position
+    if (currentMarker) {
+        map.removeLayer(currentMarker);
+    }
+    currentMarker = L.marker([lat, lng]).addTo(map);
+}
 $(document).ready(function() {
     
     $('#showFeedWindow').focus();
 
     // Select the first card when entering the page
     var firstCard = document.querySelector('.cardFeed');
-
+    var currentpage = '.cardFeed';
     // Add the 'active' class to the first card
     if (firstCard) {
         firstCard.classList.add('active');
     }
 
+    // Function to set click handlers on cards
+    function setCardClickHandlers(currentpage) {
+        document.querySelectorAll(currentpage).forEach(card => {
+            card.addEventListener('click', function () {
+                // Remove the 'active' class from all rows
+                document.querySelectorAll(currentpage).forEach(c => c.classList.remove('active'));
+
+                // Add the 'active' class to the clicked row
+                this.classList.add('active');
+
+                // Update map and marker
+                updateMapAndMarker(this);
+            });
+        });
+    }
+
     // Code for switching between windows and switching background color
     $("#showFeedWindow").click(function(e){
-        e.preventDefault();
-        $("#feedwindow").show();
-        $("#favwindow").hide();
-        $("#favwindow").removeClass("contentwindow2").addClass("contentwindow");
-        // Remove 'active' class from cards in feed
-    document.querySelectorAll('.cardFeed').forEach(c => c.classList.remove('active'));
+    e.preventDefault();
+    $("#feedwindow").show();
+    $("#favwindow").hide();
+    $("#favwindow").removeClass("contentwindow2").addClass("contentwindow");
+    currentpage = '.cardFeed';
+    setCardClickHandlers(currentpage);
 
+    document.querySelectorAll('.cardFeed, .cardMypins').forEach(c => c.classList.remove('active'));
+
+    // Select the first card of the new page
+    var firstCard = document.querySelector(currentpage);
+    
+    // Add the 'active' class to the first card
+    if (firstCard) {
+        firstCard.classList.add('active');
+
+        // Update the map and marker
+        updateMapAndMarker(firstCard);
+    }
     });
 
     $("#showFavWindow").click(function(e){
@@ -73,32 +115,27 @@ $(document).ready(function() {
         $("#favwindow").show();
         $("#feedwindow").hide();
         $("#favwindow").removeClass("contentwindow").addClass("contentwindow2"); 
-        // Remove 'active' class from cards in feed
-    document.querySelectorAll('.cardMypins').forEach(c => c.classList.remove('active'));
+        currentpage = '.cardMypins';
+        setCardClickHandlers(currentpage);
 
+        document.querySelectorAll('.cardFeed, .cardMypins').forEach(c => c.classList.remove('active'));
+
+        // Select the first card of the new page
+        var firstCard = document.querySelector(currentpage);
+        
+        // Add the 'active' class to the first card
+        if (firstCard) {
+            firstCard.classList.add('active');
+
+            // Update the map and marker
+            updateMapAndMarker(firstCard);
+        }
     });
 
-    // Code for selecting items in the list cardFeed
-    document.querySelectorAll('.cardFeed').forEach(card => {
-        card.addEventListener('click', function () {
-            // Remove the 'selected' class from all rows
-            document.querySelectorAll('.cardFeed').forEach(c => c.classList.remove('active'));
-
-            // Add the 'selected' class to the clicked row
-            this.classList.add('active');
-        });
-    });
-    // Code for selecting items in the list cardMypins
-    document.querySelectorAll('.cardMypins').forEach(card => {
-        card.addEventListener('click', function () {
-            // Remove the 'selected' class from all rows
-            document.querySelectorAll('.cardMypins').forEach(c => c.classList.remove('active'));
-
-            // Add the 'selected' class to the clicked row
-            this.classList.add('active');
-        });
-    });
+    // Call setCardClickHandlers function initially for '.cardFeed'
+    setCardClickHandlers(currentpage);
 });
+
 window.onload = function() {
     // Select the first card when entering the page
     var firstCard = document.querySelector('.card');
