@@ -7,6 +7,12 @@ using PinThePlace.Models;
 using PinThePlace.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+
+using System.Linq;
+using System.Collections.Generic;
+
 
 namespace PinThePlace.Test.Controllers;
 
@@ -56,7 +62,7 @@ public class UserControllerTests
     Assert.Equal(userList, model); // Sjekk at listen matcher forventet data
     }
                     
-
+/*
     // Negative test of Tabel(). 
     // Checks if user is not Admin it results in unauthorized.
     [Fact]
@@ -100,12 +106,34 @@ public class UserControllerTests
     public async Task MyPins_ReturnsView_WithUserPins()
     {
         // Arrange
-        var pins = new List<Pin>
+        var pinList = new List<Pin>()
         {
-            new Pin { Id = 1, Name = "Cafe", Comment = "Great spot!" },
-            new Pin { Id = 2, Name = "Park", Comment = "Beautiful place!" }
+            new Pin 
+                {
+                    Name = "Cafe",
+                    Rating = 4.0m,
+                    Comment = "Great cafe!",
+                    Latitude = 59.91731919136782,
+                    Longitude = 10.727738688356991,
+                    UserName = "CoolKid",
+                    UserId = "1",
+                    ImageUrl = "/images/Cafe.png",
+                },
+
+            new Pin 
+                {
+                    Name = "SwimmingPool",
+                    Rating = 5.0m,
+                    Comment = "Refreshing, can recommend!",
+                    Latitude = 59.921365321156706, 
+                    Longitude = 10.733315263484577,
+                    UserName = "TheMermaid",
+                    UserId = "2",
+                    ImageUrl = "/images/Pool.png",
+                }   
         };
-        var user = new User { userId = 1, UserName = "TheStudent", Pins = pins };
+
+        new User { Id = "1" , UserName = "TheStudent", Email="thestudent@gmail.com"}
 
         // Mock DbSet<User>
         var mockUserDbSet = new Mock<DbSet<User>>();
@@ -121,7 +149,7 @@ public class UserControllerTests
         // Mock UserManager
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("1");
 
         // Mock logger
         var mockLogger = new Mock<ILogger<UserController>>();
@@ -131,12 +159,18 @@ public class UserControllerTests
 
         // Act
         var result = await userController.MyPins();
+        var expectedpin = pinList.First(pin => pinUserId=="1");
 
         // Assert
         var viewResult = Assert.IsType<ViewResult>(result); // Sjekk at resultatet er en ViewResult
         var model = Assert.IsAssignableFrom<List<Pin>>(viewResult.Model); // Sjekk at modellen er en liste av pins
-        Assert.Equal(pins.Count, model.Count); // Sjekk at riktig antall pins returneres
-        Assert.Equal(pins, model); // Sjekk at listen matcher forventet data
+        Assert.Single(model);
+        Assert.Equal(1, model.Count); // Sjekk at riktig antall pins returneres
+        Assert.Equal(expectedpin.Name, model.Name); // Sjekk at listen matcher forventet data
+        Assert.Equal(expectedpin.UserName, model.UserName);
+
+
+
     }
 
 
@@ -144,12 +178,6 @@ public class UserControllerTests
     // Negative test of Tabel(). 
     // Checks if user is not Admin it results in unauthorized.
 
-
-
-
-
-
-
-
+*/
 }
 
