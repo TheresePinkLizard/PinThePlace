@@ -48,37 +48,37 @@ public class FavoriteController : Controller
         return View(pinsViewModel);
     }
 
-
-    [Authorize]  // Ensure the user is logged in
-    public async Task<IActionResult> AddToFavorites(int id)
+    [HttpGet]
+    [Authorize]
+    public IActionResult AddToFavorites(int id)
     {
-    // Fetch the Pin with the given ID
-        var pin = await _pinRepository.GetItemById(id);
-        if (pin == null)
-        {
-            return NotFound("Pin not found");
-        }
-
-    // Get the current user
-        var currentUser = await _userManager.GetUserAsync(User);
-        if (currentUser == null)
-        {
-            return Unauthorized();
-        }
-
-    // Create a new Favorite
         var favorite = new Favorite
         {
-            PinId = pin.PinId,
-            UserId = currentUser.Id,
-            MadeBy = pin.UserName,
+            PinId = id,
+            UserId = _userManager.GetUserId(User)
         };
+    return View("CreateFavorite",favorite);
+    }
 
-    // Save the Favorite to the database
-        await _pinRepository.SaveFavorite(favorite);
+    [HttpPost]
+    [Authorize]// Ensure the user is logged in
+    public async Task<IActionResult> AddToFavorites(Favorite favorite)
+    {
 
-        // Redirect the user to some appropriate view, such as the list of their favorites
-        return RedirectToAction(nameof(Table),"Pin");
+    // Fetch the Pin with the given ID
+        favorite.Pin = await _pinRepository.GetItemById(favorite.PinId);
+        favorite.User = await _userManager.FindByIdAsync(favorite.UserId);
+        
+        var success = await _pinRepository.SaveFavorite(favorite);
+
+        if (success)
+        {
+             return RedirectToAction(nameof(Table),"Pin");
+        }
+         _logger.LogWarning("[FavoriteController] Favorite creation failed {@favorite}", favorite);
+        return View(favorite);
+
+
     }
 
 
