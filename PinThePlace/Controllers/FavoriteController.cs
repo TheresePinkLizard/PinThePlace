@@ -88,9 +88,11 @@ public class FavoriteController : Controller
         // retrieves current user
         var userName = _userManager.GetUserName(User);
         var userId = _userManager.GetUserId(User);
+       
         
         // henter fra database ved hjelp av id
         var favorite = await _pinRepository.GetFavoriteById(id); 
+         var pin = await _pinRepository.GetItemById(favorite.PinId);
           
         if (favorite == null)               // sjekk om den finner item
         {
@@ -105,6 +107,7 @@ public class FavoriteController : Controller
                 }
                 
             }
+        
         }
         return View(favorite); 
     }
@@ -114,7 +117,6 @@ public class FavoriteController : Controller
     public async Task<IActionResult> UpdateFavorite(Favorite favorite)  // tar informasjonen som er skrevet i update skjema,
     {   
         
-                                               // ser hvis det er valid og oppdaterer i database
         if (ModelState.IsValid)
         {
             bool returnOk = await _pinRepository.UpdateFavorite(favorite);
