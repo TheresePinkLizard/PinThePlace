@@ -13,13 +13,16 @@
         <span asp-validation-for="PinId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input asp-for="PinId" type="hidden"/>
-        <span asp-validation-for="PinId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
         <input asp-for="UserId" type="hidden"/>
         <span asp-validation-for="UserId" class="text-danger"></span>
     </div>
+     <div class="form-group">
+        <input asp-for="MadeBy" type="hidden"/>
+        <span asp-validation-for="MadeBy" class="text-danger"></span>
+    </div>
 
-    <button type="submit">Add to Favorites</button>
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a asp-controller="Pin" asp-action="Table" class="btn btn-secondary">Cancel</a>
+
+
 </form>
