@@ -10,7 +10,7 @@
             if(pin.UserName == _userManager.GetUserName(User))
             {
                 <div class="col-md-12">
-                    <div class="card mb-3" style="width: 100%;"
+                    <div class="cardMypins mb-3" style="width: 100%;"
                         data-id="@pin.PinId" 
                         data-name="@pin.Name" 
                         data-date="@pin.DateCreated" 
@@ -23,7 +23,7 @@
 
                         <div class="row no-gutters">
                             <div class="col-md-7">
-                                <div class="card-body"  style="padding-right: 5px;">
+                                <div   style="padding-right: 5px;">
                                     <h5 class="card-title"><a asp-controller="Pin" asp-action="Details" asp-route-id="@pin.PinId">@pin.Name</a></h5>
                                     <p class="card-text">@pin.Comment</p>
 

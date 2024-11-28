@@ -18,7 +18,7 @@
     margin-top:auto;
   }
   .contentwindow{
-    height:600px;
+    height:750px;
     overflow:scroll;
     overflow-x:hidden;
     /*border: 3px solid #feac93;*/
@@ -26,7 +26,7 @@
     padding-top: 15px;
   }
   .contentwindow2{
-    height:600px;
+    height:750px;
     overflow:scroll;
     overflow-x:hidden;
     /*border: 3px solid #69dd82;*/
@@ -55,8 +55,8 @@
 
   /*style for my pins button*/
   .mypinsButton {
-    background-color: #deffcb; 
-     border-color:#deffcb; 
+    background-color: #c5e5b6; 
+     border-color:#c5e5b6; 
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     box-shadow: none !important;
@@ -93,18 +93,36 @@
 
  /*link styles*/
   a{
-      color: #477d3b;
+      color: #233d1d;
       font-weight: bold;
   }
   a:hover{
-    color: #6cad5d;
+    color: #619b54;
   }
 
 /*card styles*/
-  .card{
+  .cardFeed{
     background-color: #ffdecf;
-    border: none !important;
+    border-color: transparent !important;
     font-family: verdana;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+    box-shadow: none !important; 
+  }
+  .cardMypins{
+    background-color: #c5e5b6;
+    border-color: transparent !important;
+    font-family: verdana;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+    box-shadow: none !important;
+  }
+  .removeBorderFeed{
+    border: none !important;
+    background-color: #ffdecf;
+
   }
   .active {
     background-color: #fffaf8 !important;
