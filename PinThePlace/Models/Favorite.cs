@@ -8,6 +8,7 @@ namespace PinThePlace.Models
 
         public int FavoriteId {get; set;}
 
+        [StringLength(100)] 
         public string? Category {get; set;}
 
         public string MadeBy {get; set;} = string.Empty;
