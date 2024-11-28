@@ -136,6 +136,26 @@ public class PinRepository : IPinRepository
         }
     }
 
+     public async Task<bool> DeleteFavorite(int id)
+    {
+        try{
+        var fav = await _db.Favorites.FindAsync(id);
+        if (fav == null)
+        {
+            _logger.LogWarning("[PinRepository] Favorite not found for deletion, FavoriteId {FavoriteId:0000}", id);
+            return false;
+        }
+
+        _db.Favorites.Remove(fav);
+        await _db.SaveChangesAsync();
+        return true;
+        } catch (Exception e)
+        {
+            _logger.LogError(e, "[PinRepository] Failed to delete favorite with ID {FavoriteId:0000}", id);
+            return false;
+        }
+    }
+
 
 
 

@@ -138,6 +138,38 @@ public class FavoriteController : Controller
     }
 
 
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> DeleteFavorite(int id)  // displayer confirmation page for å slette en item
+    {
+          // retrieves current user
+        var userName = _userManager.GetUserName(User);
+        var userId =  _userManager.GetUserId(User);
+        var favorite = await _pinRepository.GetFavoriteById(id); // identifiserer og henter item som skal bli slettet
+         
+         if (favorite == null)               // sjekk om den finner item
+        {   
+            _logger.LogError("[FavoriteController] Favorite deletion failed for {FavortieId:0000}", id);
+            return NotFound("Favorite not found for the FavoriteId");
+
+        } 
+       return View("DeleteFavorite",favorite);   // hvis funnet, returnerer view med item data for bekreftelse
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
+    {
+        bool returnOk = await _pinRepository.DeleteFavorite(id);  // lagrer endringene 
+        if (!returnOk)
+        {
+            _logger.LogError("[FavoriteController] Favorite deletion failed for {FavoriteId:0000}", id);
+            return BadRequest("Favorite deletion failed");
+        }
+        return RedirectToAction(nameof(Table),"Pin"); //returnerer bruker til table view hvor item nå er fjernet
+    }
+
+
 
 
  

@@ -16,4 +16,5 @@ public interface IPinRepository
     Task<Favorite?> GetFavoriteById(int id);
     Task<bool> SaveFavorite(Favorite favorite);
     Task<bool> UpdateFavorite(Favorite favorite);
+    Task<bool> DeleteFavorite(int id);
 }
