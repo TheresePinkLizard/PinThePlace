@@ -28,6 +28,8 @@
             <div>
                 <button autofocus id="showFeedWindow" class="feedButton btn btn-lg">Feed</button>
                 <button id="showFavWindow" class="mypinsButton btn btn-lg">My Pins</button>
+                <button id="showFavoritesWindow" class="mypinsButton btn btn-lg">Favorites</button>
+
             </div>
             <!--Feed vindu-->
             <div id="feedwindow" class="contentwindow" >
@@ -36,6 +38,10 @@
             <!--mypins vindu-->
             <div id="favwindow" class="contentwindow" style="display: none;">
                 <partial name="_MyPins" model="Model.Pins"/>
+            </div>
+            <!--favories window-->
+            <div id="favoritewindow" class="contentwindow" style="display: none;">
+                <partial name="_Favorites" model="Model.Favorites"/>
             </div>
         </div>
     </div>
@@ -58,6 +64,13 @@ $(document).ready(function() {
         e.preventDefault();
         $("#favwindow").show();
         $("#feedwindow").hide();
+        $("#favwindow").removeClass("contentwindow").addClass("contentwindow2"); 
+    });
+     $("#showFavoritesWindow").click(function(e){
+        e.preventDefault();
+        $("#favoritewindow").show();
+        $("#feedwindow").hide();
+        $("#favwindow").hide();
         $("#favwindow").removeClass("contentwindow").addClass("contentwindow2"); 
     });
 

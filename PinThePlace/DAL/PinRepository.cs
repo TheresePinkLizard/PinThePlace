@@ -82,4 +82,36 @@ public class PinRepository : IPinRepository
             return false;
         }
     }
+
+    public async Task<Favorite?> GetFavoriteById(int id)
+    {
+        try
+        {
+            return await _db.Favorites.FindAsync(id);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "[FavoriteRepository] Favorite FindAsync(id) failed when GetFavoriteById for FavId {FavId:0000}", id);
+            return null;
+        }
+    }
+
+    public async Task<IEnumerable<Favorite>> GetAllFavorites()
+    {
+        try{
+          // to sort by date, newest on top of the screen
+         return await _db.Favorites.Include(f=> f.Pin).Include(f=> f.User).ToListAsync();
+
+        }
+        catch (Exception e){
+            _logger.LogError(e,"[PinRepository] Favorites ToListAsync() failed when GetAllFavorites()");
+            return new List<Favorite>(); 
+        }
+    }
+
+
+
+
+
+
 }
