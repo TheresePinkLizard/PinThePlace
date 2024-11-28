@@ -92,7 +92,7 @@ public class FavoriteController : Controller
         
         // henter fra database ved hjelp av id
         var favorite = await _pinRepository.GetFavoriteById(id); 
-         var pin = await _pinRepository.GetItemById(favorite.PinId);
+        var pin = await _pinRepository.GetItemById(favorite.PinId);
           
         if (favorite == null)               // sjekk om den finner item
         {
@@ -109,6 +109,8 @@ public class FavoriteController : Controller
             }
         
         }
+
+        favorite.MadeBy=pin.UserName;
         return View(favorite); 
     }
 
