@@ -27,15 +27,20 @@
             <!--lenker til feed og mypins-->
             <div>
                 <button autofocus id="showFeedWindow" class="feedButton btn btn-lg">Feed</button>
-                <button id="showFavWindow" class="mypinsButton btn btn-lg">My Pins</button>
+                <button id="showMypinsWindow" class="mypinsButton btn btn-lg">My Pins</button>
+                <button id="showFavsWindow" class="favsButton btn btn-lg">Favorites</button>
             </div>
-            <!--Feed vindu-->
+            <!--Feed window -->
             <div id="feedwindow" class="contentwindow" >
                 <partial name="_Feed" model="Model.Pins"/>
             </div>
-            <!--mypins vindu-->
-            <div id="favwindow" class="contentwindow" style="display: none;">
+            <!--mypins window-->
+            <div id="mypinswindow" class="contentwindow" style="display: none;">
                 <partial name="_MyPins" model="Model.Pins"/>
+            </div>
+            <!-- myfavs window-->
+            <div id="favwindow" class="contentwindow" style="display: none;">
+                <partial name="_LoginPartial" model="Model.Pins"/>
             </div>
         </div>
     </div>
@@ -86,17 +91,18 @@ $(document).ready(function() {
             });
         });
     }
-
+    /*FEED*/
     // Code for switching between windows and switching background color
     $("#showFeedWindow").click(function(e){
     e.preventDefault();
     $("#feedwindow").show();
     $("#favwindow").hide();
+     $("#mypinswindow").hide();
     $("#favwindow").removeClass("contentwindow2").addClass("contentwindow");
     currentpage = '.cardFeed';
     setCardClickHandlers(currentpage);
 
-    document.querySelectorAll('.cardFeed, .cardMypins').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
 
     // Select the first card of the new page
     var firstCard = document.querySelector(currentpage);
@@ -109,16 +115,43 @@ $(document).ready(function() {
         updateMapAndMarker(firstCard);
     }
     });
-
-    $("#showFavWindow").click(function(e){
+    /*MY PINS*/
+    $("#showMypinsWindow").click(function(e){
         e.preventDefault();
-        $("#favwindow").show();
+        $("#mypinswindow").show();
         $("#feedwindow").hide();
-        $("#favwindow").removeClass("contentwindow").addClass("contentwindow2"); 
+        $("#favwindow").hide();
+        $("#mypinswindow").removeClass("contentwindow").addClass("contentwindow2"); 
         currentpage = '.cardMypins';
         setCardClickHandlers(currentpage);
 
-        document.querySelectorAll('.cardFeed, .cardMypins').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
+
+        // Select the first card of the new page
+        var firstCard = document.querySelector(currentpage);
+        
+        // Add the 'active' class to the first card
+        if (firstCard) {
+            firstCard.classList.add('active');
+
+            // Update the map and marker
+            updateMapAndMarker(firstCard);
+        }
+    });
+    /*FAVS*/
+    $("#showFavsWindow").click(function(e){
+        e.preventDefault();
+        // Hide other pages
+         $("#favwindow").show();
+        $("#feedwindow").hide();
+        $("#mypinswindow").hide();
+         $("#favwindow").removeClass("contentwindow").addClass("contentwindow3"); 
+
+        currentpage = '.cardFavs';
+        setCardClickHandlers(currentpage);
+
+        // Deselect all cards
+        document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
 
         // Select the first card of the new page
         var firstCard = document.querySelector(currentpage);

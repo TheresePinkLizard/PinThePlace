@@ -33,6 +33,14 @@
     background-color: #c5e5b6;
     padding-top: 15px;
   }
+  .contentwindow3{
+    height:750px;
+    overflow:scroll;
+    overflow-x:hidden;
+    /*border: 3px solid #69dd82;*/
+    background-color: #a6d5e2;
+    padding-top: 15px;
+  }
   
   /*style for feed button*/
   .feedButton {
@@ -71,6 +79,24 @@
       outline: none;
       box-shadow: none !important;
   }
+   /*style for my pins button*/
+   .favsButton {
+    background-color: #a6d5e2; 
+     border-color:#a6d5e2; 
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: none !important;
+    font-weight: bold;
+    color: #334e29;
+  }
+  .favsButton:hover,
+  .favsButton:focus,
+  .favsButton:active {
+      background-color: #a6d5e2; 
+      border-color:#a6d5e2;  
+      outline: none;
+      box-shadow: none !important;
+  }
 
   /*style for add a pin button*/
   .addpinButton {
@@ -90,6 +116,7 @@
       outline: none;
       box-shadow: none !important;
   }
+  
 
  /*link styles*/
   a{
