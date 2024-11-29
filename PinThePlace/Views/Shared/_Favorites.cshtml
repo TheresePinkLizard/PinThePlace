@@ -12,11 +12,15 @@
                 <div class="col-md-12">
                     <div class="cardFavs mb-3" style="width: 100%;"
                         data-id="@favorite.PinId" 
-                        data-name="@favorite.Category">
+                        data-name="@favorite.Category"
+                        data-latitude="@favorite.Pin.Latitude" 
+                        data-longitude="@favorite.Pin.Longitude">
                         <div class="row no-gutters">
                             <div class="col-md-7">
                                 <div class="card-body"  style="padding-right: 5px;">
-                                    <p><strong>PinId:</strong> @favorite.PinId</p>
+                                    <h5> <a asp-controller="Pin" asp-action="Details" asp-route-id="@favorite.PinId">@favorite.Pin.Name</a></h5>
+                                    <p> @favorite.Pin.Comment</p>
+                                    <p><strong>Date:</strong> @favorite.Pin.DateCreated</p>
                                     <p><strong>Category:</strong> @favorite.Category</p>
                                     <p><strong>Made by User:</strong> @favorite.MadeBy</p>
 
