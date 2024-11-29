@@ -24,7 +24,7 @@ public class UserControllerTests
     public async Task TestTable()
     {
         // Arrange
-        var users = new List<User>
+        var userList = new List<User>
             {
                 new User {UserName = "TheStudent", Email="thestudent@gmail.com"} ,
                 new User {UserName = "Muncher", Email="muncher@gmail.com"} ,
@@ -50,7 +50,7 @@ public class UserControllerTests
     var mockLogger = new Mock<ILogger<UserController>>();
 
     // Create controller
-    var userController = new UserController(mockUserManager.Object, mockPinDbContext.Object, mockLogger.Object);
+     var userController = new UserController(mockPinDbContext.Object, mockUserManager.Object, mockLogger.Object);
 
     // Act
     var result = await userController.Table();
@@ -172,9 +172,6 @@ public class UserControllerTests
 
 
     }
-
-
-
     // Negative test of Tabel(). 
     // Checks if user is not Admin it results in unauthorized.
 
