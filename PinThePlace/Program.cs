@@ -76,10 +76,11 @@ app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllerRoute(
+/*app.MapControllerRoute(
     name: "default",
     pattern: "{Controller=Pin}/{action=Table}/{id?}");
-    
-// gammel kode: app.MapDefaultControllerRoute();
+    */
+
+app.MapDefaultControllerRoute();
 app.MapRazorPages();
 app.Run();
