@@ -6,7 +6,7 @@
         @foreach (var pin in Model)    
         {
             <div class="col-md-12">
-                <div class="card mb-3" style="width: 100%;"
+                <div class="cardFeed mb-3" style="width: 100%;"
                     data-id="@pin.PinId" 
                     data-name="@pin.Name" 
                     data-date="@pin.DateCreated" 
@@ -19,7 +19,7 @@
                     
                     <div class="row no-gutters">
                         <div class="col-md-7">
-                            <div class="card-body" onclick="selectCard(this)" style="padding-right: 5px;">
+                            <div onclick="selectCard(this)" style="padding-right: 5px;">
                                 <h5> <a asp-controller="Pin" asp-action="Details" asp-route-id="@pin.PinId">@pin.Name</a></h5>
                                 <p class="card-text">@pin.Comment</p>
 
@@ -47,8 +47,7 @@
 </div>
 
 <script>
-
-// code to selected items in the list
+/*
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', function () {
         // Remove the 'selected' class from all rows
@@ -77,5 +76,6 @@ document.querySelectorAll('.card').forEach(card => {
         //currentMarker.bindPopup("You selected the pin at " + latitude + ", " + longitude).openPopup();
     });
 });
+*/
 </script>
 
