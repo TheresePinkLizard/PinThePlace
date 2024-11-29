@@ -25,10 +25,12 @@ public class FavoriteController : Controller
 
      public async Task<IActionResult> Table()
     {  
+    
         // henter alle items fra items table i databasen og konverterer til en liste
         var favorites = await _pinRepository.GetAllFavorites();
-
         var pins = await _pinRepository.GetAll();
+        
+
         if(!pins.Any())
         {
             _logger.LogError("[PinController] Pin list not found while executing _pinRepository.GetAll()");
@@ -41,6 +43,7 @@ public class FavoriteController : Controller
             return NotFound("Favorite list not found");
         }
 
+        
         var pinsViewModel = new PinsViewModel(pins,favorites, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
         // denne returnerer en view
@@ -83,7 +86,6 @@ public class FavoriteController : Controller
         }
          _logger.LogWarning("[FavoriteController] Favorite creation failed {@favorite}", favorite);
         return View("CreateFavorite",favorite);
-
 
     }
 
