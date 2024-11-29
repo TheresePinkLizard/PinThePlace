@@ -1,0 +1,28 @@
+@model Favorite
+
+
+<h2>Add a Category for to your favorited pin!</h2>
+<form asp-action="AddToFavorites" method="post">
+    <div class="form-group">
+        <label asp-for="Category"></label> 
+        <input asp-for="Category" class="form-control"/>
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+     <div class="form-group">
+        <input asp-for="PinId" type="hidden"/>
+        <span asp-validation-for="PinId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input asp-for="UserId" type="hidden"/>
+        <span asp-validation-for="UserId" class="text-danger"></span>
+    </div>
+     <div class="form-group">
+        <input asp-for="MadeBy" type="hidden"/>
+        <span asp-validation-for="MadeBy" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a asp-controller="Pin" asp-action="Table" class="btn btn-secondary">Cancel</a>
+
+
+</form>

@@ -61,74 +61,105 @@ public static class DBInit
         var munch = context.Users.FirstOrDefault(u => u.UserName == "Muncher");
         var admin = context.Users.FirstOrDefault(u => u.UserName == "Admin");
 
-        if(!context.Pins.Any())
+        if (student == null || munch == null || admin == null)
         {
-            var pins = new List<Pin>
+            throw new Exception("Error in finding the users for the seed");
+        } else
+        
+        {
+            if(!context.Pins.Any())
             {
-                new Pin 
+                var pins = new List<Pin>
                 {
-                    Name = "Sherlock Holmes Museum",
-                    Rating = 5.0m,
-                    Comment = "Small and cozy museum, super cool recreation of Sherlock Holmes' flat!",
-                    Latitude = 51.523788,
-                    Longitude = -0.158611,
-                    UserName = student.UserName,
-                    UserId = student.Id,
-                    ImageUrl = "/images/sherlock.jpg",
-                     // Users = new List<User> { bruker1 }
-                },
+                    new Pin 
+                    {
+                        Name = "Sherlock Holmes Museum",
+                        Rating = 5.0m,
+                        Comment = "Small and cozy museum, super cool recreation of Sherlock Holmes' flat!",
+                        Latitude = 51.523788,
+                        Longitude = -0.158611,
+                        UserName = student?.UserName ?? string.Empty,
+                        UserId = student?.Id ?? string.Empty,
+                        ImageUrl = "/images/sherlock.jpg",
+                     
+                    },
 
-                new Pin 
-                {
-                    Name = "Chidos Burritos",
-                    Rating = 4.0m,
-                    Comment = "Delicious food and polite staff, got free tequila",
-                    Latitude = 48.1618681, 
-                    Longitude = 11.5407427,
-                    UserName = munch.UserName,
-                    UserId = munch.Id,
-                    ImageUrl = "/images/chidos.png",
-                },
+                    new Pin 
+                    {
+                        Name = "Chidos Burritos",
+                        Rating = 4.0m,
+                        Comment = "Delicious food and polite staff, got free tequila",
+                        Latitude = 48.1618681, 
+                        Longitude = 11.5407427,
+                        UserName = munch?.UserName ?? string.Empty,
+                        UserId = munch?.Id ?? string.Empty,
+                        ImageUrl = "/images/chidos.png",
+                    },
 
-                new Pin 
-                {
-                    Name = "Døgnvill",
-                    Rating = 5.0m,
-                    Comment = "No doubt, the best burger in all of Norway!! Not today Dagros :D",
-                    Latitude = 59.9083027, 
-                    Longitude = 10.7235853,
-                    UserName = munch.UserName,
-                    UserId = munch.Id,
-                    ImageUrl = "/images/burger.png",
-                },
+                    new Pin 
+                    {
+                        Name = "Døgnvill",
+                        Rating = 5.0m,
+                        Comment = "No doubt, the best burger in all of Norway!! Not today Dagros :D",
+                        Latitude = 59.9083027, 
+                        Longitude = 10.7235853,
+                        UserName = munch?.UserName ?? string.Empty,
+                        UserId = munch?.Id ?? string.Empty,
+                        ImageUrl = "/images/burger.png",
+                    },
 
-                new Pin 
-                {
-                    Name = "OsloMet",
-                    Rating = 5.0m,
-                    Comment = "A very good school! I am studying my bachelors degree here!",
-                    Latitude = 59.921365321156706, 
-                    Longitude = 10.733315263484577,
-                    UserName = student.UserName,
-                    UserId = student.Id,
-                    ImageUrl = "/images/Oslomet.jpg",
-                },
+                    new Pin 
+                    {
+                        Name = "OsloMet",
+                        Rating = 5.0m,
+                        Comment = "A very good school! I am studying my bachelors degree here!",
+                        Latitude = 59.921365321156706, 
+                        Longitude = 10.733315263484577,
+                        UserName = student?.UserName ?? string.Empty,
+                        UserId = student?.Id ?? string.Empty,
+                        ImageUrl = "/images/Oslomet.jpg",
+                    },
 
-                new Pin 
+                    new Pin 
+                    {
+                        Name = "Hello from Admin",
+                        Rating = 5.0m,
+                        Comment = "This is a pin from Admin! Keep sharing your pins and have fun!",
+                        Latitude = 59.921365321156706, 
+                        Longitude = 10.733315263484577,
+                        UserName = admin?.UserName ?? string.Empty,
+                        UserId = admin?.Id ?? string.Empty,
+                        ImageUrl = "/images/happiness.png",
+                    }
+
+                };
+                context.AddRange(pins);
+                context.SaveChanges();
+            }
+
+            var sherlockPin = context.Pins.FirstOrDefault(p => p.Name == "Sherlock Holmes Museum");
+            var studentUser = context.Users.FirstOrDefault(u => u.UserName == "TheStudent");
+
+            if(sherlockPin == null || studentUser==null)
+            {
+                throw new Exception("Cannot create favorite seed");
+            }
+            else 
+            {
+                if (!context.Favorites.Any())
                 {
-                    Name = "Hello from Admin",
-                    Rating = 5.0m,
-                    Comment = "This is a pin from Admin! Keep sharing your pins and have fun!",
-                    Latitude = 59.921365321156706, 
-                    Longitude = 10.733315263484577,
-                    UserName = admin.UserName,
-                    UserId = admin.Id,
-                    ImageUrl = "/images/happiness.png",
+                    var favorite = new Favorite
+                    {
+                        PinId = sherlockPin.PinId,
+                        UserId=studentUser.Id,
+                        MadeBy=sherlockPin.UserName,
+                        Category="Museum",
+                    };
+                    
+                    context.Favorites.Add(favorite);
+                    context.SaveChanges();
                 }
-
-            };
-            context.AddRange(pins);
-            context.SaveChanges();
+            }
         }
         
     }

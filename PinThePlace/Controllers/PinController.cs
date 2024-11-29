@@ -39,13 +39,15 @@ public class PinController : Controller
         // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
 
-        if( !pins.Any())
+        if(!pins.Any())
         {
             _logger.LogError("[PinController] Pin list not found while executing _pinRepository.GetAll()");
             return NotFound("Pin list not found");
         }
 
-        var pinsViewModel = new PinsViewModel(pins, "Table");
+        var favorites = await _pinRepository.GetAllFavorites();
+
+        var pinsViewModel = new PinsViewModel(pins,favorites, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
         // denne returnerer en view
         //Console.WriteLine($"Fetched {pins.Count} pins from the database.");
@@ -137,7 +139,6 @@ public class PinController : Controller
         
         // henter fra database ved hjelp av id
         var pin = await _pinRepository.GetItemById(id); 
-        
           
         if (pin == null)               // sjekk om den finner item
         {
@@ -159,9 +160,25 @@ public class PinController : Controller
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Update(Pin pin)  // tar informasjonen som er skrevet i update skjema,
-    {                                           // ser hvis det er valid og oppdaterer i database
+    {   
+        
+                                               // ser hvis det er valid og oppdaterer i database
         if (ModelState.IsValid)
         {
+            var file = pin.UploadedImage;
+   
+            if(file != null && file.Length >0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/images",fileName);
+                using(var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                pin.ImageUrl = "/images/"+fileName;
+            } 
+
             bool returnOk = await _pinRepository.Update(pin);
             if(returnOk)
             {

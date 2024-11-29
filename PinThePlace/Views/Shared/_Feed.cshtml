@@ -6,7 +6,7 @@
         @foreach (var pin in Model)    
         {
             <div class="col-md-12">
-                <div class="card mb-3" style="width: 100%;"
+                <div class="cardFeed mb-3" style="width: 100%;"
                     data-id="@pin.PinId" 
                     data-name="@pin.Name" 
                     data-date="@pin.DateCreated" 
@@ -19,7 +19,7 @@
                     
                     <div class="row no-gutters">
                         <div class="col-md-7">
-                            <div class="card-body" style="padding-right: 5px;">
+                            <div onclick="selectCard(this)" style="padding-right: 5px;">
                                 <h5> <a asp-controller="Pin" asp-action="Details" asp-route-id="@pin.PinId">@pin.Name</a></h5>
                                 <p class="card-text">@pin.Comment</p>
 
@@ -31,6 +31,8 @@
                                 {
                                     <a asp-action="Update" asp-route-id="@pin.PinId" class="btn btn-primary">Update</a>
                                     <a asp-action="Delete" asp-route-id="@pin.PinId" class="btn btn-danger">Delete</a>
+                                } else {
+                                    <a asp-action="AddToFavorites" asp-controller="Favorite" asp-route-id="@pin.PinId" class="btn btn-primary">Add to Favorites</a>
                                 }
                             </div>
                         </div>
@@ -45,8 +47,7 @@
 </div>
 
 <script>
-
-// code to selected items in the list
+/*
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', function () {
         // Remove the 'selected' class from all rows
@@ -75,11 +76,6 @@ document.querySelectorAll('.card').forEach(card => {
         //currentMarker.bindPopup("You selected the pin at " + latitude + ", " + longitude).openPopup();
     });
 });
+*/
 </script>
 
-<style>
-    /* Optional CSS to visually highlight the selected row */
-    .selected {
-        background-color: #e0e0e0; /* Light gray background */
-    }
-</style>

@@ -1,0 +1,25 @@
+@model Favorite
+<h2>Change Category on Favorite</h2>
+
+<form asp-action="UpdateFavorite" method="post"> 
+    <input type="hidden" asp-for="FavoriteId" />   
+    <input type="hidden" asp-for="PinId" />
+    <input type="hidden" asp-for="UserId"/>
+
+    <div class="form-group">
+        <label asp-for="Category"></label>
+        <input asp-for="Category" class="form-control" maxlength="100" />
+        <span asp-validation-for="Category" class="text-danger"></span> 
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MadeBy">This Pin was created by:</label>
+        <input asp-for="MadeBy" class="form-control" readonly/>
+        <span asp-validation-for="MadeBy" class="text-danger"></span> 
+    </div>
+
+    <!--knapp for update-->
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a asp-controller="Pin" asp-action="Table" class="btn btn-secondary">Cancel</a>
+
+</form>

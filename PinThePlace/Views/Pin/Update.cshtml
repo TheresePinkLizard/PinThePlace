@@ -1,7 +1,7 @@
 @model Pin
 <h2>Update Pin</h2>
 
-<form asp-action="Update">     <!--Forklaring på kode under finnes i create.cshtml-->
+<form asp-action="Update" method="post" enctype="multipart/form-data">     <!--Forklaring på kode under finnes i create.cshtml-->
     <input type="hidden" asp-for="PinId" />
     <div class="form-group">
         <label asp-for="Name"></label>
@@ -22,17 +22,22 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="ImageUrl"></label>
-        <input asp-for="ImageUrl" class="form-control"/>
+        <input asp-for="ImageUrl" class="form-control" hidden/>
         <span asp-validation-for="ImageUrl" class="text-danger"></span> 
     </div>
 
-        <div class ="form-group">
+    <div class="form-group">
+        <label asp-for="UploadedImage">Upload photo:</label>
+        <input asp-for="UploadedImage" type="file" accept="image/*" />
+        <span asp-validation-for="UploadedImage" class="text-danger"></span>
+    </div>
+
+    <div class ="form-group">
         <label asp-for="Latitude"></label>
         <input asp-for="Latitude" class="form-control" readonly />
         <span asp-validation-for="Latitude" class="text-danger"></span>
-
     </div>
+
     <div class ="form-group">
         <label asp-for="Longitude"></label>
         <input asp-for="Longitude" class="form-control" readonly/>

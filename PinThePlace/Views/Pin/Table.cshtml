@@ -6,16 +6,16 @@
         
         <!-- første kolonne -->
 
-        <div class="col-md-6">
+        <div class="col-md-6 ">
             <h3>Find your place</h3>
             <!--inputing google maps-->
-            <div id="map" style="height: 500px; width: 100%;"></div>
+            <div id="map" style="height: 750px; width: 100%;"></div>
             <!--temporary picture-->
 
             <!--- <img src="~/images/map.png" alt="Map Image"> -->
                  <p>
              <!--Mekanisme for å lage ny data entry CRUD-->
-            <a id="add_a_pin" class="btn btn-secondary"
+            <a id="add_a_pin" class="btn addpinButton"
                 asp-controller="Pin"
                 asp-action="Create"> Add a pin</a>
         </p>
@@ -26,16 +26,21 @@
         <div class="col-md-6">
             <!--lenker til feed og mypins-->
             <div>
-                <button id="showFeedWindow" class="btn btn-primary btn-lg">Feed</button>
-                <button id="showFavWindow" class="btn btn-secondary btn-lg">My Pins</button>
+                <button autofocus id="showFeedWindow" class="feedButton btn btn-lg">Feed</button>
+                <button id="showMypinsWindow" class="mypinsButton btn btn-lg">My Pins</button>
+                <button id="showFavWindow" class="favsButton btn btn-lg">Favorites</button>
             </div>
-            <!--Feed vindu-->
-            <div id="feedwindow" class="contentwindow">
+            <!--Feed window -->
+            <div id="feedwindow" class="contentwindow" >
                 <partial name="_Feed" model="Model.Pins"/>
             </div>
-            <!--mypins vindu-->
-            <div id="favwindow" class="contentwindow" style="display: none;">
+            <!--mypins window-->
+            <div id="mypinswindow" class="contentwindow" style="display: none;">
                 <partial name="_MyPins" model="Model.Pins"/>
+            </div>
+            <!--favories window-->
+            <div id="favwindow" class="contentwindow" style="display: none;">
+                <partial name="_Favorites" model="Model.Favorites"/>
             </div>
         </div>
     </div>
@@ -44,24 +49,135 @@
 <script src="~/js/bootstrap.min.js"></script>
 
 <script>
-    // javascript kode for å kunne bytte mellom vinduer
-$(document).ready(function(){
+  
+  function updateMapAndMarker(card) {
+    // Get latitude and longitude from the card's data attributes
+    var lat = card.dataset.latitude;
+    var lng = card.dataset.longitude;
+
+    // Update the map view to the coordinates
+    map.setView([lat, lng], 13);
+
+    // Update the marker position
+    if (currentMarker) {
+        map.removeLayer(currentMarker);
+    }
+    currentMarker = L.marker([lat, lng]).addTo(map);
+}
+$(document).ready(function() {
+    
+    $('#showFeedWindow').focus();
+
+    // Select the first card when entering the page
+    var firstCard = document.querySelector('.cardFeed');
+    var currentpage = '.cardFeed';
+    // Add the 'active' class to the first card
+    if (firstCard) {
+        firstCard.classList.add('active');
+    }
+
+    // Function to set click handlers on cards
+    function setCardClickHandlers(currentpage) {
+        document.querySelectorAll(currentpage).forEach(card => {
+            card.addEventListener('click', function () {
+                // Remove the 'active' class from all rows
+                document.querySelectorAll(currentpage).forEach(c => c.classList.remove('active'));
+
+                // Add the 'active' class to the clicked row
+                this.classList.add('active');
+
+                // Update map and marker
+                updateMapAndMarker(this);
+            });
+        });
+    }
+    /*FEED*/
+    // Code for switching between windows and switching background color
     $("#showFeedWindow").click(function(e){
+    e.preventDefault();
+    $("#feedwindow").show();
+    $("#favwindow").hide();
+     $("#mypinswindow").hide();
+    $("#favwindow").removeClass("contentwindow2").addClass("contentwindow");
+    currentpage = '.cardFeed';
+    setCardClickHandlers(currentpage);
+
+    document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
+
+    // Select the first card of the new page
+    var firstCard = document.querySelector(currentpage);
+    
+    // Add the 'active' class to the first card
+    if (firstCard) {
+        firstCard.classList.add('active');
+
+        // Update the map and marker
+        updateMapAndMarker(firstCard);
+    }
+    });
+    /*MY PINS*/
+    $("#showMypinsWindow").click(function(e){
         e.preventDefault();
-        $(this).removeClass('btn-secondary').addClass('btn-primary');
-        $('#showFavWindow').removeClass('btn-primary').addClass('btn-secondary');
-        $("#feedwindow").show();
+        $("#mypinswindow").show();
+        $("#feedwindow").hide();
         $("#favwindow").hide();
+        $("#mypinswindow").removeClass("contentwindow").addClass("contentwindow2"); 
+        currentpage = '.cardMypins';
+        setCardClickHandlers(currentpage);
+
+        document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
+
+        // Select the first card of the new page
+        var firstCard = document.querySelector(currentpage);
+        
+        // Add the 'active' class to the first card
+        if (firstCard) {
+            firstCard.classList.add('active');
+
+            // Update the map and marker
+            updateMapAndMarker(firstCard);
+        }
+    });
+    /*FAVS*/
+    $("#showFavWindow").click(function(e){
+        e.preventDefault();
+        // Hide other pages
+         $("#favwindow").show();
+        $("#feedwindow").hide();
+        $("#mypinswindow").hide();
+         $("#favwindow").removeClass("contentwindow").addClass("contentwindow3"); 
+
+        currentpage = '.cardFavs';
+        setCardClickHandlers(currentpage);
+
+        // Deselect all cards
+        document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
+
+        // Select the first card of the new page
+        var firstCard = document.querySelector(currentpage);
+        
+        // Add the 'active' class to the first card
+        if (firstCard) {
+            firstCard.classList.add('active');
+
+            // Update the map and marker
+            updateMapAndMarker(firstCard);
+        }
     });
 
-    $("#showFavWindow").click(function(e){
-       e.preventDefault();
-        $(this).removeClass('btn-secondary').addClass('btn-primary');
-        $('#showFeedWindow').removeClass('btn-primary').addClass('btn-secondary');
-        $("#favwindow").show();
-        $("#feedwindow").hide();
-    });
+    // Call setCardClickHandlers function initially for '.cardFeed'
+    setCardClickHandlers(currentpage);
 });
+
+window.onload = function() {
+    // Select the first card when entering the page
+    var firstCard = document.querySelector('.card');
+
+    // Add the 'active' class to the first card
+    if (firstCard) {
+        firstCard.classList.add('active');
+    }
+};
 
 // for å få kart inn i div med map id
 /*function initMap() {
