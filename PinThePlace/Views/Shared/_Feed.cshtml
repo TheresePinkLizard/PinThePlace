@@ -31,6 +31,8 @@
                                 {
                                     <a asp-action="Update" asp-route-id="@pin.PinId" class="btn btn-primary">Update</a>
                                     <a asp-action="Delete" asp-route-id="@pin.PinId" class="btn btn-danger">Delete</a>
+                                } else {
+                                    <a asp-action="AddToFavorites" asp-controller="Favorite" asp-route-id="@pin.PinId" class="btn btn-primary">Add to Favorites</a>
                                 }
                             </div>
                         </div>

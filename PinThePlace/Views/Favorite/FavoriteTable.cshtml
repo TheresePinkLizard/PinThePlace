@@ -1,0 +1,23 @@
+@model PinThePlace.ViewModels.FavoritesViewModel
+
+<h1>My Favorites</h1>
+
+<table>
+    <tr>
+        <th>Pin ID</th>
+        <th>MadeBy</th>
+        <th>Category</th>
+        <th><!-- Space for buttons --></th>
+    </tr>
+    @foreach (var favorite in Model.Favorites)
+    {
+        <tr>
+            <td>@favorite.PinId</td>
+            <td>@favorite.MadeBy</td>
+            <td>@favorite.Category</td>
+            <td>
+                <!-- Buttons for editing or removing the favorite -->
+            </td>
+        </tr>
+    }
+</table>

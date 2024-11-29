@@ -23,6 +23,8 @@ public class PinDbContext : IdentityDbContext<User> // definerer at classen Item
     public DbSet<Pin> Pins { get; set; } // metoder for å lagre instanser av Item
     //public DbSet<User> Users{ get; set; }
 
+    public DbSet<Favorite> Favorites {get; set;}
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseLazyLoadingProxies();

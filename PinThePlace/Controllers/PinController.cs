@@ -45,7 +45,9 @@ public class PinController : Controller
             return NotFound("Pin list not found");
         }
 
-        var pinsViewModel = new PinsViewModel(pins, "Table");
+        var favorites = await _pinRepository.GetAllFavorites();
+
+        var pinsViewModel = new PinsViewModel(pins,favorites, "Table");
         // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
         // denne returnerer en view
         //Console.WriteLine($"Fetched {pins.Count} pins from the database.");
