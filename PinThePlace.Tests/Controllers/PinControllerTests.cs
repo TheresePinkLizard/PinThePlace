@@ -51,7 +51,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.GetAll()).ReturnsAsync(pinList);
         
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
 
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
@@ -100,7 +100,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.GetAll()).ReturnsAsync(new List<Pin>());
         
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
 
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
@@ -132,7 +132,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
         
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
 
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
@@ -153,7 +153,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() =>null);
         
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
 
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
@@ -186,7 +186,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(true);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
@@ -223,8 +223,8 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(false);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
-        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns((string)null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns((string)null!);
 
         var mockLogger = new Mock<ILogger<PinController>>();
         var pinController = new PinController(mockPinRepository.Object,mockUserManager.Object, mockLogger.Object);
@@ -256,7 +256,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.Create(testPin)).ReturnsAsync(false);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
@@ -294,7 +294,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
@@ -317,10 +317,10 @@ public class PinControllerTests
     public async Task TestUpdate_Get_NotOk()
     {
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null);
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null!);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
@@ -357,7 +357,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.Update(testPin)).ReturnsAsync(true);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
@@ -394,7 +394,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.Update(testPin)).ReturnsAsync(false);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TestUser");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
@@ -432,7 +432,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
@@ -456,10 +456,10 @@ public class PinControllerTests
     {
         
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null);
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null!);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null, null, null, null, null ,null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("TestUserId");
         
@@ -496,7 +496,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(testPin);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
 
         var mockLogger = new Mock<ILogger<PinController>>();
@@ -518,10 +518,10 @@ public class PinControllerTests
     {
         // Arrange
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null);
+        mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null!);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheMermaid");
 
         var mockLogger = new Mock<ILogger<PinController>>();
@@ -545,7 +545,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.Delete(1)).ReturnsAsync(true);
 
         var mockLogger = new Mock<ILogger<PinController>>();
-        var pinController = new PinController(mockPinRepository.Object, null, mockLogger.Object);
+        var pinController = new PinController(mockPinRepository.Object, null!, mockLogger.Object);
 
         // Act
         var result = await pinController.DeleteConfirmed(1);
@@ -565,7 +565,7 @@ public class PinControllerTests
         mockPinRepository.Setup(repo => repo.Delete(1)).ReturnsAsync(false);
 
         var mockLogger = new Mock<ILogger<PinController>>();
-        var pinController = new PinController(mockPinRepository.Object, null, mockLogger.Object);
+        var pinController = new PinController(mockPinRepository.Object, null!, mockLogger.Object);
 
         // Act
         var result = await pinController.DeleteConfirmed(1);

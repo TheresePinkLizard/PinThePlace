@@ -18,205 +18,135 @@ namespace PinThePlace.Test.Controllers;
 
 public class UserControllerTests
 {
-     [Fact]
-
-    public async Task TestTableUnauthorized()
-    {
-        var userList = new List<User>()
-        {
-            new User
-            {
-                UserName="User1",
-            },
-
-            new User
-            {
-                UserName="User2",
-
-            }
-        };
-
-    var options = new DbContextOptionsBuilder<PinDbContext>().UseInMemoryDatabase(databaseName: "TestDatabase").Options;
-
-    var mockSet = new Mock<DbSet<User>>();
-    mockSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(userList.AsQueryable().Provider);
-    mockSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(userList.AsQueryable().Expression);
-    mockSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(userList.AsQueryable().ElementType);
-    mockSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(userList.AsQueryable().GetEnumerator());
-
-    var mockContext = new PinDbContext(options);
-    mockContext.Users.AddRange(userList);
-    mockContext.SaveChanges();
-    
-    var userStoreMock = new Mock<IUserStore<User>>();
-    var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null,null,null,null,null,null,null,null);
-
-    mockUserManager.Setup(um => um.Users).Returns(userList.AsQueryable());
-
-    var mockLogger = new Mock<ILogger<UserController>>();
-    var userController = new UserController(mockContext, mockUserManager.Object,mockLogger.Object);
-
-    var result = await userController.Table();
-
-    var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result);
-    }
-    /*
-    // Positiv test of Tabel(). 
+    // Positive test of Tabel(). 
     // Checks if result is of type ViewResult, model is a List of Users and model matches the UserList.
+
     [Fact]
     public async Task TestTable()
     {
-        // Arrange
         var userList = new List<User>()
-            {
-                new User {UserName = "TheStudent", Email="thestudent@gmail.com"} ,
-                new User {UserName = "Muncher", Email="muncher@gmail.com"} ,
-            };
+        {
+            new User { UserName = "TheStudent", Email = "thestudent@gmail.com" },
+            new User { UserName = "Muncher", Email = "muncher@gmail.com" }
+        };
 
-    // Mock DbSet<User>
-    var mockUserDbSet = new Mock<DbSet<User>>();
-    mockUserDbSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(userList.AsQueryable().Provider);
-    mockUserDbSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(userList.AsQueryable().Expression);
-    mockUserDbSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(userList.AsQueryable().ElementType);
-    mockUserDbSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(userList.AsQueryable().GetEnumerator());
+        var options = new DbContextOptionsBuilder<PinDbContext>().UseInMemoryDatabase(databaseName: "TestDatabase_Table_Positive").Options;
 
-    // Mock DbContext
-    var mockPinDbContext = new Mock<PinDbContext>(new DbContextOptions<PinDbContext>());
-    mockPinDbContext.Setup(c => c.Users).Returns(mockUserDbSet.Object);
+        using var mockContext = new PinDbContext(options);
+        mockContext.Users.AddRange(userList);
+        mockContext.SaveChanges();
 
-    // Mock UserManager
-    var userStoreMock = new Mock<IUserStore<User>>();
-    var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
-    mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("Admin");
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("Admin");
 
-    // Mock logger
-    var mockLogger = new Mock<ILogger<UserController>>();
+        var mockLogger = new Mock<ILogger<UserController>>();
+        var userController = new UserController(mockContext, mockUserManager.Object, mockLogger.Object);
 
-    // Create controller
-     var userController = new UserController(mockPinDbContext.Object, mockUserManager.Object, mockLogger.Object);
+        var result = await userController.Table();
 
-    // Act
-    var result = await userController.Table();
-
-    // Assert
-    var viewResult = Assert.IsType<ViewResult>(result); // Sjekk at resultatet er en ViewResult
-    var model = Assert.IsAssignableFrom<List<User>>(viewResult.Model); // Sjekk at modellen er en liste av brukere
-    Assert.Equal(2, model.Count); // Sjekk at modellen inneholder 2 brukere
-    Assert.Equal(userList.Select(u => u.UserName), model.Select(u => u.UserName));
-    Assert.Equal(userList.Select(u => u.Email), model.Select(u => u.Email));
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsAssignableFrom<List<User>>(viewResult.Model);
+        Assert.Equal(2, model.Count);
+        Assert.Equal(userList.Select(u => u.UserName), model.Select(u => u.UserName));
+        Assert.Equal(userList.Select(u => u.Email), model.Select(u => u.Email));
     }
-                    
-
-    // Negative test of Tabel(). 
+    
+     // Negative test of Tabel(). 
     // Checks if user is not Admin it results in unauthorized.
     [Fact]
     public async Task TestTableNotAdmin()
     {
+        var userList = new List<User>()
+            {
+                new User { UserName = "TheStudent", Email = "thestudent@gmail.com" },
+                new User { UserName = "Muncher", Email = "muncher@gmail.com" }
+            };
 
-    // Mock DbSet<User>
-    var mockUserDbSet = new Mock<DbSet<User>>();
-    mockUserDbSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(userList.AsQueryable().Provider);
-    mockUserDbSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(userList.AsQueryable().Expression);
-    mockUserDbSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(userList.AsQueryable().ElementType);
-    mockUserDbSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(userList.AsQueryable().GetEnumerator());
+        var options = new DbContextOptionsBuilder<PinDbContext>().UseInMemoryDatabase(databaseName: "TestDatabase_Table_Negative").Options;
 
-    // Mock DbContext
-    var mockPinDbContext = new Mock<PinDbContext>(new DbContextOptions<PinDbContext>());
-    mockPinDbContext.Setup(c => c.Users).Returns(mockUserDbSet.Object);
+        using var mockContext = new PinDbContext(options);
+        mockContext.Users.AddRange(userList);
+        mockContext.SaveChanges();
 
-    // Mock UserManager
-    var userStoreMock = new Mock<IUserStore<User>>();
-    var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-    mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheStudent");
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
+        mockUserManager.Setup(um => um.GetUserName(It.IsAny<ClaimsPrincipal>())).Returns("TheStudent");
 
-    // Mock logger
-    var mockLogger = new Mock<ILogger<UserController>>();
+        var mockLogger = new Mock<ILogger<UserController>>();
+        var userController = new UserController(mockContext, mockUserManager.Object, mockLogger.Object);
 
-    // Create controller
-    var userController = new UserController(mockUserManager.Object, mockPinDbContext.Object, mockLogger.Object);
+        var result = await userController.Table();
 
-    // Act
-    var result = await userController.Table();
-
-    // Assert
-    var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result); // Forvent UnauthorizedResult
-
+        Assert.IsType<UnauthorizedResult>(result);
     }
 
     // Positiv test of MyPins(). 
-    // Checks if result is of type ViewResult, model is a List of Users and model matches the UserList.
-
+    // Checks if result is of type ViewResult, model is a List of pins and model matches the UserList.
     [Fact]
-    public async Task MyPins_ReturnsView_WithUserPins()
+    public async Task TestMyPins()
     {
-        // Arrange
-        var pinList = new List<Pin>()
+        var pinList = new List<Pin>
         {
-            new Pin 
-                {
-                    Name = "Cafe",
-                    Rating = 4.0m,
-                    Comment = "Great cafe!",
-                    Latitude = 59.91731919136782,
-                    Longitude = 10.727738688356991,
-                    UserName = "CoolKid",
-                    UserId = "1",
-                    ImageUrl = "/images/Cafe.png",
-                },
-
-            new Pin 
-                {
-                    Name = "SwimmingPool",
-                    Rating = 5.0m,
-                    Comment = "Refreshing, can recommend!",
-                    Latitude = 59.921365321156706, 
-                    Longitude = 10.733315263484577,
-                    UserName = "TheMermaid",
-                    UserId = "2",
-                    ImageUrl = "/images/Pool.png",
-                }   
+            new Pin { PinId = 1, Name = "Cafe", UserId = "1", UserName = "TheStudent" },
+            new Pin { PinId = 2, Name = "Library", UserId = "1", UserName = "TheStudent" }
         };
 
-        new User { Id = "1" , UserName = "TheStudent", Email="thestudent@gmail.com"}
+        var user = new User { Id = "1", UserName = "TheStudent", Pins = pinList };
 
-        // Mock DbSet<User>
-        var mockUserDbSet = new Mock<DbSet<User>>();
-        mockUserDbSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(new List<User> { user }.AsQueryable().Provider);
-        mockUserDbSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(new List<User> { user }.AsQueryable().Expression);
-        mockUserDbSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(new List<User> { user }.AsQueryable().ElementType);
-        mockUserDbSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(new List<User> { user }.AsQueryable().GetEnumerator());
+        var options = new DbContextOptionsBuilder<PinDbContext>().UseInMemoryDatabase(databaseName: "TestDatabase_MyPins").Options;
 
-        // Mock DbContext
-        var mockPinDbContext = new Mock<PinDbContext>(new DbContextOptions<PinDbContext>());
-        mockPinDbContext.Setup(c => c.Users).Returns(mockUserDbSet.Object);
+        using var mockContext = new PinDbContext(options);
+        mockContext.Users.Add(user);
+        mockContext.Pins.AddRange(pinList);
+        mockContext.SaveChanges();
+
+        var userStoreMock = new Mock<IUserStore<User>>();
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("1");
+
+        var mockLogger = new Mock<ILogger<UserController>>();
+        var userController = new UserController(mockContext, mockUserManager.Object, mockLogger.Object);
+
+        var result = await userController.MyPins();
+
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsAssignableFrom<List<Pin>>(viewResult.Model);
+        Assert.Equal(2, model.Count);
+        Assert.Equal(pinList.Select(p => p.Name), model.Select(p => p.Name));
+    }
+
+    // Negative test for MyPins()
+    // Checks if the result is NotFound when the user or their pins are not found in the database.
+    [Fact]
+    public async Task TestMyPinsNotOk()
+    {
+        // Arrange
+        var user = new User { Id = "1", UserName = "TheStudent"};
+
+        var options = new DbContextOptionsBuilder<PinDbContext>().UseInMemoryDatabase("TestDatabase").Options;
+
+        // Create a mock DbContext with no users
+        var mockPinDbContext = new PinDbContext(options);
 
         // Mock UserManager
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("1");
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(user.Id); 
 
         // Mock logger
         var mockLogger = new Mock<ILogger<UserController>>();
 
-        // Create controller
-        var userController = new UserController(mockUserManager.Object, mockPinDbContext.Object, mockLogger.Object);
+        // Create UserController
+        var userController = new UserController(mockPinDbContext, mockUserManager.Object, mockLogger.Object);
 
         // Act
         var result = await userController.MyPins();
-        var expectedpin = pinList.First(pin => pinUserId=="1");
 
         // Assert
-        var viewResult = Assert.IsType<ViewResult>(result); // Sjekk at resultatet er en ViewResult
-        var model = Assert.IsAssignableFrom<List<Pin>>(viewResult.Model); // Sjekk at modellen er en liste av pins
-        Assert.Single(model);
-        Assert.Equal(1, model.Count); // Sjekk at riktig antall pins returneres
-        Assert.Equal(expectedpin.Name, model.Name); // Sjekk at listen matcher forventet data
-        Assert.Equal(expectedpin.UserName, model.UserName);
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("User with was not found.", notFoundResult.Value); 
     }
-    // Negative test of Tabel(). 
-    // Checks if user is not Admin it results in unauthorized.
-
-    */
 
 }
 

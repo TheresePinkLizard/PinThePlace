@@ -159,7 +159,7 @@ public class FavoriteControllerTests
         mockPinRepository.Setup(repo => repo.GetItemById(testPin.PinId)).ReturnsAsync(testPin);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("2");
 
         var mockLogger = new Mock<ILogger<FavoriteController>>();
@@ -210,7 +210,7 @@ public class FavoriteControllerTests
         mockPinRepository.Setup(repo => repo.SaveFavorite(It.IsAny<Favorite>())).ReturnsAsync(true);
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.FindByIdAsync(testFavorite.UserId)).ReturnsAsync(new User { Id = testFavorite.UserId });
 
         var mockLogger = new Mock<ILogger<FavoriteController>>();
@@ -257,7 +257,7 @@ public class FavoriteControllerTests
         mockPinRepository.Setup(repo => repo.SaveFavorite(testFavorite)).ReturnsAsync(false); // Simuler lagringsfeil
 
         var userStoreMock = new Mock<IUserStore<User>>();
-        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
+        var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
         mockUserManager.Setup(um => um.FindByIdAsync(testFavorite.UserId)).ReturnsAsync(new User { Id = testFavorite.UserId });
 
         var mockLogger = new Mock<ILogger<FavoriteController>>();
