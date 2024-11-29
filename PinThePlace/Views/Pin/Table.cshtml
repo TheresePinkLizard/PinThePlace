@@ -28,7 +28,7 @@
             <div>
                 <button autofocus id="showFeedWindow" class="feedButton btn btn-lg">Feed</button>
                 <button id="showMypinsWindow" class="mypinsButton btn btn-lg">My Pins</button>
-                <button id="showFavsWindow" class="favsButton btn btn-lg">Favorites</button>
+                <button id="showFavWindow" class="favsButton btn btn-lg">Favorites</button>
             </div>
             <!--Feed window -->
             <div id="feedwindow" class="contentwindow" >
@@ -39,7 +39,7 @@
                 <partial name="_MyPins" model="Model.Pins"/>
             </div>
             <!--favories window-->
-            <div id="favoritewindow" class="contentwindow" style="display: none;">
+            <div id="favwindow" class="contentwindow" style="display: none;">
                 <partial name="_Favorites" model="Model.Favorites"/>
             </div>
         </div>
@@ -139,7 +139,7 @@ $(document).ready(function() {
         }
     });
     /*FAVS*/
-    $("#showFavsWindow").click(function(e){
+    $("#showFavWindow").click(function(e){
         e.preventDefault();
         // Hide other pages
          $("#favwindow").show();

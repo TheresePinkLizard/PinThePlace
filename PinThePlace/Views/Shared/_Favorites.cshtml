@@ -10,13 +10,12 @@
             if(favorite.UserId == _userManager.GetUserId(User))
             {
                 <div class="col-md-12">
-                    <div class="card mb-3" style="width: 100%;"
+                    <div class="cardFavs mb-3" style="width: 100%;"
                         data-id="@favorite.PinId" 
                         data-name="@favorite.Category">
                         <div class="row no-gutters">
                             <div class="col-md-7">
                                 <div class="card-body"  style="padding-right: 5px;">
-                                  
                                     <p><strong>PinId:</strong> @favorite.PinId</p>
                                     <p><strong>Category:</strong> @favorite.Category</p>
                                     <p><strong>Made by User:</strong> @favorite.MadeBy</p>
@@ -37,6 +36,7 @@
 </div>
 
 <script>
+    /*
 // code to selected items in the list
     document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', function () {
@@ -59,4 +59,5 @@
             popup.setLatLng([latitude, longitude]).setContent("You selected the pin at " + latitude + ", " + longitude).openOn(map);
         });
     });
+    */
 </script>
