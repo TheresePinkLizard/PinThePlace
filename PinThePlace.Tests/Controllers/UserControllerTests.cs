@@ -24,7 +24,7 @@ public class UserControllerTests
     public async Task TestTable()
     {
         // Arrange
-        var userList = new List<User>
+        var userList = new List<User>()
             {
                 new User {UserName = "TheStudent", Email="thestudent@gmail.com"} ,
                 new User {UserName = "Muncher", Email="muncher@gmail.com"} ,
