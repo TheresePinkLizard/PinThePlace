@@ -104,16 +104,6 @@ $(document).ready(function() {
 
     document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
 
-    // Select the first card of the new page
-    var firstCard = document.querySelector(currentpage);
-    
-    // Add the 'active' class to the first card
-    if (firstCard) {
-        firstCard.classList.add('active');
-
-        // Update the map and marker
-        updateMapAndMarker(firstCard);
-    }
     });
     /*MY PINS*/
     $("#showMypinsWindow").click(function(e){
@@ -127,16 +117,6 @@ $(document).ready(function() {
 
         document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
 
-        // Select the first card of the new page
-        var firstCard = document.querySelector(currentpage);
-        
-        // Add the 'active' class to the first card
-        if (firstCard) {
-            firstCard.classList.add('active');
-
-            // Update the map and marker
-            updateMapAndMarker(firstCard);
-        }
     });
     /*FAVS*/
     $("#showFavWindow").click(function(e){
@@ -153,16 +133,6 @@ $(document).ready(function() {
         // Deselect all cards
         document.querySelectorAll('.cardFeed, .cardMypins, .cardFavs').forEach(c => c.classList.remove('active'));
 
-        // Select the first card of the new page
-        var firstCard = document.querySelector(currentpage);
-        
-        // Add the 'active' class to the first card
-        if (firstCard) {
-            firstCard.classList.add('active');
-
-            // Update the map and marker
-            updateMapAndMarker(firstCard);
-        }
     });
 
     // Call setCardClickHandlers function initially for '.cardFeed'
