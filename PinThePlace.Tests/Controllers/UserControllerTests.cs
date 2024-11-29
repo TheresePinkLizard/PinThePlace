@@ -18,6 +18,48 @@ namespace PinThePlace.Test.Controllers;
 
 public class UserControllerTests
 {
+     [Fact]
+
+    public async Task TestTableUnauthorized()
+    {
+        var userList = new List<User>()
+        {
+            new User
+            {
+                UserName="User1",
+            },
+
+            new User
+            {
+                UserName="User2",
+
+            }
+        };
+
+    var options = new DbContextOptionsBuilder<PinDbContext>().UseInMemoryDatabase(databaseName: "TestDatabase").Options;
+
+    var mockSet = new Mock<DbSet<User>>();
+    mockSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(userList.AsQueryable().Provider);
+    mockSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(userList.AsQueryable().Expression);
+    mockSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(userList.AsQueryable().ElementType);
+    mockSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(userList.AsQueryable().GetEnumerator());
+
+    var mockContext = new PinDbContext(options);
+    mockContext.Users.AddRange(userList);
+    mockContext.SaveChanges();
+    
+    var userStoreMock = new Mock<IUserStore<User>>();
+    var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null,null,null,null,null,null,null,null);
+
+    mockUserManager.Setup(um => um.Users).Returns(userList.AsQueryable());
+
+    var mockLogger = new Mock<ILogger<UserController>>();
+    var userController = new UserController(mockContext, mockUserManager.Object,mockLogger.Object);
+
+    var result = await userController.Table();
+
+    var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result);
+    }
     /*
     // Positiv test of Tabel(). 
     // Checks if result is of type ViewResult, model is a List of Users and model matches the UserList.
