@@ -314,7 +314,7 @@ public class PinControllerTests
     // Negative test for [Get] Update()
     // Checks if results is of type NotFound when pin = null and validates the error message
     [Fact]
-    public async Task TestUpdate_Get_NotOk()
+    public async Task TestUpdateNotOk_Get()
     {
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetItemById(1)).ReturnsAsync(() => null!);
@@ -375,7 +375,7 @@ public class PinControllerTests
     // Negative test for [Post] Update
     // Checks if result is of type ViewResult, ViewData.Model contains Pin Object that it matches the testPin.
     [Fact]
-    public async Task TestUpdate_Post_NotOk()
+    public async Task TestUpdateNotOk_Post()
     {
         // arrange
         var testPin = new Pin
@@ -452,7 +452,7 @@ public class PinControllerTests
     // Negative test for [Get] Delete ()
     // Checks if results is of type NotFound when pin = null and validates the error message
     [Fact]
-    public async Task TestDelete_Get_NotOk()
+    public async Task TestDeleteNotOk_Get()
     {
         
         var mockPinRepository = new Mock<IPinRepository>();
@@ -514,7 +514,7 @@ public class PinControllerTests
     // Negative test for [Get] DeleteConfirmation()
     // Checks if DeleteConfirmation returns NotFound when the pin does not exist.
     [Fact]
-    public async Task TestDeleteConfirmation_Get_NotOk()
+    public async Task TestDeleteConfirmationNotOk_Get()
     {
         // Arrange
         var mockPinRepository = new Mock<IPinRepository>();
@@ -558,7 +558,7 @@ public class PinControllerTests
     // Negative test for [Post] DeleteConfirmation()
     // Checks if DeleteConfirmed returns a BadRequestObjectResult with the correct error message when deletion fails.
     [Fact]
-    public async Task TestDeleteConfirmed_Post_NotOk()
+    public async Task TestDeleteConfirmedNotOk_Post()
     {
         // Arrange
         var mockPinRepository = new Mock<IPinRepository>();
