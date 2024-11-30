@@ -13,14 +13,14 @@
                     <div class="cardFavs mb-3" style="width: 100%;"
                         data-id="@favorite.PinId" 
                         data-name="@favorite.Category"
-                        data-latitude="@favorite.Pin.Latitude" 
-                        data-longitude="@favorite.Pin.Longitude">
+                        data-latitude="@favorite.Pin?.Latitude" 
+                        data-longitude="@favorite.Pin?.Longitude">
                         <div class="row no-gutters">
                             <div class="col-md-7">
                                 <div class="card-body"  style="padding-right: 5px;">
-                                    <h5> <a asp-controller="Pin" asp-action="Details" asp-route-id="@favorite.PinId">@favorite.Pin.Name</a></h5>
-                                    <p class="card-text"> @favorite.Pin.Comment</p>
-                                    <p><strong>Date:</strong> @favorite.Pin.DateCreated</p>
+                                    <h5> <a asp-controller="Pin" asp-action="Details" asp-route-id="@favorite.PinId">@favorite.Pin?.Name</a></h5>
+                                    <p class="card-text"> @favorite.Pin?.Comment</p>
+                                    <p><strong>Date:</strong> @favorite.Pin?.DateCreated</p>
                                     <p><strong>Category:</strong> @favorite.Category</p>
                                     <p><strong>Made by User:</strong> @favorite.MadeBy</p>
 
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                            <div class="col-md-5">
-                            <div style="background-image: url('@favorite.Pin.ImageUrl'); background-size: cover; background-position: center; height: 100%;"></div>
+                            <div style="background-image: url('@favorite.Pin?.ImageUrl'); background-size: cover; background-position: center; height: 100%;"></div>
                             </div>
                         </div>
                     </div>
