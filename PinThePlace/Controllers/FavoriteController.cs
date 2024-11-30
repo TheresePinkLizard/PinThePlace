@@ -26,7 +26,7 @@ public class FavoriteController : Controller
      public async Task<IActionResult> Table()
     {  
     
-        // henter alle items fra items table i databasen og konverterer til en liste
+        //Gathers all favorites in the favorites table in the database 
         var favorites = await _pinRepository.GetAllFavorites();
         var pins = await _pinRepository.GetAll();
         
