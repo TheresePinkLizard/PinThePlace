@@ -58,6 +58,18 @@ public class FavoriteController : Controller
         var user = _userManager.GetUserId(User);
         var pin = await _pinRepository.GetItemById(id);
 
+        if(user == null)
+        {
+            _logger.LogError("FavoriteController] User not found when trying to favorite pin {PinId:0000}", id);
+            return NotFound("User not found, can't create favorite");
+        }
+
+        if(pin == null)
+        {
+            _logger.LogError("FavoriteController] Pin not found when trying to favorite pin {PinId:0000}", id);
+            return NotFound("Pin not found for the pinId, cant create favorite");
+        }
+
         var favorite = new Favorite
         {
             PinId = pin.PinId,
@@ -78,9 +90,9 @@ public class FavoriteController : Controller
            favorite.User = await _userManager.FindByIdAsync(favorite.UserId);
         }
     // Fetch the Pin with the given ID
-        var success = await _pinRepository.SaveFavorite(favorite);
+        bool returnOk = await _pinRepository.SaveFavorite(favorite);
 
-        if (success)
+        if (returnOk)
         {
              return RedirectToAction(nameof(Table),"Pin");
         }
@@ -89,7 +101,7 @@ public class FavoriteController : Controller
 
     }
 
-     [HttpGet]
+    [HttpGet]
     [Authorize]
     public async Task<IActionResult> UpdateFavorite(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
     {                                   // metoden slår ut når bruker navigerer seg til update siden
@@ -100,7 +112,18 @@ public class FavoriteController : Controller
         
         // henter fra database ved hjelp av id
         var favorite = await _pinRepository.GetFavoriteById(id); 
+        if(favorite == null)
+        {
+            _logger.LogError("[FavoriteController] Favorite not found when updating the Favorite {FavoriteId:0000}", id);
+            return NotFound("Favorite not found for the FavoriteId");
+        }
         var pin = await _pinRepository.GetItemById(favorite.PinId);
+
+        if(pin == null)
+        {
+            _logger.LogError("[FavoriteController] Corresponding pin not found when updating the Favorite {FavoriteId:0000}", id);
+            return NotFound("Favorite not found for the FavoriteId");
+        }
           
         if (favorite == null)               // sjekk om den finner item
         {
