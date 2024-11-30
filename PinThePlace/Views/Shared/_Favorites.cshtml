@@ -5,7 +5,7 @@
 
 <div class="container">
     <div class="row">
-        @if(User.Identity.IsAuthenticated)
+        @if(User?.Identity?.IsAuthenticated ?? false)
         {
         @foreach (var favorite in Model)
         {
