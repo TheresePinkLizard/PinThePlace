@@ -2,6 +2,8 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!--This is the index page. It shows a little text that explains how this application works-->
+
 <div class="text-center">
     <h1 class="display-4">Welcome to PinThePlace!</h1>
     <p>In this application you are able to save your favorite locations by pinning the place!</p>
@@ -14,28 +16,3 @@
 
     <a asp-controller="Pin" asp-action="Table" class="btn btn-secondary">Start pinning places!</a>
 </div>
- <!--annen index kode: --using Microsoft.AspNetCore.Mvc;
-using PinThePlace.ViewModels;
-using PinThePlace.Models; // Assuming your DbContext is in this namespace
-using System.Linq;if you want to just see the feed you can click this button!
-
-namespace PinThePlace.Controllers 
-{
-    public class HomeController : Controller
-    {
-        private readonly PinDbContext _context; // Define _context
-
-        // Inject PinDbContext into the constructor
-        public HomeController(PinDbContext context)
-        {
-            _context = context;
-        }
-
-        public IActionResult Index()
-        {
-            var pins = _context.Pins.ToList();
-            var viewModel = new PinsViewModel {Pins = pins, CurrentViewName = "Home"};
-            return View(viewModel);
-        }
-    }
-} -->

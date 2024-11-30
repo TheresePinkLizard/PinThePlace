@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 public class FavoriteController : Controller
 {
-    private readonly IPinRepository _pinRepository; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
+    private readonly IPinRepository _pinRepository; 
     private readonly UserManager <User> _userManager;
     private readonly ILogger<FavoriteController> _logger;
 
@@ -45,9 +45,7 @@ public class FavoriteController : Controller
 
         
         var pinsViewModel = new PinsViewModel(pins,favorites, "Table");
-        // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
-        // denne returnerer en view
-        //Console.WriteLine($"Fetched {pins.Count} pins from the database.");
+    
         return View(pinsViewModel);
     }
 
@@ -89,7 +87,7 @@ public class FavoriteController : Controller
            favorite.Pin = await _pinRepository.GetItemById(favorite.PinId);
            favorite.User = await _userManager.FindByIdAsync(favorite.UserId);
         }
-    // Fetch the Pin with the given ID
+
         bool returnOk = await _pinRepository.SaveFavorite(favorite);
 
         if (returnOk)
@@ -103,14 +101,14 @@ public class FavoriteController : Controller
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> UpdateFavorite(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
-    {                                   // metoden slår ut når bruker navigerer seg til update siden
-        // retrieves current user
+    public async Task<IActionResult> UpdateFavorite(int id) 
+    {                                   
+        //gets the logged in user
         var userName = _userManager.GetUserName(User);
         var userId = _userManager.GetUserId(User);
        
         
-        // henter fra database ved hjelp av id
+        // gets the favorite from the database based on the Id
         var favorite = await _pinRepository.GetFavoriteById(id); 
         if(favorite == null)
         {
@@ -125,7 +123,7 @@ public class FavoriteController : Controller
             return NotFound("Favorite not found for the FavoriteId");
         }
           
-        if (favorite == null)               // sjekk om den finner item
+        if (favorite == null)              
         {
             _logger.LogError("[FavoriteController] Favorite not found when updating the Favorite {FavoriteId:0000}", id);
             return NotFound("Favorite not found for the FavoriteId");
@@ -147,7 +145,7 @@ public class FavoriteController : Controller
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> UpdateFavorite(Favorite favorite)  // tar informasjonen som er skrevet i update skjema,
+    public async Task<IActionResult> UpdateFavorite(Favorite favorite)  
     {   
         
         if (ModelState.IsValid)
@@ -155,7 +153,7 @@ public class FavoriteController : Controller
             bool returnOk = await _pinRepository.UpdateFavorite(favorite);
             if(returnOk)
             {
-            return RedirectToAction(nameof(Table),"Pin"); // displayer den oppdaterte listen
+            return RedirectToAction(nameof(Table),"Pin"); 
             }
         }
         _logger.LogWarning("[FavoriteController] Favorite update failed {@favorite}", favorite);
@@ -165,33 +163,35 @@ public class FavoriteController : Controller
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> DeleteFavorite(int id)  // displayer confirmation page for å slette en item
+    public async Task<IActionResult> DeleteFavorite(int id)  
     {
-          // retrieves current user
+          // get the current logged in user
         var userName = _userManager.GetUserName(User);
         var userId =  _userManager.GetUserId(User);
-        var favorite = await _pinRepository.GetFavoriteById(id); // identifiserer og henter item som skal bli slettet
+
+        //Gets the favorite that is going to be deleted based on the Id
+        var favorite = await _pinRepository.GetFavoriteById(id); 
          
-         if (favorite == null)               // sjekk om den finner item
+         if (favorite == null)               
         {   
             _logger.LogError("[FavoriteController] Favorite deletion failed for {FavortieId:0000}", id);
             return NotFound("Favorite not found for the FavoriteId");
 
         } 
-       return View("DeleteFavorite",favorite);   // hvis funnet, returnerer view med item data for bekreftelse
+       return View("DeleteFavorite",favorite);   
     }
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
+    public async Task<IActionResult> DeleteConfirmed(int id) 
     {
-        bool returnOk = await _pinRepository.DeleteFavorite(id);  // lagrer endringene 
+        bool returnOk = await _pinRepository.DeleteFavorite(id);   
         if (!returnOk)
         {
             _logger.LogError("[FavoriteController] Favorite deletion failed for {FavoriteId:0000}", id);
             return BadRequest("Favorite deletion failed");
         }
-        return RedirectToAction(nameof(Table),"Pin"); //returnerer bruker til table view hvor item nå er fjernet
+        return RedirectToAction(nameof(Table),"Pin"); 
     }
 
 
