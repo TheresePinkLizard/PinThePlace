@@ -5,6 +5,8 @@
 
 <div class="container">
     <div class="row">
+        @if(User?.Identity?.IsAuthenticated ?? false)
+        {
         @foreach (var favorite in Model)
         {
             if(favorite.UserId == _userManager.GetUserId(User))
@@ -33,13 +35,18 @@
                                 </div>
                             </div>
                            <div class="col-md-5">
-                            <div style="background-image: url('@favorite.Pin.ImageUrl'); background-size: cover; background-position: center; height: 100%;"></div>
+                            <div style="background-image: url('@favorite.Pin?.ImageUrl'); background-size: cover; background-position: center; height: 100%;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             }
         }
+    } else {
+        <div class="col-md-5">
+            <p>You have to be logged in to see "Favorites"</p>
+        </div>
+    }
     </div>
 </div>
 
