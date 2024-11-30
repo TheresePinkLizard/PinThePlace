@@ -5,6 +5,8 @@
 
 <div class="container">
     <div class="row">
+        @if(User.Identity.IsAuthenticated)
+        {
         @foreach (var pin in Model)
         {
             if(pin.UserName == _userManager.GetUserName(User))
@@ -43,6 +45,12 @@
                 </div>
             }
         }
+    }
+    else{
+        <div class="col-md-5">
+            <p>You have to be logged in to see "MyPins"</p>
+        </div>
+    }
     </div>
 </div>
 

@@ -5,6 +5,8 @@
 
 <div class="container">
     <div class="row">
+        @if(User.Identity.IsAuthenticated)
+        {
         @foreach (var favorite in Model)
         {
             if(favorite.UserId == _userManager.GetUserId(User))
@@ -36,6 +38,11 @@
                 </div>
             }
         }
+    } else {
+        <div class="col-md-5">
+            <p>You have to be logged in to see "Favorites"</p>
+        </div>
+    }
     </div>
 </div>
 
