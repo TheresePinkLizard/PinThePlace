@@ -4,6 +4,7 @@
 @model IEnumerable<Pin>
 
 <div class="container">
+    
     <div class="row">
         @foreach (var pin in Model)
         {
@@ -46,27 +47,4 @@
     </div>
 </div>
 
-<script>
-// code to selected items in the list
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', function () {
-            // Remove the 'selected' class from all cards
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
 
-            // Add the 'selected' class to the clicked card
-            this.classList.add('selected');
-
-            // Stores location data from selected pin
-            var latitude = this.getAttribute('data-latitude');
-            var longitude = this.getAttribute('data-longitude');
-            
-            //sets location data
-            sessionStorage.setItem('Lat', latitude);
-            sessionStorage.setItem('Long', longitude);
-            
-            //updates map and sets the pointer to location
-            map.setView([latitude, longitude], 13);
-            popup.setLatLng([latitude, longitude]).setContent("You selected the pin at " + latitude + ", " + longitude).openOn(map);
-        });
-    });
-</script>

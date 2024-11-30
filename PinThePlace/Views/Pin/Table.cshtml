@@ -137,6 +137,24 @@ $(document).ready(function() {
 
     // Call setCardClickHandlers function initially for '.cardFeed'
     setCardClickHandlers(currentpage);
+
+    // Code for search functionality
+    $('#searchQuery').on('keyup', function() {
+        var searchQuery = $(this).val().toLowerCase();
+
+        $(currentpage).each(function() {
+            var name = $(this).data('name').toLowerCase();
+            var rating = $(this).data('rating').toString();
+            var username = $(this).data('userid').toLowerCase();
+
+            if (name.indexOf(searchQuery) !== -1 || rating.indexOf(searchQuery) !== -1 || username.indexOf(searchQuery) !== -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+        
+    });
 });
 
 window.onload = function() {

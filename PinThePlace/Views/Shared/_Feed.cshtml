@@ -2,6 +2,11 @@
 
 
 <div class="container">
+        <!--Code for filtering-->
+    <div class="form-group mb-4">
+        <input type="text" class="form-control" id="searchQuery" placeholder="Search pins by name, rating, or username..."/>
+    </div>
+
     <div class="row">
         @foreach (var pin in Model)    
         {
@@ -46,36 +51,5 @@
     </div>
 </div>
 
-<script>
-/*
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', function () {
-        // Remove the 'selected' class from all rows
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
 
-        // Add the 'selected' class to the clicked row
-        this.classList.add('selected');
-
-       // Stores location data from selected pin
-        var latitude = this.getAttribute('data-latitude');
-        var longitude = this.getAttribute('data-longitude');
-        
-        //sets location data
-        sessionStorage.setItem('Lat', latitude);
-        sessionStorage.setItem('Long', longitude);
-        
-        //updates map and sets the pointer to location
-        map.setView([latitude, longitude], 13);
-        if (currentMarker) {
-            map.removeLayer(currentMarker);
-        }
-
-        // Add a new marker to the map
-        currentMarker = L.marker([latitude, longitude]).addTo(map);
-
-        //currentMarker.bindPopup("You selected the pin at " + latitude + ", " + longitude).openPopup();
-    });
-});
-*/
-</script>
 
