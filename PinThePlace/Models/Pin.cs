@@ -7,12 +7,9 @@ namespace PinThePlace.Models
     public class Pin {
         public int PinId { get; set; }
 
-        //[RegularExpression(@"[0-9a-zA-ZæøåÆØÅ. \-]{2-20}", ErrorMessage="The name of the Pin must be numbers or letters between 2 to 20 characters!")]
-       // [Display(Name="Pin name")]
-
        [RegularExpression(@"^[0-9a-zA-ZæøåÆØÅ ]*$",ErrorMessage="You can only have numbers and letters in the name")]
-        public string Name { get; set; } = string.Empty; //  = string.Empty;  is to state this is a mandatory value, has empthy string by default. 
-                                        //can also use ? on nullable variabels instead, like this code shows
+        public string Name { get; set; } = string.Empty; 
+                                        
 
         [Range(1,5, ErrorMessage ="Rating must be between 1 and 5!")]
         public decimal Rating { get; set; }      

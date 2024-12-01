@@ -4,7 +4,9 @@ using PinThePlace.Models;
 namespace PinThePlace.DAL;
 
 public interface IPinRepository
-{
+{   
+
+    //For the pins
     Task<IEnumerable<Pin>> GetAll();
     Task<Pin?> GetItemById(int id);
     Task<bool> Create(Pin pin);

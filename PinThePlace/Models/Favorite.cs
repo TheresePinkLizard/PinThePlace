@@ -8,6 +8,7 @@ namespace PinThePlace.Models
 
         public int FavoriteId {get; set;}
 
+        //Category can have stringlength of max 100
         [StringLength(100)] 
         public string? Category {get; set;}
 
