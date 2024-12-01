@@ -197,12 +197,9 @@ window.onload = function() {
 
     map.addControl(searchControl);
 
-
-
-    //Makes a pop up that shows the clicked places' 
     var currentMarker = null;
 
-
+     //code that check if user clicked on a new place on the map, removes previous click and new marker is set
     function onMapClick(e) {
         var lat = e.latlng.lat.toFixed(6);
         var long = e.latlng.lng.toFixed(6);
@@ -210,14 +207,16 @@ window.onload = function() {
         if (currentMarker){
             map.removeLayer(currentMarker);
         }
+        //adds new marker
         currentMarker = L.marker(e.latlng).addTo(map);
     
-        // stores latitude and longitude to sessionStorage
+        // stores clicked location(latitude and longitude) to sessionStorage
         sessionStorage.setItem('Lat',lat);
         sessionStorage.setItem('Long',long);
     }
+    //connents the clickaction to the map
     map.on('click',onMapClick);
-
+   
     map.on('geosearch/showlocation', function(e) {
         if (e.location){
             var lat = e.location.y;
@@ -237,11 +236,12 @@ window.onload = function() {
             console.error("location null");
         }
     });
-
+    //Retrieves latitude and longitude and check if its selected 
     document.getElementById('add_a_pin').addEventListener('click', function(e) {
     var lat = sessionStorage.getItem('Lat');
     var long = sessionStorage.getItem('Long');
 
+    //if location is not clicked, give feedback to user
     if (!lat || !long) {
         e.preventDefault();
         alert('Please click on the map first before trying to add a pin!.');
