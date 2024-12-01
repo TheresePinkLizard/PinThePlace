@@ -9,7 +9,7 @@
 {
     @if (User.IsInRole("Admin")){
     <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" style="font-weight: normal;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        <p id="manage" class="nav-link text-dark" style="font-weight: normal;" asp-area="Identity" title="Manage">Hello @UserManager.GetUserName(User)!</p>
     </li>
      <li class="nav-item">
         <a class="nav-link text-dark" style="font-weight: normal;"asp-controller="Home" asp-action="Index">Home</a>
@@ -25,7 +25,7 @@
     } else{
         <li class="nav-item">
         <span class="nav-link text-dark" style="pointer-events: none;">Hello @UserManager.GetUserName(User)!</span>
-        <!--<a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>-->
+    
     </li>
     <li class="nav-item">
         <a class="nav-link text-dark" style="font-weight: normal;" asp-controller="Home" asp-action="Index">Home</a>
