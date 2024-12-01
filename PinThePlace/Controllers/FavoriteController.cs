@@ -22,7 +22,9 @@ public class FavoriteController : Controller
         _userManager = userManager;
         _logger = logger; 
     }
+    
 
+    //Method that gets every favorite in the table 
      public async Task<IActionResult> Table()
     {  
     
@@ -51,6 +53,9 @@ public class FavoriteController : Controller
 
     [HttpGet]
     [Authorize]
+
+    //Method that saves a new favorite based on the pinId
+    //Must be logged in to do this
     public async Task<IActionResult> AddToFavorites(int id)
     {   
         var user = _userManager.GetUserId(User);
@@ -79,7 +84,9 @@ public class FavoriteController : Controller
     }
 
     [HttpPost]
-    [Authorize]// Ensure the user is logged in
+    [Authorize]
+    //Method that adds the new favorite into the database
+
     public async Task<IActionResult> AddToFavorites(Favorite favorite)
     {
         if(ModelState.IsValid)
@@ -101,6 +108,9 @@ public class FavoriteController : Controller
 
     [HttpGet]
     [Authorize]
+
+    //Method that gets the favorite to update by id
+    //Must be logged in to do this
     public async Task<IActionResult> UpdateFavorite(int id) 
     {                                   
         //gets the logged in user
@@ -145,6 +155,7 @@ public class FavoriteController : Controller
 
     [HttpPost]
     [Authorize]
+    //Method that actually updates the favorite in the database
     public async Task<IActionResult> UpdateFavorite(Favorite favorite)  
     {   
         
@@ -163,6 +174,7 @@ public class FavoriteController : Controller
 
     [HttpGet]
     [Authorize]
+    //Method that  gets the favorite that is going to be deleted
     public async Task<IActionResult> DeleteFavorite(int id)  
     {
           // get the current logged in user
@@ -183,8 +195,11 @@ public class FavoriteController : Controller
 
     [HttpPost]
     [Authorize]
+    //Method that deletes the favorite from the database
     public async Task<IActionResult> DeleteConfirmed(int id) 
+
     {
+        //deletes the favorite from the database
         bool returnOk = await _pinRepository.DeleteFavorite(id);   
         if (!returnOk)
         {
@@ -193,12 +208,5 @@ public class FavoriteController : Controller
         }
         return RedirectToAction(nameof(Table),"Pin"); 
     }
-
-
-
-
- 
-
-
 
 }
