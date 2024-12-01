@@ -75,7 +75,7 @@
     border-bottom-right-radius: 0;
     box-shadow: none !important;
     font-weight: bold;
-    color: #334e29;
+    color: #1f3019;
   }
   .mypinsButton:hover{
     color: #ffffff;
@@ -83,7 +83,7 @@
   }
   .mypinsButton:focus,
   .mypinsButton:active {
-      color: #334e29;
+      color: #1f3019;
       background-color: #c5e5b6; 
       border-color:#c5e5b6;  
       outline: none;
