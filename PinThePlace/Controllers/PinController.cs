@@ -28,12 +28,8 @@ public class PinController : Controller
         _logger = logger; 
     }
 
-    // async i metodene:
-    // gjør siden mer responsive. den lar programmet kjøre flere tasks concurrently uten å blokkere main thread.
-    // dette får siden til å virke mer responsiv ved å la andre oppgaver gå i forveien istedet for at alt venter på et program.
-    // await hører også til async
 
-    // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
+    //method that returns all pins
     public async Task<IActionResult> Table()
     {  
         var pins = await _pinRepository.GetAll();
@@ -51,6 +47,7 @@ public class PinController : Controller
         return View(pinsViewModel);
     }
 
+    
     public async Task<IActionResult> Details(int id)
     {
         var pin = await _pinRepository.GetItemById(id);
@@ -65,12 +62,14 @@ public class PinController : Controller
 
     [HttpGet]
     [Authorize]
+
+    //Create a pin, user has to be logged in to do this
     public IActionResult Create()
     {
         return View();
     }
 
-    // post: is used to handle the submission of the form when the user clicks the "Create" button
+    
     [HttpPost]
     [Authorize]   
     public async Task<IActionResult> Create(Pin pin)
@@ -95,10 +94,12 @@ public class PinController : Controller
             }
             
             pin.UserId =userId; 
+
+            //taking the uploaded image, and giving it the right path 
             
             var file = pin.UploadedImage;
 
-            if(file != null && file.Length >0)
+            if(file != null && file.Length >0) //only if the user has uploaded an image
             {
                 var fileName = Path.GetFileName(file.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/images",fileName);
@@ -107,7 +108,7 @@ public class PinController : Controller
                 {
                     await file.CopyToAsync(stream);
                 }
-
+                //sets imageurl to be the new filepath of the image
                 pin.ImageUrl = "/images/"+fileName;
             }
 
@@ -123,15 +124,17 @@ public class PinController : Controller
 
     [HttpGet]
     [Authorize]
+
+    //Update pin, user has to be logged in to do this 
     public async Task<IActionResult> Update(int id)  
     {                                   
         // retrieves current user
         var userName = _userManager.GetUserName(User);
         
-        // henter fra database ved hjelp av id
+        // retrieves the pin from the database
         var pin = await _pinRepository.GetItemById(id); 
           
-        if (pin == null)               // sjekk om den finner item
+        if (pin == null)               
         {
             _logger.LogError("[PinController] Pin not found when updating the pin {PinId:0000}", id);
             return NotFound("Pin not found for the pinId");
@@ -150,10 +153,12 @@ public class PinController : Controller
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> Update(Pin pin)  // tar informasjonen som er skrevet i update skjema,
+
+    //Takes the information from the form and updates the pin in the database
+    public async Task<IActionResult> Update(Pin pin) 
     {   
         
-                                               // ser hvis det er valid og oppdaterer i database
+                                               
         if (ModelState.IsValid)
         {
             var file = pin.UploadedImage;
@@ -173,7 +178,7 @@ public class PinController : Controller
             bool returnOk = await _pinRepository.Update(pin);
             if(returnOk)
             {
-            return RedirectToAction(nameof(Table)); // displayer den oppdaterte listen
+            return RedirectToAction(nameof(Table)); // displays the updated list
             }
         }
         _logger.LogWarning("[PinController] Pin update failed {@pin}", pin);
@@ -182,13 +187,14 @@ public class PinController : Controller
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> Delete(int id)  // displayer confirmation page for å slette en item
+    //Shows a confirmation page with the pin the user wants to delete 
+    public async Task<IActionResult> Delete(int id)  
     {
           // retrieves current user
         var userName = _userManager.GetUserName(User);
-        var pin = await _pinRepository.GetItemById(id);  // identifiserer og henter item som skal bli slettet
+        var pin = await _pinRepository.GetItemById(id);  
          
-         if (pin == null)               // sjekk om den finner item
+         if (pin == null)               
         {   
             _logger.LogError("[PinController] Pin deleteion failed for {PinId:0000}", id);
             return NotFound("Pin not found for the PinId");
@@ -202,20 +208,22 @@ public class PinController : Controller
                 
             }
         }
-        return View(pin);   // hvis funnet, returnerer view med item data for bekreftelse
+        return View(pin);   
     }
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> DeleteConfirmed(int id) // metoden som faktisk sletter item fra database
+
+    //The method that actually deletes the pin from the database
+    public async Task<IActionResult> DeleteConfirmed(int id) 
     {
-        bool returnOk = await _pinRepository.Delete(id);  // lagrer endringene 
+        bool returnOk = await _pinRepository.Delete(id);  
         if (!returnOk)
         {
             _logger.LogError("[PinController] Pin deletion failed for {PinId:0000}", id);
             return BadRequest("Pin deletion failed");
         }
-        return RedirectToAction(nameof(Table)); //returnerer bruker til table view hvor item nå er fjernet
+        return RedirectToAction(nameof(Table)); 
     }
     
 }
