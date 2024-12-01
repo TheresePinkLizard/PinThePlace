@@ -59,7 +59,6 @@ public class UserController : Controller
                 return NotFound("User with was not found.");
             }
 
-            // Pass the pins to the view
             return View(user.Pins);
             }
             catch (Exception e){

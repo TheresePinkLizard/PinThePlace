@@ -16,7 +16,7 @@ namespace PinThePlace.Controllers;
 public class PinController : Controller
 {
 
-    private readonly IPinRepository _pinRepository; // deklarerer en privat kun lesbar felt for å lagre instanser av ItemDbContext
+    private readonly IPinRepository _pinRepository;
     private readonly UserManager <User> _userManager;
     private readonly ILogger<PinController> _logger;
 
@@ -36,7 +36,6 @@ public class PinController : Controller
     // en action som korresponderer til en brukers interaksjon, slik som å liste opp items når en url lastes
     public async Task<IActionResult> Table()
     {  
-        // henter alle items fra items table i databasen og konverterer til en liste
         var pins = await _pinRepository.GetAll();
 
         if(!pins.Any())
@@ -48,16 +47,12 @@ public class PinController : Controller
         var favorites = await _pinRepository.GetAllFavorites();
 
         var pinsViewModel = new PinsViewModel(pins,favorites, "Table");
-        // en action kan returnere enten: View, JSON, en Redirect, eller annet. 
-        // denne returnerer en view
-        //Console.WriteLine($"Fetched {pins.Count} pins from the database.");
+
         return View(pinsViewModel);
     }
 
     public async Task<IActionResult> Details(int id)
     {
-        //List<Pin> pins = await _pinDbContext.Pins.ToListAsync();
-        //var pin= pins.FirstOrDefault(i => i.PinId == id); // søker igjennom listen items til første som matcher id
         var pin = await _pinRepository.GetItemById(id);
 
         if (pin == null)
@@ -65,19 +60,17 @@ public class PinController : Controller
             _logger.LogError("[PinController] Pin not found for the PinId {PinId:0000}", id);
             return NotFound("Pin not found for the PinId");
             }
-        return View(pin); // returnerer view med et item
+        return View(pin); 
     }
 
-    //  Http Get og post for å gjøre CRUD
-    //Get: It returns a view (the "Create" view) that contains a form where the user can enter details for creating the new item
     [HttpGet]
     [Authorize]
-    public IActionResult Create() // trigges når bruker navigerer til create siden
+    public IActionResult Create()
     {
-        return View(); // returnerer view hvor bruker kan skrice inn detaljer for å lage et nytt item
+        return View();
     }
 
-// post:  is used to handle the submission of the form when the user clicks the "Create" button
+    // post: is used to handle the submission of the form when the user clicks the "Create" button
     [HttpPost]
     [Authorize]   
     public async Task<IActionResult> Create(Pin pin)
@@ -90,7 +83,6 @@ public class PinController : Controller
 
             if (userName == null)
             {
-                // Håndter tilfelle der brukeren ikke er logget inn
                 return Unauthorized();
             }
             
@@ -129,11 +121,10 @@ public class PinController : Controller
         return View(pin);
     }
 
-    // kodene under gjør at update og delete fungerer
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> Update(int id)  // denne metoden viser utfyllingsskjemaet for å oppdatere en eksisterende item
-    {                                   // metoden slår ut når bruker navigerer seg til update siden
+    public async Task<IActionResult> Update(int id)  
+    {                                   
         // retrieves current user
         var userName = _userManager.GetUserName(User);
         
