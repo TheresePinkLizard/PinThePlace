@@ -1,7 +1,8 @@
 @model Pin
 <h2>Update Pin</h2>
 
-<form asp-action="Update" method="post" enctype="multipart/form-data">     <!--Explantion of code is found in create.cshtml-->
+<!--need multipart/form-data to be able to Upload photo-->
+<form asp-action="Update" method="post" enctype="multipart/form-data">     
     <input type="hidden" asp-for="PinId" />
     <div class="form-group">
         <label asp-for="Name"></label>
