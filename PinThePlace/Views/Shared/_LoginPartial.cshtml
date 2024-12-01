@@ -7,6 +7,7 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    // header for signed in user that is admin
     @if (User.IsInRole("Admin")){
     <li class="nav-item">
         <p id="manage" class="nav-link text-dark" style="font-weight: normal;" asp-area="Identity" title="Manage">Hello @UserManager.GetUserName(User)!</p>
@@ -25,6 +26,8 @@
      <li class="nav-item">
         <a class="nav-link text dark" style="font-weight: normal;" asp-asp-area="" asp-controller="User" asp-action="Table">Users</a>
     </li>
+
+    // header for signed in user
     } else{
         <li class="nav-item">
         <span class="nav-link text-dark" style="pointer-events: none;">Hello @UserManager.GetUserName(User)!</span>
@@ -44,7 +47,7 @@
     }
 }
 else
-{
+{   // header for not being logged in
     <li class="nav-item">
         <a class="nav-link text-dark" style="font-weight: normal;"asp-controller="Pin" asp-action="Table">Home</a>
     </li>
