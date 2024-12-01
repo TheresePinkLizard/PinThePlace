@@ -5,17 +5,17 @@
         <tr>
             <th>UserId</th>
             <th>Username</th>
-            <!--<th>FirstName</th>-->
-            <!--<th>LastName</th>-->
             <th>Email</th>
             <th>Pins</th>
         </tr>
+        <!-- Shows all users-->
         @foreach (var user in Model)
         {
             <tr>
                 <td>@user.Id</td>
                 <td>@user.UserName</td>
                 <td>@user.Email</td> 
+                <!-- Lists all Pins connected to the user  -->
                 <td>
                     @if (@user.Pins != null)
                     {

@@ -10,6 +10,7 @@
         {
         @foreach (var pin in Model)
         {
+            // Only displays pins created by logged in user.
             if(pin.UserName == _userManager.GetUserName(User))
             {
                 <div class="col-md-12">
