@@ -29,7 +29,7 @@
                                 <p class="card-text">@pin.Comment</p>
 
                                 <p><strong>Date:</strong> @pin.DateCreated</p>
-                                <p><strong>Rating:</strong> @pin.Rating.ToString("")</p>
+                                <p><strong>Rating:</strong> @pin.Rating.ToString("G29")</p> <!--Code to only print single digit-->
                                 <p><strong>Username:</strong> @pin.UserName</p>
 
                                 @if (User.IsInRole("Admin"))
