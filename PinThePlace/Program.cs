@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 
+
+//Encountered an error with comma being written "." instead of "," because of locale settings on pc
+//Set culture info to be US to avoid this problem
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
@@ -25,20 +28,12 @@ builder.Services.AddDbContext<PinDbContext>(options => {
 
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
-/*
-builder.Services.AddDefaultIdentity<User>(options =>
-{
-    options.SignIn.RequireConfirmedEmail = false;
-}).AddEntityFrameworkStores<PinDbContext>();
-*/
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedEmail = false;
 }).AddEntityFrameworkStores<PinDbContext>();
 
-
-//builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<PinDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IPinRepository, PinRepository>();
 
@@ -60,7 +55,7 @@ loggerConfiguration.Filter.ByExcluding(e => e.Properties.TryGetValue("SourceCont
 var logger = loggerConfiguration.CreateLogger();
 builder.Logging.AddSerilog(logger);
 
-//
+
 
 var app = builder.Build();
 
@@ -76,11 +71,6 @@ app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
-/*app.MapControllerRoute(
-    name: "default",
-    pattern: "{Controller=Pin}/{action=Table}/{id?}");
-    */
-
 app.MapDefaultControllerRoute();
 app.MapRazorPages();
 app.Run();
