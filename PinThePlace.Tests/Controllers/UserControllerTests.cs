@@ -129,15 +129,12 @@ public class UserControllerTests
         // Create a mock DbContext with no users
         var mockPinDbContext = new PinDbContext(options);
 
-        // Mock UserManager
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
         mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(user.Id); 
-
-        // Mock logger
+       
         var mockLogger = new Mock<ILogger<UserController>>();
 
-        // Create UserController
         var userController = new UserController(mockPinDbContext, mockUserManager.Object, mockLogger.Object);
 
         // Act
@@ -147,6 +144,5 @@ public class UserControllerTests
         var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
         Assert.Equal("User with was not found.", notFoundResult.Value); 
     }
-
 }
 

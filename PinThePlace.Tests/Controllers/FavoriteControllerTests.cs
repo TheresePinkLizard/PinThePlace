@@ -80,12 +80,12 @@ public class FavoriteControllerTests
 
         var result = await favoriteController.Table();
 
-        var viewResult = Assert.IsType<ViewResult>(result); // Sjekk at resultatet er en ViewResult
-        var pinsViewModel = Assert.IsAssignableFrom<PinsViewModel>(viewResult.ViewData.Model); // Sjekk at modellen er en PinsViewModel
-        Assert.Equal(2, pinsViewModel.Favorites.Count()); // Sjekk at modellen inneholder 2 favoritter
-        Assert.Equal(2, pinsViewModel.Pins.Count()); // Sjekk at modellen inneholder 2 pins
-        Assert.Equal(favoriteList, pinsViewModel.Favorites); // Sjekk at favorittene matcher
-        Assert.Equal(pinList, pinsViewModel.Pins); // Sjekk at pins matcher
+        var viewResult = Assert.IsType<ViewResult>(result); 
+        var pinsViewModel = Assert.IsAssignableFrom<PinsViewModel>(viewResult.ViewData.Model); 
+        Assert.Equal(2, pinsViewModel.Favorites.Count()); 
+        Assert.Equal(2, pinsViewModel.Pins.Count()); 
+        Assert.Equal(favoriteList, pinsViewModel.Favorites); 
+        Assert.Equal(pinList, pinsViewModel.Pins); 
     }
     
     // Negative test of Tabel(). 
@@ -93,8 +93,8 @@ public class FavoriteControllerTests
     [Fact]
     public async Task TestTableNotOk()
     {
-    // Arrange: Tom favoritt-liste
-    var emptyFavoriteList = new List<Favorite>(); // Ingen favoritter
+    
+    var emptyFavoriteList = new List<Favorite>();
 
     var pinList = new List<Pin>
     {
@@ -125,8 +125,8 @@ public class FavoriteControllerTests
     var result = await favoriteController.Table();
 
     // Assert
-    var notFoundResult = Assert.IsType<NotFoundObjectResult>(result); // Sjekk at resultatet er NotFound
-    Assert.Equal("Favorite list not found", notFoundResult.Value); // Sjekk at meldingen matcher
+    var notFoundResult = Assert.IsType<NotFoundObjectResult>(result); 
+    Assert.Equal("Favorite list not found", notFoundResult.Value); 
     }
 
     // Positive test for [GET] AddToFavorites()
@@ -169,14 +169,13 @@ public class FavoriteControllerTests
         var result = await favoriteController.AddToFavorites(testPin.PinId);
 
         // assert
-        var viewResult = Assert.IsType<ViewResult>(result); // Sjekk at resultatet er en ViewResult
-        var model = Assert.IsAssignableFrom<Favorite>(viewResult.Model); // Sjekk at modellen er av typen Favorite
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsAssignableFrom<Favorite>(viewResult.Model); 
 
-        // Verifiser at verdiene i modellen er riktige
         Assert.Equal(testFavorite.PinId, model.PinId);
         Assert.Equal(testFavorite.UserId, model.UserId);
         Assert.Equal(testFavorite.MadeBy, model.MadeBy);
-        Assert.Equal("CreateFavorite", viewResult.ViewName); // Sjekk at riktig view returneres
+        Assert.Equal("CreateFavorite", viewResult.ViewName);
         }
 
     // Positive test for [Post] AddToFavorites
@@ -220,9 +219,9 @@ public class FavoriteControllerTests
         var result = await favoriteController.AddToFavorites(testFavorite);
 
         // assert
-        var redirectResult = Assert.IsType<RedirectToActionResult>(result); // Sjekk at resultatet er en RedirectToActionResult
-        Assert.Equal(nameof(PinController.Table), redirectResult.ActionName); // Sjekk at RedirectToAction peker til "Table"
-        Assert.Equal("Pin", redirectResult.ControllerName); // Sjekk at controller er "Pin"
+        var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal(nameof(PinController.Table), redirectResult.ActionName); 
+        Assert.Equal("Pin", redirectResult.ControllerName); 
     }
 
     // Negativ test for AddToFavoritesNotOk_Post
@@ -254,7 +253,7 @@ public class FavoriteControllerTests
 
         var mockPinRepository = new Mock<IPinRepository>();
         mockPinRepository.Setup(repo => repo.GetItemById(testFavorite.PinId)).ReturnsAsync(testPin);
-        mockPinRepository.Setup(repo => repo.SaveFavorite(testFavorite)).ReturnsAsync(false); // Simuler lagringsfeil
+        mockPinRepository.Setup(repo => repo.SaveFavorite(testFavorite)).ReturnsAsync(false); 
 
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object,null!, null!, null!, null!, null! ,null!, null!, null!);
@@ -268,11 +267,11 @@ public class FavoriteControllerTests
         var result = await favoriteController.AddToFavorites(testFavorite);
 
         // assert
-        var viewResult = Assert.IsType<ViewResult>(result); // Sjekk at resultatet er en ViewResult
-        Assert.Equal("CreateFavorite", viewResult.ViewName); // Sjekk at riktig view returneres
-        var model = Assert.IsAssignableFrom<Favorite>(viewResult.Model); // Sjekk at modellen er av typen Favorite
-        Assert.Equal(testFavorite.PinId, model.PinId); // Verifiser at modellen inneholder riktig PinId
-        Assert.Equal(testFavorite.UserId, model.UserId); // Verifiser at modellen inneholder riktig UserId
+        var viewResult = Assert.IsType<ViewResult>(result); 
+        Assert.Equal("CreateFavorite", viewResult.ViewName); 
+        var model = Assert.IsAssignableFrom<Favorite>(viewResult.Model); 
+        Assert.Equal(testFavorite.PinId, model.PinId); 
+        Assert.Equal(testFavorite.UserId, model.UserId); 
     }
 
     // Positive test for [Get] Update()
@@ -319,14 +318,13 @@ public class FavoriteControllerTests
         var result = await favoriteController.UpdateFavorite(testFavorite.FavoriteId);
 
         // assert
-        var viewResult = Assert.IsType<ViewResult>(result); // Sjekk at resultatet er en ViewResult
-        var model = Assert.IsAssignableFrom<Favorite>(viewResult.Model); // Sjekk at modellen er av typen Favorite
+        var viewResult = Assert.IsType<ViewResult>(result); 
+        var model = Assert.IsAssignableFrom<Favorite>(viewResult.Model); 
 
-        // Verifiser at verdiene i modellen er riktige
         Assert.Equal(testFavorite.FavoriteId, model.FavoriteId);
         Assert.Equal(testFavorite.PinId, model.PinId);
         Assert.Equal(testFavorite.UserId, model.UserId);
-        Assert.Equal("Muncher", model.MadeBy); // Sjekk at MadeBy ble oppdatert med pin.UserName
+        Assert.Equal("Muncher", model.MadeBy); 
     }
 
     // Negative test for [Get] UpdateFavorite
@@ -363,7 +361,7 @@ public class FavoriteControllerTests
 
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
-        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("21"); // Id not coherrent with the owner of favorite
+        mockUserManager.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("21"); // Id not the same as the owner of favorite
 
         var mockLogger = new Mock<ILogger<FavoriteController>>();
         var favoriteController = new FavoriteController(mockPinRepository.Object, mockUserManager.Object, mockLogger.Object);
@@ -372,7 +370,7 @@ public class FavoriteControllerTests
         var result = await favoriteController.UpdateFavorite(testFavorite.FavoriteId);
 
         // assert
-        var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result); // Sjekk at resultatet er Unauthorized
+        var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result); 
     }
 
     // Positive test for [POST] UpdateFavorite
@@ -390,7 +388,7 @@ public class FavoriteControllerTests
         };
 
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.UpdateFavorite(testFavorite)).ReturnsAsync(true); // Simuler vellykket oppdatering
+        mockPinRepository.Setup(repo => repo.UpdateFavorite(testFavorite)).ReturnsAsync(true); 
 
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
@@ -402,9 +400,9 @@ public class FavoriteControllerTests
         var result = await favoriteController.UpdateFavorite(testFavorite);
 
         // assert
-        var redirectResult = Assert.IsType<RedirectToActionResult>(result); // Sjekk at resultatet er en RedirectToActionResult
-        Assert.Equal(nameof(PinController.Table), redirectResult.ActionName); // Sjekk at RedirectToAction peker til "Table"
-        Assert.Equal("Pin", redirectResult.ControllerName); // Sjekk at controller er "Pin"
+        var redirectResult = Assert.IsType<RedirectToActionResult>(result); 
+        Assert.Equal(nameof(PinController.Table), redirectResult.ActionName); 
+        Assert.Equal("Pin", redirectResult.ControllerName); 
     }
 
     // Positive test for [GET] DeleteFavorite
@@ -422,7 +420,7 @@ public class FavoriteControllerTests
         };
 
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.GetFavoriteById(testFavorite.FavoriteId)).ReturnsAsync(testFavorite); // Simuler at favoritten finnes
+        mockPinRepository.Setup(repo => repo.GetFavoriteById(testFavorite.FavoriteId)).ReturnsAsync(testFavorite); 
 
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
@@ -436,9 +434,9 @@ public class FavoriteControllerTests
         var result = await favoriteController.DeleteFavorite(testFavorite.FavoriteId);
 
         // assert
-        var viewResult = Assert.IsType<ViewResult>(result); // Sjekk at resultatet er en ViewResult
-        var model = Assert.IsAssignableFrom<Favorite>(viewResult.Model); // Sjekk at modellen er av typen Favorite
-        Assert.Equal(testFavorite.FavoriteId, model.FavoriteId); // Sjekk at modellen inneholder riktig data
+        var viewResult = Assert.IsType<ViewResult>(result); 
+        var model = Assert.IsAssignableFrom<Favorite>(viewResult.Model); 
+        Assert.Equal(testFavorite.FavoriteId, model.FavoriteId); 
     }
 
     // Negative test for [GET] DeleteFavorite
@@ -450,7 +448,7 @@ public class FavoriteControllerTests
         int favoriteId = 2;
 
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.GetFavoriteById(favoriteId)).ReturnsAsync(() => null); // Simuler at favoritten ikke finnes
+        mockPinRepository.Setup(repo => repo.GetFavoriteById(favoriteId)).ReturnsAsync(() => null);
 
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
@@ -462,8 +460,8 @@ public class FavoriteControllerTests
         var result = await favoriteController.DeleteFavorite(favoriteId);
 
         // assert
-        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result); // Sjekk at resultatet er NotFound
-        Assert.Equal("Favorite not found for the FavoriteId", notFoundResult.Value); // Sjekk at feilmeldingen matcher
+        var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("Favorite not found for the FavoriteId", notFoundResult.Value);
     }
 
     // Positive test for [POST] DeleteConfirmed
@@ -475,7 +473,7 @@ public class FavoriteControllerTests
         int favoriteId = 1;
 
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.DeleteFavorite(favoriteId)).ReturnsAsync(true); // Simuler vellykket sletting
+        mockPinRepository.Setup(repo => repo.DeleteFavorite(favoriteId)).ReturnsAsync(true);
 
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
@@ -487,9 +485,9 @@ public class FavoriteControllerTests
         var result = await favoriteController.DeleteConfirmed(favoriteId);
 
         // assert
-        var redirectResult = Assert.IsType<RedirectToActionResult>(result); // Sjekk at resultatet er en RedirectToActionResult
-        Assert.Equal(nameof(PinController.Table), redirectResult.ActionName); // Sjekk at RedirectToAction peker til "Table"
-        Assert.Equal("Pin", redirectResult.ControllerName); // Sjekk at controller er "Pin"
+        var redirectResult = Assert.IsType<RedirectToActionResult>(result); 
+        Assert.Equal(nameof(PinController.Table), redirectResult.ActionName); 
+        Assert.Equal("Pin", redirectResult.ControllerName); 
     }
 
     // Negative test for [POST] DeleteConfirmed
@@ -501,7 +499,7 @@ public class FavoriteControllerTests
         int favoriteId = 1;
 
         var mockPinRepository = new Mock<IPinRepository>();
-        mockPinRepository.Setup(repo => repo.DeleteFavorite(favoriteId)).ReturnsAsync(false); // Simuler sletting som feiler
+        mockPinRepository.Setup(repo => repo.DeleteFavorite(favoriteId)).ReturnsAsync(false); 
 
         var userStoreMock = new Mock<IUserStore<User>>();
         var mockUserManager = new Mock<UserManager<User>>(userStoreMock.Object, null!, null!, null!, null!, null!, null!, null!, null!);
@@ -513,7 +511,7 @@ public class FavoriteControllerTests
         var result = await favoriteController.DeleteConfirmed(favoriteId);
 
         // assert
-        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result); // Sjekk at resultatet er BadRequest
-        Assert.Equal("Favorite deletion failed", badRequestResult.Value); // Sjekk at feilmeldingen matcher
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result); 
+        Assert.Equal("Favorite deletion failed", badRequestResult.Value); 
     }
 }
