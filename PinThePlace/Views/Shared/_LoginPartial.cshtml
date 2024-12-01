@@ -12,7 +12,10 @@
         <p id="manage" class="nav-link text-dark" style="font-weight: normal;" asp-area="Identity" title="Manage">Hello @UserManager.GetUserName(User)!</p>
     </li>
      <li class="nav-item">
-        <a class="nav-link text-dark" style="font-weight: normal;"asp-controller="Home" asp-action="Index">Home</a>
+        <a class="nav-link text-dark" style="font-weight: normal;"asp-controller="Pin" asp-action="Table">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" style="font-weight: normal;"asp-controller="Home" asp-action="Index">About</a>
     </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
