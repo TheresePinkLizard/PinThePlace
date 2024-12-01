@@ -13,12 +13,15 @@ public static class DBInit
     {
         using var serviceScope = app.ApplicationServices.CreateScope();
         PinDbContext context = serviceScope.ServiceProvider.GetRequiredService<PinDbContext>();
-        context.Database.EnsureDeleted();
+
+        //Deletes the database and recreates it based on the seed everytime you restart the application
+        context.Database.EnsureDeleted(); 
         context.Database.EnsureCreated();
 
         var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
+        //Adding the roles "Admin" and "User"
         var roles = new List<string> {"Admin","User"};
         foreach (var role in roles)
         {
@@ -28,6 +31,8 @@ public static class DBInit
             }
 
         }
+
+        //Creates 3 new users for the database seed and assignes them roles
         
         if(!context.Users.Any())
         {
@@ -56,19 +61,21 @@ public static class DBInit
         }
         await context.SaveChangesAsync();
         
-        //Gets user from database (To avoid proxy or trackingproblems)
+        //Gets users from the database
         var student = context.Users.FirstOrDefault(u => u.UserName == "TheStudent");
         var munch = context.Users.FirstOrDefault(u => u.UserName == "Muncher");
         var admin = context.Users.FirstOrDefault(u => u.UserName == "Admin");
 
         if (student == null || munch == null || admin == null)
-        {
+        {   
+            //Throws an error if any of the users are null
             throw new Exception("Error in finding the users for the seed");
         } else
         
         {
             if(!context.Pins.Any())
             {
+                //Creates pins for the seed connected to the premade users
                 var pins = new List<Pin>
                 {
                     new Pin 
@@ -137,6 +144,7 @@ public static class DBInit
                 context.SaveChanges();
             }
 
+            //Gets pin and user to create a favorite 
             var sherlockPin = context.Pins.FirstOrDefault(p => p.Name == "Sherlock Holmes Museum");
             var studentUser = context.Users.FirstOrDefault(u => u.UserName == "TheStudent");
 
@@ -147,6 +155,7 @@ public static class DBInit
             else 
             {
                 if (!context.Favorites.Any())
+                //adding a favorite to the user "TheStudent"
                 {
                     var favorite = new Favorite
                     {
